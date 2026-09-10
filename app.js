@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadSavedPlotState();
   initNavOverlay();
   highlightActiveMenuLink();
+  checkAdminAuth();
 
   if (document.getElementById('loading-screen')) {
     initLoadingSequence();
@@ -124,6 +125,51 @@ document.addEventListener('DOMContentLoaded', () => {
   initGalleryModal();
   initGalleryFilter();
 });
+
+// --- EXECUTIVE ADMIN AUTHENTICATION GATEWAY ---
+function checkAdminAuth() {
+  const loginGateway = document.getElementById('admin-login-gateway');
+  const mainDashboard = document.getElementById('admin-main-dashboard');
+  const logoutBtn = document.getElementById('admin-logout-btn');
+
+  if (!loginGateway || !mainDashboard) return;
+
+  const isAuthenticated = sessionStorage.getItem('vels_admin_authenticated') === 'true';
+
+  if (isAuthenticated) {
+    loginGateway.style.display = 'none';
+    mainDashboard.style.display = 'block';
+    if (logoutBtn) logoutBtn.style.display = 'inline-flex';
+  } else {
+    loginGateway.style.display = 'flex';
+    mainDashboard.style.display = 'none';
+    if (logoutBtn) logoutBtn.style.display = 'none';
+  }
+}
+
+function handleAdminLogin(event) {
+  if (event) event.preventDefault();
+
+  const userInput = document.getElementById('admin-username')?.value.trim();
+  const passInput = document.getElementById('admin-password')?.value.trim();
+  const errorEl = document.getElementById('admin-login-error');
+
+  if (userInput === 'admin' && passInput === 'admin123') {
+    sessionStorage.setItem('vels_admin_authenticated', 'true');
+    if (errorEl) errorEl.style.display = 'none';
+    checkAdminAuth();
+  } else {
+    if (errorEl) {
+      errorEl.style.display = 'block';
+      errorEl.textContent = 'Invalid username or password. Please try again.';
+    }
+  }
+}
+
+function logoutAdmin() {
+  sessionStorage.removeItem('vels_admin_authenticated');
+  checkAdminAuth();
+}
 
 // HERO DUAL BACKGROUND SLIDER
 function initHeroSlider() {
@@ -211,6 +257,19 @@ function initNavOverlay() {
   if (backdrop) {
     backdrop.addEventListener('click', closeDrawer);
   }
+
+  const overlayLinks = document.querySelectorAll('.overlay-link');
+  overlayLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      closeDrawer();
+      const href = link.getAttribute('href');
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      if (href === currentPage || (href === 'index.html' && (currentPage === '' || currentPage === 'index.html'))) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && navOverlay && navOverlay.classList.contains('open')) {
@@ -1152,6 +1211,82 @@ function initGalleryFilter() {
   });
 }
 
+// Helper function to render a dense, detailed 80-100 plot masterplan layout SVG
+function generateRichMasterplanSVG(prefix, highwayName, boulevardName) {
+  let svg = `<svg width="100%" height="440" viewBox="0 0 850 440" style="background: #F4EFE4; border-radius: 6px;">`;
+  
+  // Top Highway
+  svg += `<rect x="15" y="10" width="820" height="34" fill="#283322" rx="4"/>`;
+  svg += `<line x1="15" y1="27" x2="835" y2="27" stroke="#C6A15B" stroke-dasharray="8 6" stroke-width="1.5"/>`;
+  svg += `<text x="425" y="22" font-family="monospace" font-size="10" fill="#F7F1E3" text-anchor="middle" font-weight="bold" letter-spacing="2">${highwayName}</text>`;
+  
+  // Central Main Boulevard (Horizontal)
+  svg += `<rect x="15" y="210" width="820" height="28" fill="#39452F"/>`;
+  svg += `<text x="425" y="228" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle" letter-spacing="2">${boulevardName}</text>`;
+  
+  // Central Avenue Street (Vertical)
+  svg += `<rect x="410" y="44" width="30" height="385" fill="#39452F"/>`;
+  
+  // Entrance Gate Marker
+  svg += `<rect x="402" y="44" width="46" height="8" fill="#C6A15B" rx="2"/>`;
+  svg += `<text x="425" y="40" font-family="monospace" font-size="7" fill="#283322" text-anchor="middle" font-weight="bold">GRAND ARCH ENTRY</text>`;
+  
+  // Helper to render quadrant grid of plots
+  function renderBlock(startX, startY, rows, cols, startNum, isBlockC = false) {
+    let blockSvg = '';
+    let currentNum = startNum;
+    let w = 46, h = 40, dx = 51, dy = 45;
+    
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        let x = startX + c * dx;
+        let y = startY + r * dy;
+        
+        if (isBlockC && r === 2 && c >= 4) {
+          if (c === 4 && r === 2) {
+            blockSvg += `<rect x="${x}" y="${y}" width="${3 * dx - 5}" height="${h}" fill="#587045" stroke="#283322" rx="4"/>`;
+            blockSvg += `<text x="${x + (3 * dx - 5) / 2}" y="${y + 24}" font-family="monospace" font-size="8" fill="#F7F1E3" text-anchor="middle" font-weight="bold">🌳 GREEN PARK & PLAY ZONE</text>`;
+          }
+          continue;
+        }
+        
+        let pId = `${prefix}-${currentNum}`;
+        currentNum++;
+        
+        let fill = 'rgba(57, 69, 47, 0.88)';
+        let stroke = '#283322';
+        let textFill = '#F7F1E3';
+        let fontW = 'normal';
+        
+        if (currentNum % 5 === 0) {
+          fill = 'rgba(198, 161, 91, 0.92)';
+          stroke = '#99793B';
+          textFill = '#283322';
+          fontW = 'bold';
+        } else if (currentNum % 7 === 0 || currentNum % 11 === 0) {
+          fill = 'rgba(168, 102, 75, 0.9)';
+          stroke = '#7E452E';
+          textFill = '#F7F1E3';
+        }
+        
+        blockSvg += `<g class="plot-item">`;
+        blockSvg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}" stroke="${stroke}" stroke-width="1.2" rx="3" class="plot-rect"/>`;
+        blockSvg += `<text x="${x + w/2}" y="${y + h/2 + 3}" font-family="monospace" font-size="8" fill="${textFill}" font-weight="${fontW}" text-anchor="middle">${pId}</text>`;
+        blockSvg += `</g>`;
+      }
+    }
+    return blockSvg;
+  }
+  
+  svg += renderBlock(35, 54, 3, 7, 101);
+  svg += renderBlock(455, 54, 3, 7, 122);
+  svg += renderBlock(35, 248, 3, 7, 143, true);
+  svg += renderBlock(455, 248, 3, 7, 161);
+  
+  svg += `</svg>`;
+  return svg;
+}
+
 // --- 4 LOCATION MASTERPLAN DATASET & INTERACTIVE MODAL INSPECTOR ---
 const LOCATION_MASTERPLANS = {
   coimbatore: {
@@ -1169,37 +1304,9 @@ const LOCATION_MASTERPLANS = {
     roadWidths: '40 FT & 30 FT Heavy Tar Roads',
     startingPrice: '₹ 24.50 Lakhs',
     highlights: 'Located on Hope College Main Road near Coimbatore International Airport. Features 40ft & 30ft asphalt roads, underground drainage, solar street lights, gated security kiosk, and instant bank loan approval.',
-    svgBlueprint: `
-      <svg width="100%" height="240" viewBox="0 0 500 240" style="background: #F4EFE4;">
-        <rect x="20" y="105" width="460" height="30" fill="#39452F"/>
-        <text x="250" y="125" font-family="monospace" font-size="10" fill="#F7F1E3" text-anchor="middle" letter-spacing="2">40 FT AIRPORT CORRIDOR BOULEVARD</text>
-        <rect x="235" y="15" width="30" height="210" fill="#39452F"/>
-        <rect x="30" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="57" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-101</text>
-        <rect x="95" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="122" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-102</text>
-        <rect x="160" y="25" width="55" height="35" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
-        <text x="187" y="47" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">C-103</text>
-        <rect x="280" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="307" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-114</text>
-        <rect x="345" y="25" width="55" height="35" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
-        <text x="372" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-115</text>
-        <rect x="410" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="437" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-116</text>
-        <rect x="30" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="57" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-130</text>
-        <rect x="95" y="150" width="55" height="35" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
-        <text x="122" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-131</text>
-        <rect x="160" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="187" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-132</text>
-        <rect x="280" y="150" width="55" height="35" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
-        <text x="307" y="172" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">C-142</text>
-        <rect x="345" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="372" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-143</text>
-        <rect x="410" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="437" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-144</text>
-      </svg>
-    `
+    get svgBlueprint() {
+      return generateRichMasterplanSVG('C', '50 FT COIMBATORE AIRPORT CORRIDOR HIGHWAY', '40 FT PEELAMEDU MAIN BOULEVARD');
+    }
   },
   pollachi: {
     city: 'Pollachi',
@@ -1216,37 +1323,9 @@ const LOCATION_MASTERPLANS = {
     roadWidths: '40 FT Main Boulevard Road',
     startingPrice: '₹ 21.60 Lakhs',
     highlights: 'Flagship project in Pollachi Mahalingapuram with 40ft heavy compaction roads, 10% dedicated open park space, royal palm avenues, and panoramic Anamalai mountain views.',
-    svgBlueprint: `
-      <svg width="100%" height="240" viewBox="0 0 500 240" style="background: #F4EFE4;">
-        <rect x="20" y="105" width="460" height="30" fill="#39452F"/>
-        <text x="250" y="125" font-family="monospace" font-size="10" fill="#F7F1E3" text-anchor="middle" letter-spacing="2">40 FT MAIN BOULEVARD ROAD</text>
-        <rect x="235" y="15" width="30" height="210" fill="#39452F"/>
-        <rect x="30" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="57" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">101</text>
-        <rect x="95" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="122" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">102</text>
-        <rect x="160" y="25" width="55" height="35" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
-        <text x="187" y="47" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">103</text>
-        <rect x="280" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="307" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">117</text>
-        <rect x="345" y="25" width="55" height="35" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
-        <text x="372" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">118</text>
-        <rect x="410" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="437" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">119</text>
-        <rect x="30" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="57" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">145</text>
-        <rect x="95" y="150" width="55" height="35" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
-        <text x="122" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">146</text>
-        <rect x="160" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="187" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">147</text>
-        <rect x="280" y="150" width="55" height="35" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
-        <text x="307" y="172" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">149</text>
-        <rect x="345" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="372" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">150</text>
-        <rect x="410" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="437" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">151</text>
-      </svg>
-    `
+    get svgBlueprint() {
+      return generateRichMasterplanSVG('P', '40 FT MAHALINGAPURAM STATE HIGHWAY', '40 FT ANAMALAI VIEW BOULEVARD');
+    }
   },
   madurai: {
     city: 'Madurai',
@@ -1263,26 +1342,9 @@ const LOCATION_MASTERPLANS = {
     roadWidths: '40 FT Heavy Tar Highways',
     startingPrice: '₹ 28.00 Lakhs',
     highlights: 'Strategically located on Madurai Ring Road & AIIMS Hospital Corridor. Designed for rapid asset appreciation, 40ft wide internal tar avenues, and complete clear parent deed documentation.',
-    svgBlueprint: `
-      <svg width="100%" height="240" viewBox="0 0 500 240" style="background: #F4EFE4;">
-        <rect x="20" y="25" width="460" height="32" fill="#39452F"/>
-        <text x="250" y="45" font-family="monospace" font-size="10" fill="#F7F1E3" text-anchor="middle" letter-spacing="2">40 FT MADURAI RING ROAD EXPRESSWAY</text>
-        <rect x="140" y="57" width="30" height="165" fill="#39452F"/>
-        <rect x="330" y="57" width="30" height="165" fill="#39452F"/>
-        <rect x="30" y="70" width="95" height="40" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="77" y="94" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">M-101</text>
-        <rect x="185" y="70" width="130" height="40" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
-        <text x="250" y="94" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">M-102 (COMMERCIAL)</text>
-        <rect x="375" y="70" width="95" height="40" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="422" y="94" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">M-103</text>
-        <rect x="30" y="130" width="95" height="40" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
-        <text x="77" y="154" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">M-120</text>
-        <rect x="185" y="130" width="130" height="40" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="250" y="154" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">M-121</text>
-        <rect x="375" y="130" width="95" height="40" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
-        <text x="422" y="154" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">M-122</text>
-      </svg>
-    `
+    get svgBlueprint() {
+      return generateRichMasterplanSVG('M', '50 FT MADURAI RING ROAD EXPRESSWAY', '40 FT AIIMS HOSPITAL AVENUE');
+    }
   },
   chennai: {
     city: 'Chennai',
@@ -1299,30 +1361,9 @@ const LOCATION_MASTERPLANS = {
     roadWidths: '50 FT Avenue & 40 FT Boulevards',
     startingPrice: '₹ 45.00 Lakhs',
     highlights: 'Coastal gated enclave near Chennai ECR & GST Metro extension. CMDA approved masterplan layout featuring 50ft avenues, underground power cables, rainwater runoff systems, and sea breeze environment.',
-    svgBlueprint: `
-      <svg width="100%" height="240" viewBox="0 0 500 240" style="background: #F4EFE4;">
-        <rect x="20" y="15" width="460" height="38" fill="#39452F"/>
-        <text x="250" y="38" font-family="monospace" font-size="10" fill="#F7F1E3" text-anchor="middle" letter-spacing="2">50 FT CHENNAI ECR BEACH BOULEVARD</text>
-        <rect x="225" y="53" width="50" height="175" fill="#39452F"/>
-        <text x="250" y="140" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle" transform="rotate(-90, 250, 140)" letter-spacing="2">40 FT METRO AVENUE</text>
-        <rect x="30" y="65" width="80" height="50" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="70" y="93" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">CH-101</text>
-        <rect x="125" y="65" width="80" height="50" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
-        <text x="165" y="93" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">CH-102</text>
-        <rect x="290" y="65" width="80" height="50" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="330" y="93" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">CH-103</text>
-        <rect x="385" y="65" width="85" height="50" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
-        <text x="427" y="93" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">CH-104</text>
-        <rect x="30" y="135" width="80" height="50" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
-        <text x="70" y="163" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">CH-125</text>
-        <rect x="125" y="135" width="80" height="50" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="165" y="163" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">CH-126</text>
-        <rect x="290" y="135" width="80" height="50" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
-        <text x="330" y="163" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">CH-127</text>
-        <rect x="385" y="135" width="85" height="50" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
-        <text x="427" y="163" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">CH-128</text>
-      </svg>
-    `
+    get svgBlueprint() {
+      return generateRichMasterplanSVG('CH', '50 FT CHENNAI ECR BEACH BOULEVARD', '40 FT GST METRO EXTENSION AVENUE');
+    }
   }
 };
 

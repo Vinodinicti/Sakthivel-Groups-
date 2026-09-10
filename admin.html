@@ -27,8 +27,9 @@
           </div>
         </a>
 
-        <!-- Right Header Actions (Hamburger Button Only) -->
+        <!-- Right Header Actions (Logout & Hamburger Button) -->
         <div class="header-actions">
+          <button class="btn btn-outline-gold btn-sm" id="admin-logout-btn" onclick="logoutAdmin()" style="display: none; font-size: 0.72rem; padding: 6px 14px; margin-right: 8px;">LOG OUT</button>
           <button class="hamburger-btn" id="open-nav-btn" aria-label="Open Navigation Menu">
             <span></span>
             <span></span>
@@ -70,7 +71,39 @@
     </nav>
   </div>
 
-  <main>
+  <!-- EXECUTIVE ADMIN LOGIN GATEWAY (SHOWN UNTIL AUTHENTICATED) -->
+  <div id="admin-login-gateway" class="admin-login-overlay">
+    <div class="admin-login-card">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <img src="Images/Vels_Logo_Premium.png" alt="VELS Logo" style="height: 48px; margin-bottom: 12px;" />
+        <span class="architectural-tag" style="display: flex; justify-content: center; margin-bottom: 6px;">RESTRICTED ACCESS PORTAL</span>
+        <h2 style="font-family: var(--font-heading); color: var(--olive-deep); font-size: 1.5rem; letter-spacing: 1px;">ADMIN LOGIN</h2>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px;">Authenticate to access real-time plot inventory, pricing, and AI lead portal.</p>
+      </div>
+
+      <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="admin-username">USERNAME</label>
+          <input type="text" id="admin-username" class="form-input" placeholder="Enter username (admin)" required autocomplete="username" />
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label class="form-label" for="admin-password">PASSWORD</label>
+          <input type="password" id="admin-password" class="form-input" placeholder="Enter password (admin123)" required autocomplete="current-password" />
+        </div>
+
+        <div id="admin-login-error" style="display: none; color: #a8664b; background: rgba(168, 102, 75, 0.1); border: 1px solid var(--terracotta); padding: 10px 14px; border-radius: 4px; font-size: 0.82rem; font-family: var(--font-mono); margin-bottom: 18px; text-align: center;">
+          Invalid username or password. Please try again.
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 0.82rem; letter-spacing: 1.5px; text-align: center; justify-content: center;">
+          AUTHENTICATE & ENTER DASHBOARD →
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <main id="admin-main-dashboard" style="display: none;">
     <section class="page-hero">
       <div class="container">
         <span class="architectural-tag">ADMINISTRATION & DYNAMIC STATE CONTROL</span>
