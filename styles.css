@@ -729,12 +729,15 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 
 .hero-subtext {
-  font-size: 1.08rem;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.32rem;
+  font-style: italic;
+  font-weight: 600;
   color: var(--text-secondary);
   margin-bottom: 32px;
-  max-width: 480px;
-  font-weight: 500;
-  line-height: 1.6;
+  max-width: 510px;
+  line-height: 1.65;
+  letter-spacing: 0.3px;
 }
 
 /* FULL 100% WIDTH ANIMATED EDITORIAL STATS BANNER */
@@ -4807,7 +4810,15 @@ h1, h2, h3, h4, h5, h6, .font-heading {
     margin-bottom: 10px !important;
   }
 
-  .hero-subtext,
+  .hero-subtext {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: 1.08rem !important;
+    font-style: italic !important;
+    font-weight: 600 !important;
+    line-height: 1.55 !important;
+    letter-spacing: 0.2px !important;
+  }
+
   .section-desc,
   p {
     font-size: 0.85rem !important;
