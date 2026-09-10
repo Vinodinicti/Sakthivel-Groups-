@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — Project Archive & Photography | VELS</title>
+  <meta name="description" content="Visual archive of layout infrastructure, roads, villa construction, and landscaping by VELS in Pollachi & Coimbatore.">
+
+  <!-- Google Fonts (Cinzel + Cormorant Garamond Classy Real Estate Typography Stack) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Montserrat:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-blueprint-grid">
+
+  <!-- MINIMAL HEADER WITH HAMBURGER MENU DRAWER -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="logo-wrapper">
+          <img src="Images/Logo.jpeg" alt="VELS Logo" class="logo-img">
+          <div class="logo-text-group">
+            <span class="logo-title">VELS</span>
+            <span class="logo-subtitle">COIMBATORE & POLLACHI</span>
+          </div>
+        </a>
+
+        <!-- Right Header Actions (Hamburger Button Only) -->
+        <div class="header-actions">
+          <button class="hamburger-btn" id="open-nav-btn" aria-label="Open Navigation Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- FULLSCREEN HAMBURGER MENU DRAWER -->
+  <div class="nav-overlay bg-blueprint-dark" id="nav-overlay">
+    <div class="nav-overlay-header">
+      <div class="logo-wrapper">
+        <span class="logo-title text-ivory">VELS</span>
+        <span class="logo-subtitle">PREMIUM DEVELOPMENTS</span>
+      </div>
+      <button class="close-nav-btn" id="close-nav-btn" aria-label="Close Navigation">&times;</button>
+    </div>
+
+    <nav class="nav-overlay-menu">
+      <a href="index.html" class="overlay-link"><span class="overlay-num">01.</span> HOME PAGE</a>
+      <a href="plots.html" class="overlay-link"><span class="overlay-num">02.</span> FIND YOUR PLOT</a>
+      <a href="about.html" class="overlay-link"><span class="overlay-num">03.</span> ABOUT US</a>
+      <a href="gallery.html" class="overlay-link"><span class="overlay-num">04.</span> GALLERY</a>
+      <a href="founder.html" class="overlay-link"><span class="overlay-num">05.</span> FOUNDERS</a>
+      <a href="contact.html" class="overlay-link"><span class="overlay-num">06.</span> CONTACT</a>
+      <a href="admin.html" class="overlay-link overlay-admin-link icon-only-admin" title="Admin Portal" aria-label="Admin Portal">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/>
+          <path d="M6 12H4a2 2 0 0 0-2 2v8h4"/>
+          <path d="M18 9h2a2 2 0 0 1 2 2v11h-4"/>
+          <path d="M10 6h4"/>
+          <path d="M10 10h4"/>
+          <path d="M10 14h4"/>
+          <path d="M10 18h4"/>
+        </svg>
+      </a>
+    </nav>
+  </div>
+
+  <main>
+    <!-- COMPACT HOMEPAGE-ALIGNED HERO SECTION FOR GALLERY PAGE -->
+    <section class="gallery-hero-compact">
+      <!-- 75% Edge-to-Edge Right Side Entrance Arch Background Image -->
+      <div class="gallery-hero-bg-img"></div>
+
+      <!-- Soft Ivory Left-Corner Gradient Overlay (Fades Right Near Text) -->
+      <div class="gallery-hero-fade"></div>
+
+      <div class="container" style="position: relative; z-index: 3;">
+        <div class="gallery-hero-box">
+          <div class="architectural-tag" style="margin-bottom: 10px;">ARCHITECTURAL PORTFOLIO & SITE GALLERY</div>
+          
+          <h1 class="gallery-compact-headline">
+            DISCOVER OUR<br>
+            <span style="color: var(--gold-antique);">EXCLUSIVE REAL ESTATE</span><br>
+            <span style="color: var(--gold-antique);">DEVELOPMENTS</span>
+          </h1>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-bottom: 20px;">
+            <a href="#gallery-grid-section" class="btn btn-primary btn-sm">
+              EXPLORE GALLERY CARDS
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+            </a>
+            <a href="plots.html" class="btn btn-outline-olive btn-sm">VIEW PLOTS MASTER MAP</a>
+          </div>
+
+          <!-- EDITORIAL HERO METRICS STATS BANNER -->
+          <div class="hero-stats-banner gallery-compact-stats">
+            <div class="stat-card">
+              <span class="stat-number">6</span>
+              <span class="stat-label">MASTER PROJECTS</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">228+</span>
+              <span class="stat-label">DTCP PLOTS</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">40 FT</span>
+              <span class="stat-label">ASPHALT ROADS</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">LEGAL CLEAR</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY GRID & CLASSIFYING FILTER SECTION -->
+    <section class="py-section" id="gallery-grid-section">
+      <div class="container">
+        <!-- CLASSIFYING FILTER BAR -->
+        <div class="gallery-filter-bar">
+          <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--gold-antique); font-weight: 700; letter-spacing: 1.5px; margin-right: 8px;">CLASSIFY PROJECTS:</span>
+          <button class="filter-btn active" data-filter="all">ALL PROJECTS (6)</button>
+          <button class="filter-btn" data-filter="plotted">PLOTTED LAYOUTS</button>
+          <button class="filter-btn" data-filter="villas">LUXURY VILLAS</button>
+          <button class="filter-btn" data-filter="infra">INFRASTRUCTURE</button>
+          <button class="filter-btn" data-filter="completed">DELIVERED</button>
+        </div>
+
+        <div class="gallery-grid">
+          <!-- Project 1 -->
+          <div class="gallery-item" data-project-id="proj-1" data-category="plotted">
+            <div class="gallery-item-img-wrap">
+              <img src="Images/Hero_Arch.jpg" alt="VELS Golden Vistas" />
+              <div class="gallery-classifying-bar">
+                <span class="gallery-classifying-badge">PLOTTED LAYOUT</span>
+                <span class="gallery-status-badge">100% DTCP APPROVED</span>
+              </div>
+              <div class="gallery-diagram-overlay">
+                <div class="gallery-cad-tag">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+                  CAD BLUEPRINT ACTIVE
+                </div>
+                <div class="gallery-cad-tag" style="align-self: flex-end;">
+                  CLICK FOR DETAILS →
+                </div>
+              </div>
+            </div>
+            <div class="gallery-card-body">
+              <div>
+                <span class="architectural-tag text-gold">POLLACHI MAIN ROAD</span>
+                <h4 style="font-family: var(--font-heading); color: var(--olive-deep); font-size: 1.25rem; margin-top: 6px;">VELS Golden Vistas</h4>
+              </div>
+              <div class="gallery-card-specs-footer">
+                <span>145 Units • 40ft Roads</span>
+                <span style="font-weight: 700;">View Specs →</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 2 -->
+          <div class="gallery-item" data-project-id="proj-2" data-category="villas">
+            <div class="gallery-item-img-wrap">
+              <img src="Images/Hero_Villa.jpg" alt="Sakthi Palm Grove" />
+              <div class="gallery-classifying-bar">
+                <span class="gallery-classifying-badge">LUXURY VILLAS</span>
+                <span class="gallery-status-badge">LAUNCHING SOON</span>
+              </div>
+              <div class="gallery-diagram-overlay">
+                <div class="gallery-cad-tag">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+                  VILLA ELEVATION CAD
+                </div>
+                <div class="gallery-cad-tag" style="align-self: flex-end;">
+                  CLICK FOR DETAILS →
+                </div>
+              </div>
+            </div>
+            <div class="gallery-card-body">
+              <div>
+                <span class="architectural-tag text-gold">KOVAIPUDUR ENCLAVE</span>
+                <h4 style="font-family: var(--font-heading); color: var(--olive-deep); font-size: 1.25rem; margin-top: 6px;">Sakthi Palm Grove</h4>
+              </div>
+              <div class="gallery-card-specs-footer">
+                <span>85 Villa Sites • Mountain View</span>
+                <span style="font-weight: 700;">View Specs →</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 3 -->
+          <div class="gallery-item" data-project-id="proj-3" data-category="completed">
+            <div class="gallery-item-img-wrap">
+              <img src="Images/Vels_Legacy_Appreciation.jpg" alt="VELS Green Enclave" />
+              <div class="gallery-classifying-bar">
+                <span class="gallery-classifying-badge">FARM PLOTS</span>
+                <span class="gallery-status-badge">DELIVERED</span>
+              </div>
+              <div class="gallery-diagram-overlay">
+                <div class="gallery-cad-tag">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+                  FARM BOUNDARY MAP
+                </div>
+                <div class="gallery-cad-tag" style="align-self: flex-end;">
+                  CLICK FOR DETAILS →
+                </div>
+              </div>
+            </div>
+            <div class="gallery-card-body">
+              <div>
+                <span class="architectural-tag text-gold">MAHALINGAPURAM</span>
+                <h4 style="font-family: var(--font-heading); color: var(--olive-deep); font-size: 1.25rem; margin-top: 6px;">VELS Green Enclave</h4>
+              </div>
+              <div class="gallery-card-specs-footer">
+                <span>120 Farm Parcels • Sold Out</span>
+                <span style="font-weight: 700;">View Specs →</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 4 -->
+          <div class="gallery-item" data-project-id="proj-4" data-category="infra">
+            <div class="gallery-item-img-wrap">
+              <img src="Images/Vels_Engineered_Roads.jpg" alt="Eachanari Heritage Layout" />
+              <div class="gallery-classifying-bar">
+                <span class="gallery-classifying-badge">INFRASTRUCTURE</span>
+                <span class="gallery-status-badge">FEW PLOTS LEFT</span>
+              </div>
+              <div class="gallery-diagram-overlay">
+                <div class="gallery-cad-tag">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+                  HIGHWAY CORRIDOR CAD
+                </div>
+                <div class="gallery-cad-tag" style="align-self: flex-end;">
+                  CLICK FOR DETAILS →
+                </div>
+              </div>
+            </div>
+            <div class="gallery-card-body">
+              <div>
+                <span class="architectural-tag text-gold">EACHANARI HIGHWAY</span>
+                <h4 style="font-family: var(--font-heading); color: var(--olive-deep); font-size: 1.25rem; margin-top: 6px;">Eachanari Heritage Layout</h4>
+              </div>
+              <div class="gallery-card-specs-footer">
+                <span>64 Parcels • 40ft Highway Road</span>
+                <span style="font-weight: 700;">View Specs →</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 5 -->
+          <div class="gallery-item" data-project-id="proj-5" data-category="plotted">
+            <div class="gallery-item-img-wrap">
+              <img src="Images/Plots_Hero_Bg.jpg" alt="Peelamedu Park Vistas" />
+              <div class="gallery-classifying-bar">
+                <span class="gallery-classifying-badge">URBAN PLOTS</span>
+                <span class="gallery-status-badge">COMPLETED</span>
+              </div>
+              <div class="gallery-diagram-overlay">
+                <div class="gallery-cad-tag">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+                  URBAN SURVEY GRID
+                </div>
+                <div class="gallery-cad-tag" style="align-self: flex-end;">
+                  CLICK FOR DETAILS →
+                </div>
+              </div>
+            </div>
+            <div class="gallery-card-body">
+              <div>
+                <span class="architectural-tag text-gold">PEELAMEDU ROAD</span>
+                <h4 style="font-family: var(--font-heading); color: var(--olive-deep); font-size: 1.25rem; margin-top: 6px;">Peelamedu Park Vistas</h4>
+              </div>
+              <div class="gallery-card-specs-footer">
+                <span>42 Urban Sites • Airport Corridor</span>
+                <span style="font-weight: 700;">View Specs →</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 6 -->
+          <div class="gallery-item" data-project-id="proj-6" data-category="plotted">
+            <div class="gallery-item-img-wrap">
+              <img src="Images/Vels_Heritage_Story.jpg" alt="VELS Heritage Gardens" />
+              <div class="gallery-classifying-bar">
+                <span class="gallery-classifying-badge">PARK LAYOUT</span>
+                <span class="gallery-status-badge">ONGOING</span>
+              </div>
+              <div class="gallery-diagram-overlay">
+                <div class="gallery-cad-tag">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+                  PARK LAYOUT BLUEPRINT
+                </div>
+                <div class="gallery-cad-tag" style="align-self: flex-end;">
+                  CLICK FOR DETAILS →
+                </div>
+              </div>
+            </div>
+            <div class="gallery-card-body">
+              <div>
+                <span class="architectural-tag text-gold">HOPE COLLEGE</span>
+                <h4 style="font-family: var(--font-heading); color: var(--olive-deep); font-size: 1.25rem; margin-top: 6px;">VELS Heritage Gardens</h4>
+              </div>
+              <div class="gallery-card-specs-footer">
+                <span>96 Gated Sites • Park Included</span>
+                <span style="font-weight: 700;">View Specs →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW SECTION: ENGINEERING STANDARDS SHOWCASE -->
+    <section class="py-section bg-cream" style="border-top: 1px solid var(--gold-border);">
+      <div class="container">
+        <div style="text-align: center; max-width: 760px; margin: 0 auto 50px;">
+          <span class="architectural-tag">ENGINEERING STANDARDS</span>
+          <h2 style="font-family: var(--font-heading); font-size: clamp(2.2rem, 3.8vw, 3rem); color: var(--olive-deep); margin-top: 10px; margin-bottom: 16px;">
+            CIVIL ENGINEERING EXCELLENCE
+          </h2>
+          <p style="color: var(--text-secondary); font-size: 1.02rem; line-height: 1.6;">
+            Every photograph in our gallery reflects VELS' commitment to rigorous civil construction, legal town planning, and environmental aesthetics.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 28px;">
+          <!-- Card 1: Road & Infrastructure Blueprint Motion -->
+          <div class="diagrammatic-card">
+            <div class="diagrammatic-canvas">
+              <div class="diagram-scan-line"></div>
+              <svg width="280" height="150" viewBox="0 0 280 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Road Surface Layer -->
+                <rect x="20" y="45" width="240" height="26" fill="#39452F" stroke="#C6A15B" stroke-width="1.5" rx="3"/>
+                <line x1="20" y1="58" x2="260" y2="58" stroke="#E5D2A6" stroke-width="2" class="diagram-dash-lane"/>
+                <!-- Moving Vehicle Motion Marker -->
+                <circle cx="90" cy="58" r="4" fill="#C6A15B">
+                  <animate attributeName="cx" values="30;250" dur="2.5s" repeatCount="indefinite" />
+                </circle>
+                
+                <!-- Kerbstone Layers -->
+                <rect x="20" y="71" width="240" height="14" fill="#283322" stroke="#99793B" stroke-width="1"/>
+                <rect x="20" y="85" width="240" height="18" fill="#1C2418" stroke="#99793B" stroke-width="1" stroke-dasharray="4 4"/>
+                
+                <!-- Underground Water Runoff Pipe -->
+                <rect x="90" y="108" width="100" height="18" rx="9" fill="#283322" stroke="#C6A15B" stroke-width="1.5"/>
+                <line x1="95" y1="117" x2="185" y2="117" stroke="#627453" stroke-width="2" class="diagram-water-flow"/>
+                
+                <!-- Dimension Callouts -->
+                <line x1="20" y1="28" x2="260" y2="28" stroke="#C6A15B" stroke-width="1" stroke-dasharray="2 2"/>
+                <path d="M20 24 L20 32 M260 24 L260 32" stroke="#C6A15B" stroke-width="1.5"/>
+                <text x="140" y="22" text-anchor="middle" fill="#E5D2A6" font-family="Space Mono" font-size="10" font-weight="700">|← 40 FT HEAVY ASPHALT ROAD →|</text>
+              </svg>
+            </div>
+            <div class="diagrammatic-card-body">
+              <span class="architectural-tag">01. INFRASTRUCTURE</span>
+              <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: var(--olive-deep); margin: 10px 0 12px;">40FT & 30FT HEAVY TAR ROADS</h3>
+              <p style="font-size: 0.94rem; color: var(--text-secondary); line-height: 1.65;">
+                Laying 4-layer asphalt compaction with concrete kerb stones and rainwater runoff channels for 30+ year road longevity.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 2: Town Planning Blueprint Motion -->
+          <div class="diagrammatic-card">
+            <div class="diagrammatic-canvas">
+              <div class="diagram-scan-line"></div>
+              <svg width="280" height="150" viewBox="0 0 280 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Blueprint Plot Grid -->
+                <rect x="20" y="20" width="115" height="50" rx="3" fill="rgba(198,161,91,0.06)" stroke="#C6A15B" stroke-width="1.5" class="diagram-cad-path"/>
+                <rect x="145" y="20" width="115" height="50" rx="3" fill="rgba(198,161,91,0.06)" stroke="#C6A15B" stroke-width="1.5" class="diagram-cad-path"/>
+                <rect x="20" y="80" width="115" height="50" rx="3" fill="rgba(198,161,91,0.06)" stroke="#C6A15B" stroke-width="1.5" class="diagram-cad-path"/>
+                
+                <!-- Scanning Crosshair Compass -->
+                <g transform="translate(202, 105)">
+                  <circle cx="0" cy="0" r="22" stroke="#E5D2A6" stroke-width="1" stroke-dasharray="4 4">
+                    <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="8s" repeatCount="indefinite" />
+                  </circle>
+                  <circle cx="0" cy="0" r="3" fill="#C6A15B"/>
+                  <line x1="-28" y1="0" x2="28" y2="0" stroke="#C6A15B" stroke-width="1"/>
+                  <line x1="0" y1="-28" x2="0" y2="28" stroke="#C6A15B" stroke-width="1"/>
+                </g>
+
+                <!-- DTCP Approval Badge Stamp -->
+                <g class="diagram-stamp-anim" transform="translate(80, 45)">
+                  <rect x="-45" y="-14" width="90" height="28" rx="4" fill="#283322" stroke="#C6A15B" stroke-width="1.5"/>
+                  <text x="0" y="3" text-anchor="middle" fill="#E5D2A6" font-family="Space Mono" font-size="9" font-weight="700">✓ DTCP PASSED</text>
+                </g>
+              </svg>
+            </div>
+            <div class="diagrammatic-card-body">
+              <span class="architectural-tag">02. TOWN PLANNING</span>
+              <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: var(--olive-deep); margin: 10px 0 12px;">DTCP & RERA APPROVED BLUEPRINTS</h3>
+              <p style="font-size: 0.94rem; color: var(--text-secondary); line-height: 1.65;">
+                100% legal title clearance, 10% dedicated open space park reservation, and instant 80% bank loan approval across all layouts.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 3: Entrance Arch Elevation Motion -->
+          <div class="diagrammatic-card">
+            <div class="diagrammatic-canvas">
+              <div class="diagram-scan-line"></div>
+              <svg width="280" height="150" viewBox="0 0 280 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Entrance Arch Pillars -->
+                <rect x="40" y="40" width="26" height="90" fill="#283322" stroke="#C6A15B" stroke-width="1.5"/>
+                <rect x="214" y="40" width="26" height="90" fill="#283322" stroke="#C6A15B" stroke-width="1.5"/>
+                
+                <!-- Top Arch Pediment Beam -->
+                <rect x="30" y="24" width="220" height="20" rx="3" fill="#39452F" stroke="#E5D2A6" stroke-width="1.5"/>
+                <text x="140" y="38" text-anchor="middle" fill="#FFFDF7" font-family="Cinzel" font-size="9" font-weight="700" letter-spacing="1">VELS GRAND ENTRANCE</text>
+
+                <!-- Automated Barrier Gate Beam -->
+                <line x1="66" y1="85" x2="214" y2="85" stroke="#C6A15B" stroke-width="3" stroke-dasharray="10 5">
+                  <animate attributeName="stroke" values="#C6A15B;#E5D2A6;#C6A15B" dur="2s" repeatCount="indefinite"/>
+                </line>
+
+                <!-- 24/7 Security Kiosk Signal Waves -->
+                <circle cx="140" cy="105" r="2" fill="none" stroke="#C6A15B" stroke-width="1.5">
+                  <animate attributeName="r" values="2;22" dur="2s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" values="1;0" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <rect x="125" y="95" width="30" height="35" fill="#283322" stroke="#99793B" stroke-width="1"/>
+              </svg>
+            </div>
+            <div class="diagrammatic-card-body">
+              <span class="architectural-tag">03. LANDSCAPING</span>
+              <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: var(--olive-deep); margin: 10px 0 12px;">ARCHITECTURAL ENTRANCE ARCHES</h3>
+              <p style="font-size: 0.94rem; color: var(--text-secondary); line-height: 1.65;">
+                Grand entrance gates, 24/7 security kiosks, perimeter compound walling, and royal avenue palm trees.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CALL TO ACTION BANNER -->
+        <div class="workflow-cta-banner" style="margin-top: 50px;">
+          <div>
+            <h4 style="font-family: var(--font-heading); font-size: 1.45rem; color: var(--bg-ivory); margin-bottom: 6px;">
+              READY TO EXPLORE OUR DEVELOPMENTS IN PERSON?
+            </h4>
+            <p style="color: var(--sage-muted); font-size: 0.92rem;">
+              Book a complimentary site visit with our project engineers to inspect plot boundaries and road layouts.
+            </p>
+          </div>
+          <a href="contact.html" class="btn btn-gold">
+            SCHEDULE A SITE VISIT
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- INTERACTIVE PROJECT DETAIL MODAL POPUP -->
+  <div class="project-modal-overlay" id="project-modal">
+    <div class="project-modal-card">
+      <button class="project-modal-close" id="close-project-modal" aria-label="Close Modal">&times;</button>
+      
+      <div class="project-modal-img-wrap">
+        <img id="modal-project-img" src="" alt="Project Image" />
+        <span class="project-modal-badge" id="modal-project-status"></span>
+      </div>
+
+      <div class="project-modal-body">
+        <span class="architectural-tag" id="modal-project-tag"></span>
+        <h2 class="project-modal-title" id="modal-project-title"></h2>
+        <p class="project-modal-location" id="modal-project-location"></p>
+        
+        <p class="project-modal-desc" id="modal-project-desc"></p>
+
+        <div class="project-spec-grid">
+          <div class="project-spec-item">
+            <span class="project-spec-label">TOTAL PLOTS</span>
+            <span class="project-spec-val" id="modal-project-units"></span>
+          </div>
+          <div class="project-spec-item">
+            <span class="project-spec-label">ROAD WIDTHS</span>
+            <span class="project-spec-val" id="modal-project-roads"></span>
+          </div>
+          <div class="project-spec-item">
+            <span class="project-spec-label">PLOT SIZES</span>
+            <span class="project-spec-val" id="modal-project-sizes"></span>
+          </div>
+          <div class="project-spec-item">
+            <span class="project-spec-label">APPROVAL STATUS</span>
+            <span class="project-spec-val" id="modal-project-approval"></span>
+          </div>
+          <div class="project-spec-item">
+            <span class="project-spec-label">PRICING</span>
+            <span class="project-spec-val text-gold" id="modal-project-price"></span>
+          </div>
+        </div>
+
+        <div class="project-modal-highlights-box">
+          <strong style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--gold-antique); letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 4px;">PROJECT HIGHLIGHTS</strong>
+          <p id="modal-project-highlights" style="line-height: 1.55;"></p>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; gap: 14px; flex-wrap: wrap;">
+          <a href="plots.html" class="btn btn-primary">EXPLORE MASTER MAP</a>
+          <a href="contact.html" id="modal-project-enquire-btn" class="btn btn-outline-olive">ENQUIRE ABOUT THIS PROJECT</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="logo-wrapper" style="margin-bottom: 16px;">
+            <span class="logo-title gold-glow-letters" style="font-size: 1.8rem; font-weight: 800;">VELS</span>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--sage-muted); line-height: 1.6;">
+            Established property developer specializing in plot layouts and custom building construction across Coimbatore & Pollachi.
+          </p>
+        </div>
+
+        <div>
+          <h4 style="color: var(--gold-light); font-size: 0.95rem; margin-bottom: 16px; letter-spacing: 1.5px;">QUICK LINKS</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="plots.html" class="footer-link">Find Plots</a></li>
+            <li><a href="about.html" class="footer-link">About Us</a></li>
+            <li><a href="gallery.html" class="footer-link">Gallery</a></li>
+            <li><a href="founder.html" class="footer-link">Founders</a></li>
+            <li><a href="contact.html" class="footer-link">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color: var(--gold-light); font-size: 0.95rem; margin-bottom: 16px; letter-spacing: 1.5px;">LOCATIONS</h4>
+          <p style="font-size: 0.88rem; color: var(--sage-muted);">Coimbatore: Hope College Main Rd</p>
+          <p style="font-size: 0.88rem; color: var(--sage-muted); margin-top: 6px;">Pollachi: Mahalingapuram</p>
+        </div>
+
+        <div>
+          <h4 style="color: var(--gold-light); font-size: 0.95rem; margin-bottom: 16px; letter-spacing: 1.5px;">DIRECT CONTACT</h4>
+          <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+            <a href="https://wa.me/919842212345?text=Hello%20VELS%20Sakthivel%20Groups,%20I%20want%20to%20enquire%20about%20plots" target="_blank" rel="noopener" class="footer-small-icon-btn whatsapp-icon" title="Chat on WhatsApp" aria-label="WhatsApp">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 0C5.385 0 0 5.386 0 12.031c0 2.124.553 4.197 1.604 6.02L0 24l6.155-1.614A11.968 11.968 0 0 0 12.03 24c6.645 0 12.03-5.385 12.03-12.031C24.06 5.386 18.675 0 12.031 0zm.012 22.012c-1.808 0-3.585-.486-5.143-1.408l-.369-.219-3.817 1.001 1.019-3.721-.241-.383A9.99 9.99 0 0 1 2.012 12.03c0-5.524 4.496-10.02 10.031-10.02 5.524 0 10.02 4.496 10.02 10.02 0 5.536-4.496 10.012-10.02 10.012zm5.503-7.519c-.302-.152-1.785-.881-2.062-.981-.277-.101-.479-.152-.68.152-.202.302-.782.981-.959 1.183-.176.201-.353.226-.655.075-1.745-.875-2.894-1.559-4.04-3.535-.302-.52.302-.482.864-1.608.101-.201.05-.378-.025-.529-.075-.152-.68-1.636-.932-2.24-.244-.588-.493-.508-.68-.518-.176-.009-.378-.009-.58-.009-.201 0-.528.075-.804.378-.277.302-1.057 1.032-1.057 2.518 0 1.486 1.082 2.92 1.233 3.122.151.201 2.128 3.25 5.156 4.558 2.164.935 2.809.845 3.791.7.636-.094 1.785-.73 2.037-1.435.252-.705.252-1.309.176-1.435-.076-.125-.278-.201-.58-.352z"/>
+              </svg>
+            </a>
+            <a href="tel:+919842212345" class="footer-small-icon-btn" title="Phone Call" aria-label="Phone Call">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </a>
+            <a href="contact.html" class="footer-small-icon-btn" title="Send Message" aria-label="Message">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 VELS — Sakthivel Groups. All Rights Reserved.</span>
+        <span>Coimbatore & Pollachi, Tamil Nadu</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP BUTTON (RIGHT BOTTOM CORNER) -->
+  <a href="https://wa.me/919842212345?text=Hello%20VELS%20Sakthivel%20Groups,%20I%20want%20to%20enquire%20about%20plots" class="floating-whatsapp-btn" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12.031 0C5.385 0 0 5.386 0 12.031c0 2.124.553 4.197 1.604 6.02L0 24l6.155-1.614A11.968 11.968 0 0 0 12.03 24c6.645 0 12.03-5.385 12.03-12.031C24.06 5.386 18.675 0 12.031 0zm.012 22.012c-1.808 0-3.585-.486-5.143-1.408l-.369-.219-3.817 1.001 1.019-3.721-.241-.383A9.99 9.99 0 0 1 2.012 12.03c0-5.524 4.496-10.02 10.031-10.02 5.524 0 10.02 4.496 10.02 10.02 0 5.536-4.496 10.012-10.02 10.012zm5.503-7.519c-.302-.152-1.785-.881-2.062-.981-.277-.101-.479-.152-.68.152-.202.302-.782.981-.959 1.183-.176.201-.353.226-.655.075-1.745-.875-2.894-1.559-4.04-3.535-.302-.52.302-.482.864-1.608.101-.201.05-.378-.025-.529-.075-.152-.68-1.636-.932-2.24-.244-.588-.493-.508-.68-.518-.176-.009-.378-.009-.58-.009-.201 0-.528.075-.804.378-.277.302-1.057 1.032-1.057 2.518 0 1.486 1.082 2.92 1.233 3.122.151.201 2.128 3.25 5.156 4.558 2.164.935 2.809.845 3.791.7.636-.094 1.785-.73 2.037-1.435.252-.705.252-1.309.176-1.435-.076-.125-.278-.201-.58-.352z"/>
+    </svg>
+    <span class="whatsapp-tooltip">Chat with us</span>
+  </a>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Your Plot — Interactive Layout Map | VELS</title>
+  <meta name="description" content="Explore DTCP approved residential plot layouts in Pollachi & Coimbatore with real-time interactive blueprint maps.">
+
+  <!-- Google Fonts (Cinzel + Cormorant Garamond Classy Real Estate Typography Stack) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Montserrat:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-blueprint-grid">
+
+  <!-- MINIMAL HEADER WITH HAMBURGER MENU DRAWER -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="logo-wrapper">
+          <img src="Images/Logo.jpeg" alt="VELS Logo" class="logo-img">
+          <div class="logo-text-group">
+            <span class="logo-title">VELS</span>
+            <span class="logo-subtitle">COIMBATORE & POLLACHI</span>
+          </div>
+        </a>
+
+        <!-- Right Header Actions (Hamburger Button Only) -->
+        <div class="header-actions">
+          <button class="hamburger-btn" id="open-nav-btn" aria-label="Open Navigation Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- FULLSCREEN HAMBURGER MENU DRAWER -->
+  <div class="nav-overlay bg-blueprint-dark" id="nav-overlay">
+    <div class="nav-overlay-header">
+      <div class="logo-wrapper">
+        <span class="logo-title text-ivory">VELS</span>
+        <span class="logo-subtitle">PREMIUM DEVELOPMENTS</span>
+      </div>
+      <button class="close-nav-btn" id="close-nav-btn" aria-label="Close Navigation">&times;</button>
+    </div>
+
+    <nav class="nav-overlay-menu">
+      <a href="index.html" class="overlay-link"><span class="overlay-num">01.</span> HOME PAGE</a>
+      <a href="plots.html" class="overlay-link"><span class="overlay-num">02.</span> FIND YOUR PLOT</a>
+      <a href="about.html" class="overlay-link"><span class="overlay-num">03.</span> ABOUT US</a>
+      <a href="gallery.html" class="overlay-link"><span class="overlay-num">04.</span> GALLERY</a>
+      <a href="founder.html" class="overlay-link"><span class="overlay-num">05.</span> FOUNDERS</a>
+      <a href="contact.html" class="overlay-link"><span class="overlay-num">06.</span> CONTACT</a>
+      <a href="admin.html" class="overlay-link overlay-admin-link icon-only-admin" title="Admin Portal" aria-label="Admin Portal">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/>
+          <path d="M6 12H4a2 2 0 0 0-2 2v8h4"/>
+          <path d="M18 9h2a2 2 0 0 1 2 2v11h-4"/>
+          <path d="M10 6h4"/>
+          <path d="M10 10h4"/>
+          <path d="M10 14h4"/>
+          <path d="M10 18h4"/>
+        </svg>
+      </a>
+    </nav>
+  </div>
+
+  <main>
+    <!-- FIND YOUR PLOT PAGE HERO WITH AERIAL LAYOUT BACKGROUND (HOMEPAGE 95% FIT & LEFT CORNER BLEND FORMAT) -->
+    <section class="plots-hero-section">
+      <div class="plots-full-image"></div>
+      <div class="plots-hero-overlay"></div>
+      <div class="container" style="position: relative; z-index: 3;">
+        <div class="plots-hero-content">
+          <span class="architectural-tag"># FIND YOUR PLOT</span>
+          <h1 class="page-title" style="font-family: var(--font-heading); color: var(--olive-deep); font-size: clamp(2.6rem, 5vw, 3.8rem); line-height: 1.08; margin: 12px 0 16px; text-transform: uppercase;">
+            YOUR FUTURE<br>
+            <span style="color: var(--gold-antique);">STARTS HERE</span>
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-section">
+      <div class="container">
+        <!-- Availability Filter Bar -->
+        <div class="availability-bar">
+          <button class="filter-chip chip-available active" data-filter="all">
+            <span>ALL PLOTS</span>
+          </button>
+          <button class="filter-chip chip-available" data-filter="AVAILABLE">
+            <span class="status-dot dot-available"></span>
+            <span>AVAILABLE: <strong id="count-available">24</strong></span>
+          </button>
+          <button class="filter-chip chip-prebooked" data-filter="PRE-BOOKED">
+            <span class="status-dot dot-prebooked"></span>
+            <span>PRE-BOOKED: <strong id="count-prebooked">08</strong></span>
+          </button>
+          <button class="filter-chip chip-sold" data-filter="SOLD">
+            <span class="status-dot dot-sold"></span>
+            <span>SOLD: <strong id="count-sold">42</strong></span>
+          </button>
+        </div>
+
+        <!-- Master Plan Card -->
+        <div class="masterplan-card">
+          <div class="masterplan-toolbar">
+            <div>
+              <span class="architectural-tag">PROJECT: VELS GOLDEN VISTAS — POLLACHI MAIN ROAD</span>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">DTCP Approved • 40 FT & 30 FT Blacktop Roads • Underground Electrical Utilities • Street Trees</p>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--gold-antique); display: flex; align-items: center; gap: 20px;">
+              <span>SCALE 1:500</span>
+              <span style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--olive-deep);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M12 2l-4 4M12 2l4 4"/><circle cx="12" cy="12" r="8"/></svg>
+                NORTH ↑
+              </span>
+            </div>
+          </div>
+
+          <div class="masterplan-svg-container">
+            <svg id="plot-masterplan-svg" viewBox="0 0 1080 720" width="1080" height="720">
+              <!-- Background Outer Landscape Boundary -->
+              <rect x="10" y="10" width="1060" height="700" fill="#F4EFE4" stroke="#C6A15B" stroke-width="2" stroke-dasharray="6"/>
+              
+              <!-- Road Networks (Asphalt Dark Olive Grid) -->
+              <!-- 40 FT MAIN ROAD - Horizontal Central Axis -->
+              <rect x="20" y="340" width="1040" height="50" fill="#39452F" />
+              <text x="540" y="370" font-family="monospace" font-size="12" fill="#F7F1E3" text-anchor="middle" letter-spacing="4">40 FT MAIN BOULEVARD ROAD</text>
+
+              <!-- 40 FT EAST ROAD - Right Vertical Axis -->
+              <rect x="960" y="20" width="50" height="680" fill="#39452F" />
+              <text x="985" y="200" font-family="monospace" font-size="10" fill="#F7F1E3" text-anchor="middle" transform="rotate(90, 985, 200)" letter-spacing="3">40 FT EAST BOULEVARD</text>
+
+              <!-- 30 FT BRANCH STREETS (Vertical Avenues) -->
+              <rect x="240" y="20" width="35" height="320" fill="#39452F" />
+              <text x="257" y="180" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle" transform="rotate(-90, 257, 180)" letter-spacing="2">30 FT STREET 1</text>
+
+              <rect x="480" y="20" width="35" height="320" fill="#39452F" />
+              <text x="497" y="180" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle" transform="rotate(-90, 497, 180)" letter-spacing="2">30 FT STREET 2</text>
+
+              <rect x="720" y="20" width="35" height="320" fill="#39452F" />
+              <text x="737" y="180" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle" transform="rotate(-90, 737, 180)" letter-spacing="2">30 FT STREET 3</text>
+
+              <!-- 30 FT STREET - Bottom South Axis -->
+              <rect x="240" y="390" width="35" height="310" fill="#39452F" />
+              <rect x="720" y="390" width="35" height="310" fill="#39452F" />
+
+              <!-- Decorative Trees along Road Borders -->
+              <circle cx="230" cy="50" r="6" fill="#39452F"/><circle cx="230" cy="150" r="6" fill="#39452F"/><circle cx="230" cy="250" r="6" fill="#39452F"/>
+              <circle cx="285" cy="50" r="6" fill="#39452F"/><circle cx="285" cy="150" r="6" fill="#39452F"/><circle cx="285" cy="250" r="6" fill="#39452F"/>
+              <circle cx="470" cy="50" r="6" fill="#39452F"/><circle cx="470" cy="150" r="6" fill="#39452F"/><circle cx="470" cy="250" r="6" fill="#39452F"/>
+              <circle cx="525" cy="50" r="6" fill="#39452F"/><circle cx="525" cy="150" r="6" fill="#39452F"/><circle cx="525" cy="250" r="6" fill="#39452F"/>
+
+              <!-- Compass Rose Compass Star in Top Right -->
+              <g transform="translate(900, 70)">
+                <circle cx="0" cy="0" r="28" fill="#FFFDF7" stroke="#C6A15B" stroke-width="1.5"/>
+                <path d="M0 -22 L6 0 L0 22 L-6 0 Z" fill="#39452F"/>
+                <path d="M-22 0 L0 6 L22 0 L0 -6 Z" fill="#C6A15B"/>
+                <text x="0" y="-32" font-family="serif" font-size="12" font-weight="bold" fill="#39452F" text-anchor="middle">N</text>
+                <text x="0" y="42" font-family="serif" font-size="10" font-weight="bold" fill="#39452F" text-anchor="middle">S</text>
+                <text x="36" y="4" font-family="serif" font-size="10" font-weight="bold" fill="#39452F" text-anchor="middle">E</text>
+                <text x="-36" y="4" font-family="serif" font-size="10" font-weight="bold" fill="#39452F" text-anchor="middle">W</text>
+              </g>
+
+              <!-- Dynamic Interactive Plot Rectangles Group -->
+              <g id="svg-plots-group"></g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- PLOT STATUS COLOR LEGEND BANNER (NOTE AT END OF PLOT) -->
+        <div class="plot-legend-banner">
+          <div class="legend-title">PLOT AVAILABILITY COLOR CODE NOTE</div>
+          <div class="legend-items">
+            <div class="legend-item">
+              <span class="legend-box box-available"></span>
+              <div>
+                <strong style="color: var(--olive-deep);">AVAILABLE (GREEN)</strong>
+                <p>100% DTCP Approved plot ready for immediate booking, registration & villa construction.</p>
+              </div>
+            </div>
+            <div class="legend-item">
+              <span class="legend-box box-prebooked"></span>
+              <div>
+                <strong style="color: var(--gold-antique);">PRE-BOOKED / RESERVED (GOLD)</strong>
+                <p>Initial token advance received. Document verification & bank loan processing in progress.</p>
+              </div>
+            </div>
+            <div class="legend-item">
+              <span class="legend-box box-sold"></span>
+              <div>
+                <strong style="color: var(--terracotta);">SOLD / HANDED OVER (TERRACOTTA)</strong>
+                <p>Sale deed registered & clear parent title transferred to buyer.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAYOUT SPECIFICATION & DIMENSION BREAKDOWN TABLE (REFERENCING IMAGE SUMMARY) -->
+        <div class="layout-summary-table-card">
+          <h4 class="summary-table-title">LAYOUT SPECIFICATION & DIMENSION SUMMARY</h4>
+          <div class="table-responsive">
+            <table class="layout-spec-table">
+              <thead>
+                <tr>
+                  <th>SL.NO</th>
+                  <th>DIMENSION</th>
+                  <th>CENTS / AREA</th>
+                  <th>TOTAL PLOTS</th>
+                  <th>STATUS BREAKDOWN</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1</strong></td>
+                  <td><strong>30' × 40'</strong></td>
+                  <td>2.75 Cents (1,200 Sq.Ft)</td>
+                  <td><strong>187 Plots</strong></td>
+                  <td><span class="text-available">112 Available</span> • <span class="text-gold">25 Booked</span> • <span class="text-terracotta">50 Sold</span></td>
+                </tr>
+                <tr>
+                  <td><strong>2</strong></td>
+                  <td><strong>30' × 50'</strong></td>
+                  <td>3.44 Cents (1,500 Sq.Ft)</td>
+                  <td><strong>09 Plots</strong></td>
+                  <td><span class="text-available">05 Available</span> • <span class="text-gold">02 Booked</span> • <span class="text-terracotta">02 Sold</span></td>
+                </tr>
+                <tr>
+                  <td><strong>3</strong></td>
+                  <td><strong>30' × 30'</strong></td>
+                  <td>2.06 Cents (900 Sq.Ft)</td>
+                  <td><strong>17 Plots</strong></td>
+                  <td><span class="text-available">10 Available</span> • <span class="text-gold">03 Booked</span> • <span class="text-terracotta">04 Sold</span></td>
+                </tr>
+                <tr>
+                  <td><strong>4</strong></td>
+                  <td><strong>30' × 35'</strong></td>
+                  <td>2.41 Cents (1,050 Sq.Ft)</td>
+                  <td><strong>03 Plots</strong></td>
+                  <td><span class="text-available">02 Available</span> • <span class="text-gold">00 Booked</span> • <span class="text-terracotta">01 Sold</span></td>
+                </tr>
+                <tr>
+                  <td><strong>5</strong></td>
+                  <td><strong>Other / Corner Sites</strong></td>
+                  <td>3.50 – 5.00 Cents (1,800–2,400 Sq.Ft)</td>
+                  <td><strong>12 Plots</strong></td>
+                  <td><span class="text-available">06 Available</span> • <span class="text-gold">02 Booked</span> • <span class="text-terracotta">04 Sold</span></td>
+                </tr>
+                <tr class="total-row">
+                  <td colspan="3"><strong>TOTAL MASTER PLAN CAPACITY</strong></td>
+                  <td><strong>228 PLOTS</strong></td>
+                  <td><strong>100% DTCP APPROVED LAYOUT</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLOT INSPECTOR DRAWER / MODAL -->
+    <div class="plot-drawer" id="plot-drawer">
+      <div class="plot-drawer-header">
+        <div>
+          <span class="architectural-tag" id="drawer-plot-id">PLOT #101</span>
+          <h3 class="plot-drawer-title" id="drawer-plot-name">Plot 101 — East Facing</h3>
+        </div>
+        <button class="close-drawer-btn" id="close-drawer-btn">&times;</button>
+      </div>
+
+      <div class="plot-spec-grid">
+        <div class="plot-spec-item">
+          <span class="plot-spec-label">Status</span>
+          <div class="plot-spec-val" id="drawer-plot-status"><span class="badge-status badge-available">AVAILABLE</span></div>
+        </div>
+        <div class="plot-spec-item">
+          <span class="plot-spec-label">Area in Cents</span>
+          <div class="plot-spec-val text-gold-antique" id="drawer-plot-cents">2.75 Cents</div>
+        </div>
+        <div class="plot-spec-item">
+          <span class="plot-spec-label">Total Sq.Ft</span>
+          <div class="plot-spec-val" id="drawer-plot-size">1,200 Sq.Ft</div>
+        </div>
+        <div class="plot-spec-item">
+          <span class="plot-spec-label">Dimensions</span>
+          <div class="plot-spec-val" id="drawer-plot-dim">30' × 40'</div>
+        </div>
+        <div class="plot-spec-item">
+          <span class="plot-spec-label">Facing</span>
+          <div class="plot-spec-val" id="drawer-plot-facing">East Facing</div>
+        </div>
+        <div class="plot-spec-item">
+          <span class="plot-spec-label">Road Width</span>
+          <div class="plot-spec-val" id="drawer-plot-road">40 Ft Main Road</div>
+        </div>
+        <div class="plot-spec-item" style="grid-column: span 2;">
+          <span class="plot-spec-label">Investment Price</span>
+          <div class="plot-spec-val text-gold-antique" id="drawer-plot-price">₹ 28.80 Lakhs</div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="enquire-plot-btn" style="width: 100%; margin-top: 20px;">
+        ENQUIRE NOW FOR THIS PLOT
+      </button>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="logo-wrapper" style="margin-bottom: 16px;">
+            <span class="logo-title gold-glow-letters" style="font-size: 1.8rem; font-weight: 800;">VELS</span>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--sage-muted); line-height: 1.6;">
+            Established property developer specializing in plot layouts and custom building construction across Coimbatore & Pollachi.
+          </p>
+        </div>
+
+        <div>
+          <h4 style="color: var(--gold-light); font-size: 0.95rem; margin-bottom: 16px; letter-spacing: 1.5px;">QUICK LINKS</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="plots.html" class="footer-link">Find Plots</a></li>
+            <li><a href="about.html" class="footer-link">About Us</a></li>
+            <li><a href="gallery.html" class="footer-link">Gallery</a></li>
+            <li><a href="founder.html" class="footer-link">Founders</a></li>
+            <li><a href="contact.html" class="footer-link">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color: var(--gold-light); font-size: 0.95rem; margin-bottom: 16px; letter-spacing: 1.5px;">LOCATIONS</h4>
+          <p style="font-size: 0.88rem; color: var(--sage-muted);">Coimbatore: Hope College Main Rd</p>
+          <p style="font-size: 0.88rem; color: var(--sage-muted); margin-top: 6px;">Pollachi: Mahalingapuram</p>
+        </div>
+
+        <div>
+          <h4 style="color: var(--gold-light); font-size: 0.95rem; margin-bottom: 16px; letter-spacing: 1.5px;">DIRECT CONTACT</h4>
+          <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+            <a href="https://wa.me/919842212345?text=Hello%20VELS%20Sakthivel%20Groups,%20I%20want%20to%20enquire%20about%20plots" target="_blank" rel="noopener" class="footer-small-icon-btn whatsapp-icon" title="Chat on WhatsApp" aria-label="WhatsApp">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 0C5.385 0 0 5.386 0 12.031c0 2.124.553 4.197 1.604 6.02L0 24l6.155-1.614A11.968 11.968 0 0 0 12.03 24c6.645 0 12.03-5.385 12.03-12.031C24.06 5.386 18.675 0 12.031 0zm.012 22.012c-1.808 0-3.585-.486-5.143-1.408l-.369-.219-3.817 1.001 1.019-3.721-.241-.383A9.99 9.99 0 0 1 2.012 12.03c0-5.524 4.496-10.02 10.031-10.02 5.524 0 10.02 4.496 10.02 10.02 0 5.536-4.496 10.012-10.02 10.012zm5.503-7.519c-.302-.152-1.785-.881-2.062-.981-.277-.101-.479-.152-.68.152-.202.302-.782.981-.959 1.183-.176.201-.353.226-.655.075-1.745-.875-2.894-1.559-4.04-3.535-.302-.52.302-.482.864-1.608.101-.201.05-.378-.025-.529-.075-.152-.68-1.636-.932-2.24-.244-.588-.493-.508-.68-.518-.176-.009-.378-.009-.58-.009-.201 0-.528.075-.804.378-.277.302-1.057 1.032-1.057 2.518 0 1.486 1.082 2.92 1.233 3.122.151.201 2.128 3.25 5.156 4.558 2.164.935 2.809.845 3.791.7.636-.094 1.785-.73 2.037-1.435.252-.705.252-1.309.176-1.435-.076-.125-.278-.201-.58-.352z"/>
+              </svg>
+            </a>
+            <a href="tel:+919842212345" class="footer-small-icon-btn" title="Phone Call" aria-label="Phone Call">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </a>
+            <a href="contact.html" class="footer-small-icon-btn" title="Send Message" aria-label="Message">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 VELS — Sakthivel Groups. All Rights Reserved.</span>
+        <span>Coimbatore & Pollachi, Tamil Nadu</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP BUTTON (RIGHT BOTTOM CORNER) -->
+  <a href="https://wa.me/919842212345?text=Hello%20VELS%20Sakthivel%20Groups,%20I%20want%20to%20enquire%20about%20plots" class="floating-whatsapp-btn" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12.031 0C5.385 0 0 5.386 0 12.031c0 2.124.553 4.197 1.604 6.02L0 24l6.155-1.614A11.968 11.968 0 0 0 12.03 24c6.645 0 12.03-5.385 12.03-12.031C24.06 5.386 18.675 0 12.031 0zm.012 22.012c-1.808 0-3.585-.486-5.143-1.408l-.369-.219-3.817 1.001 1.019-3.721-.241-.383A9.99 9.99 0 0 1 2.012 12.03c0-5.524 4.496-10.02 10.031-10.02 5.524 0 10.02 4.496 10.02 10.02 0 5.536-4.496 10.012-10.02 10.012zm5.503-7.519c-.302-.152-1.785-.881-2.062-.981-.277-.101-.479-.152-.68.152-.202.302-.782.981-.959 1.183-.176.201-.353.226-.655.075-1.745-.875-2.894-1.559-4.04-3.535-.302-.52.302-.482.864-1.608.101-.201.05-.378-.025-.529-.075-.152-.68-1.636-.932-2.24-.244-.588-.493-.508-.68-.518-.176-.009-.378-.009-.58-.009-.201 0-.528.075-.804.378-.277.302-1.057 1.032-1.057 2.518 0 1.486 1.082 2.92 1.233 3.122.151.201 2.128 3.25 5.156 4.558 2.164.935 2.809.845 3.791.7.636-.094 1.785-.73 2.037-1.435.252-.705.252-1.309.176-1.435-.076-.125-.278-.201-.58-.352z"/>
+    </svg>
+    <span class="whatsapp-tooltip">Chat with us</span>
+  </a>
+
+  <script src="app.js"></script>
+</body>
+</html>
