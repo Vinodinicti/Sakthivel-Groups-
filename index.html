@@ -282,103 +282,198 @@
       </div>
     </section>
 
-    <!-- HIGHLIGHT FEATURE TEASER WITH BASIC PLOT LAYOUT DETAILS -->
-    <section class="py-section bg-cream">
+    <!-- 4 LOCATION MASTERPLAN CARDS & POPUP INSPECTOR SECTION -->
+    <section class="py-section bg-cream" id="location-masterplans-section">
       <div class="container">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 50px; align-items: center;">
-          <div>
-            <span class="architectural-tag">FLAGSHIP GATED COMMUNITY • POLLACHI ROAD</span>
-            <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 2.6rem); color: var(--olive-deep); margin: 12px 0 16px;">
-              INTERACTIVE PLOT MASTER PLAN
-            </h2>
-            <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 1.02rem; line-height: 1.6;">
-              Inspect real-time plot availability, road widths, facing orientations, and pricing for <strong>VELS Golden Vistas</strong>. Choose your dream plot visually.
-            </p>
+        <div style="text-align: center; max-width: 780px; margin: 0 auto 45px;">
+          <span class="architectural-tag">TAMILNADU REGIONAL CORRIDORS</span>
+          <h2 style="font-family: var(--font-heading); font-size: clamp(2.2rem, 3.8vw, 3rem); color: var(--olive-deep); margin-top: 10px; margin-bottom: 16px;">
+            REGIONAL LOCATION MASTER PLANS
+          </h2>
+          <p style="color: var(--text-secondary); font-size: 1.02rem; line-height: 1.6;">
+            Select any of our 4 major location corridors below to open the corresponding layout masterplan blueprint, plot dimensions, live availability, and full summary details in a popup inspector.
+          </p>
+        </div>
 
-            <!-- BASIC LAYOUT SPECIFICATIONS SUMMARY GRID -->
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 28px; background: var(--bg-ivory); border: 1px solid var(--gold-border); padding: 18px; border-radius: var(--radius-sm);">
-              <div>
-                <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--gold-antique); text-transform: uppercase; letter-spacing: 1px; display: block;">Total Layout</span>
-                <strong style="color: var(--olive-deep); font-size: 0.95rem;">228 DTCP Approved Plots</strong>
-              </div>
-              <div>
-                <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--gold-antique); text-transform: uppercase; letter-spacing: 1px; display: block;">Plot Areas</span>
-                <strong style="color: var(--olive-deep); font-size: 0.95rem;">2.06 to 5.00 Cents</strong>
-              </div>
-              <div>
-                <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--gold-antique); text-transform: uppercase; letter-spacing: 1px; display: block;">Dimensions</span>
-                <strong style="color: var(--olive-deep); font-size: 0.95rem;">30'×40', 30'×50', 30'×30'</strong>
-              </div>
-              <div>
-                <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--gold-antique); text-transform: uppercase; letter-spacing: 1px; display: block;">Road Widths</span>
-                <strong style="color: var(--olive-deep); font-size: 0.95rem;">40 FT & 30 FT Roads</strong>
-              </div>
+        <!-- 4 LOCATION CARDS GRID -->
+        <div class="location-cards-grid">
+          
+          <!-- Card 1: COIMBATORE -->
+          <div class="location-card" onclick="openLocationMasterplanModal('coimbatore')">
+            <div class="location-card-img-wrap">
+              <img src="Images/Plots_Hero_Bg.jpg" alt="Coimbatore Location Masterplan" />
+              <span class="location-card-tag">AIRPORT CORRIDOR</span>
+              <span class="location-approval-badge">DTCP & RERA</span>
             </div>
+            <div class="location-card-body">
+              <div>
+                <span class="architectural-tag text-gold">COIMBATORE</span>
+                <h3 class="location-card-title">VELS Heritage & Peelamedu</h3>
+                <p class="location-card-desc">145 Gated Units • Hope College & Airport Highway Corridor</p>
+              </div>
+              
+              <div class="location-card-specs-row">
+                <div>
+                  <span class="location-spec-lbl">ROAD WIDTHS</span>
+                  <strong class="location-spec-val">40 FT & 30 FT</strong>
+                </div>
+                <div>
+                  <span class="location-spec-lbl">STARTING PRICE</span>
+                  <strong class="location-spec-val text-gold">₹ 24.50 Lakhs</strong>
+                </div>
+              </div>
 
-            <!-- LIVE STATUS SUMMARY BADGES -->
-            <div style="display: flex; gap: 12px; margin-bottom: 28px; flex-wrap: wrap;">
-              <span class="badge-status badge-available" style="padding: 6px 14px; font-size: 0.75rem;">135 AVAILABLE</span>
-              <span class="badge-status badge-prebooked" style="padding: 6px 14px; font-size: 0.75rem;">32 PRE-BOOKED</span>
-              <span class="badge-status badge-sold" style="padding: 6px 14px; font-size: 0.75rem;">61 SOLD</span>
+              <button class="btn btn-outline-olive btn-sm location-card-btn" type="button">
+                VIEW OVERALL LAYOUT & SUMMARY →
+              </button>
             </div>
-
-            <a href="plots.html" class="btn btn-primary">
-              LAUNCH INTERACTIVE MASTER PLAN
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
           </div>
 
-          <!-- MINI MASTER PLAN SVG BLUEPRINT PREVIEW -->
-          <div style="background: var(--bg-ivory); border: 1px solid var(--gold-border); padding: 24px; border-radius: var(--radius-md); box-shadow: var(--shadow-soft);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-family: var(--font-mono); font-size: 0.72rem; color: var(--gold-antique);">
-              <span>MASTER PLAN BLUEPRINT — 228 PLOTS</span>
-              <span>NORTH ↑</span>
+          <!-- Card 2: POLLACHI -->
+          <div class="location-card" onclick="openLocationMasterplanModal('pollachi')">
+            <div class="location-card-img-wrap">
+              <img src="Images/Hero_Arch.jpg" alt="Pollachi Location Masterplan" />
+              <span class="location-card-tag">FLAGSHIP LAYOUT</span>
+              <span class="location-approval-badge">100% DTCP</span>
             </div>
+            <div class="location-card-body">
+              <div>
+                <span class="architectural-tag text-gold">POLLACHI</span>
+                <h3 class="location-card-title">VELS Golden Vistas</h3>
+                <p class="location-card-desc">228 Gated Units • Mahalingapuram Main Road Corridor</p>
+              </div>
 
-            <svg width="100%" height="240" viewBox="0 0 500 240" style="border: 1px solid rgba(198,161,91,0.3); border-radius: 4px; background: #F4EFE4;">
-              <!-- 40 FT Main Road -->
-              <rect x="20" y="105" width="460" height="30" fill="#39452F"/>
-              <text x="250" y="125" font-family="monospace" font-size="10" fill="#F7F1E3" text-anchor="middle" letter-spacing="3">40 FT MAIN BOULEVARD ROAD</text>
+              <div class="location-card-specs-row">
+                <div>
+                  <span class="location-spec-lbl">ROAD WIDTHS</span>
+                  <strong class="location-spec-val">40 FT Boulevard</strong>
+                </div>
+                <div>
+                  <span class="location-spec-lbl">STARTING PRICE</span>
+                  <strong class="location-spec-val text-gold">₹ 21.60 Lakhs</strong>
+                </div>
+              </div>
 
-              <!-- 30 FT Internal Street -->
-              <rect x="235" y="15" width="30" height="210" fill="#39452F"/>
-
-              <!-- Plots Row Top Left -->
-              <rect x="30" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.85)" stroke="#283322" rx="2"/>
-              <text x="57" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">101</text>
-              <rect x="95" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.85)" stroke="#283322" rx="2"/>
-              <text x="122" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">102</text>
-              <rect x="160" y="25" width="55" height="35" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
-              <text x="187" y="47" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">103</text>
-
-              <!-- Plots Row Top Right -->
-              <rect x="280" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.85)" stroke="#283322" rx="2"/>
-              <text x="307" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">117</text>
-              <rect x="345" y="25" width="55" height="35" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
-              <text x="372" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">118</text>
-              <rect x="410" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.85)" stroke="#283322" rx="2"/>
-              <text x="437" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">119</text>
-
-              <!-- Plots Row Bottom Left -->
-              <rect x="30" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.85)" stroke="#283322" rx="2"/>
-              <text x="57" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">145</text>
-              <rect x="95" y="150" width="55" height="35" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
-              <text x="122" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">146</text>
-              <rect x="160" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.85)" stroke="#283322" rx="2"/>
-              <text x="187" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">147</text>
-
-              <!-- Plots Row Bottom Right -->
-              <rect x="280" y="150" width="55" height="35" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
-              <text x="307" y="172" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">149</text>
-              <rect x="345" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.85)" stroke="#283322" rx="2"/>
-              <text x="372" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">150</text>
-              <rect x="410" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.85)" stroke="#283322" rx="2"/>
-              <text x="437" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">151</text>
-            </svg>
+              <button class="btn btn-outline-olive btn-sm location-card-btn" type="button">
+                VIEW OVERALL LAYOUT & SUMMARY →
+              </button>
+            </div>
           </div>
+
+          <!-- Card 3: MADURAI -->
+          <div class="location-card" onclick="openLocationMasterplanModal('madurai')">
+            <div class="location-card-img-wrap">
+              <img src="Images/Vels_Legacy_Appreciation.jpg" alt="Madurai Location Masterplan" />
+              <span class="location-card-tag">AIIMS & RING ROAD</span>
+              <span class="location-approval-badge">DTCP APPROVED</span>
+            </div>
+            <div class="location-card-body">
+              <div>
+                <span class="architectural-tag text-gold">MADURAI</span>
+                <h3 class="location-card-title">VELS Temple City Heights</h3>
+                <p class="location-card-desc">160 Gated Units • AIIMS Hospital & Ring Road Growth Zone</p>
+              </div>
+
+              <div class="location-card-specs-row">
+                <div>
+                  <span class="location-spec-lbl">ROAD WIDTHS</span>
+                  <strong class="location-spec-val">40 FT Heavy Tar</strong>
+                </div>
+                <div>
+                  <span class="location-spec-lbl">STARTING PRICE</span>
+                  <strong class="location-spec-val text-gold">₹ 28.00 Lakhs</strong>
+                </div>
+              </div>
+
+              <button class="btn btn-outline-olive btn-sm location-card-btn" type="button">
+                VIEW OVERALL LAYOUT & SUMMARY →
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 4: CHENNAI -->
+          <div class="location-card" onclick="openLocationMasterplanModal('chennai')">
+            <div class="location-card-img-wrap">
+              <img src="Images/Hero_Villa.jpg" alt="Chennai Location Masterplan" />
+              <span class="location-card-tag">ECR & GST CORRIDOR</span>
+              <span class="location-approval-badge">CMDA & RERA</span>
+            </div>
+            <div class="location-card-body">
+              <div>
+                <span class="architectural-tag text-gold">CHENNAI</span>
+                <h3 class="location-card-title">VELS ECR Bay Vistas</h3>
+                <p class="location-card-desc">195 Gated Units • ECR Coast & GST Metro Extension</p>
+              </div>
+
+              <div class="location-card-specs-row">
+                <div>
+                  <span class="location-spec-lbl">ROAD WIDTHS</span>
+                  <strong class="location-spec-val">50 FT & 40 FT</strong>
+                </div>
+                <div>
+                  <span class="location-spec-lbl">STARTING PRICE</span>
+                  <strong class="location-spec-val text-gold">₹ 45.00 Lakhs</strong>
+                </div>
+              </div>
+
+              <button class="btn btn-outline-olive btn-sm location-card-btn" type="button">
+                VIEW OVERALL LAYOUT & SUMMARY →
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
+
+    <!-- DYNAMIC LOCATION MASTERPLAN POPUP MODAL -->
+    <div class="project-modal-overlay" id="location-masterplan-modal">
+      <div class="project-modal-card location-modal-card">
+        <button class="project-modal-close" id="close-location-modal" onclick="closeLocationMasterplanModal()" aria-label="Close Location Modal">&times;</button>
+
+        <div class="location-modal-header">
+          <span class="architectural-tag text-gold" id="loc-modal-tag">LOCATION BLUEPRINT & SUMMARY</span>
+          <h2 style="font-family: var(--font-heading); color: var(--olive-deep); font-size: clamp(1.4rem, 3vw, 2rem); margin-top: 4px;" id="loc-modal-title">LOCATION MASTERPLAN</h2>
+          <p style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--gold-antique);" id="loc-modal-subtitle">Regional Layout Overview</p>
+        </div>
+
+        <div class="location-modal-body">
+          <!-- SVG Masterplan Blueprint Canvas -->
+          <div style="background: var(--bg-ivory); border: 1px solid var(--gold-border); padding: 18px; border-radius: var(--radius-md); margin-bottom: 20px; box-shadow: var(--shadow-soft);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-family: var(--font-mono); font-size: 0.72rem; color: var(--gold-antique);">
+              <span id="loc-modal-blueprint-title">MASTER PLAN BLUEPRINT</span>
+              <span>NORTH ↑</span>
+            </div>
+
+            <div id="loc-modal-svg-wrap" style="width: 100%; border: 1px solid rgba(198,161,91,0.3); border-radius: 4px; overflow: hidden;">
+              <!-- Dynamically Populated SVG Blueprint -->
+            </div>
+          </div>
+
+          <!-- Live Status Badges -->
+          <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;" id="loc-modal-status-badges">
+            <!-- Dynamically Populated -->
+          </div>
+
+          <!-- Layout Specifications Grid -->
+          <div class="project-spec-grid" id="loc-modal-specs-grid">
+            <!-- Dynamically Populated -->
+          </div>
+
+          <!-- Highlights Box -->
+          <div class="project-modal-highlights-box">
+            <strong style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--gold-antique); letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 4px;">LOCATION HIGHLIGHTS & CONNECTIVITY</strong>
+            <p id="loc-modal-highlights" style="line-height: 1.55; font-size: 0.9rem;"></p>
+          </div>
+
+          <!-- Action Buttons -->
+          <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="plots.html" id="loc-modal-explore-btn" class="btn btn-primary">EXPLORE FULL INTERACTIVE MAP →</a>
+            <a href="contact.html" id="loc-modal-enquire-btn" class="btn btn-outline-olive">ENQUIRE ABOUT THIS LOCATION</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 
   <footer class="site-footer">

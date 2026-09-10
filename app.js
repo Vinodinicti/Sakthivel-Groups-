@@ -1152,3 +1152,252 @@ function initGalleryFilter() {
   });
 }
 
+// --- 4 LOCATION MASTERPLAN DATASET & INTERACTIVE MODAL INSPECTOR ---
+const LOCATION_MASTERPLANS = {
+  coimbatore: {
+    city: 'Coimbatore',
+    tag: 'AIRPORT & HIGHWAY CORRIDOR',
+    title: 'VELS Heritage & Peelamedu Park Enclave',
+    subtitle: 'Coimbatore Airport Corridor • Hope College Main Road',
+    approval: '100% DTCP & RERA Approved',
+    totalPlots: '145 DTCP Plots',
+    available: 95,
+    prebooked: 18,
+    sold: 32,
+    plotSizes: '2.50 to 6.00 Cents',
+    dimensions: "30'×40', 30'×50', 40'×60'",
+    roadWidths: '40 FT & 30 FT Heavy Tar Roads',
+    startingPrice: '₹ 24.50 Lakhs',
+    highlights: 'Located on Hope College Main Road near Coimbatore International Airport. Features 40ft & 30ft asphalt roads, underground drainage, solar street lights, gated security kiosk, and instant bank loan approval.',
+    svgBlueprint: `
+      <svg width="100%" height="240" viewBox="0 0 500 240" style="background: #F4EFE4;">
+        <rect x="20" y="105" width="460" height="30" fill="#39452F"/>
+        <text x="250" y="125" font-family="monospace" font-size="10" fill="#F7F1E3" text-anchor="middle" letter-spacing="2">40 FT AIRPORT CORRIDOR BOULEVARD</text>
+        <rect x="235" y="15" width="30" height="210" fill="#39452F"/>
+        <rect x="30" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="57" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-101</text>
+        <rect x="95" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="122" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-102</text>
+        <rect x="160" y="25" width="55" height="35" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
+        <text x="187" y="47" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">C-103</text>
+        <rect x="280" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="307" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-114</text>
+        <rect x="345" y="25" width="55" height="35" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
+        <text x="372" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-115</text>
+        <rect x="410" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="437" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-116</text>
+        <rect x="30" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="57" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-130</text>
+        <rect x="95" y="150" width="55" height="35" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
+        <text x="122" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-131</text>
+        <rect x="160" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="187" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-132</text>
+        <rect x="280" y="150" width="55" height="35" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
+        <text x="307" y="172" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">C-142</text>
+        <rect x="345" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="372" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-143</text>
+        <rect x="410" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="437" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">C-144</text>
+      </svg>
+    `
+  },
+  pollachi: {
+    city: 'Pollachi',
+    tag: 'FLAGSHIP GATED COMMUNITY',
+    title: 'VELS Golden Vistas & Mahalingapuram',
+    subtitle: 'Mahalingapuram Main Road Corridor • Anamalai View Zone',
+    approval: '100% DTCP Approved',
+    totalPlots: '228 DTCP Plots',
+    available: 135,
+    prebooked: 32,
+    sold: 61,
+    plotSizes: '2.06 to 5.00 Cents',
+    dimensions: "30'×30', 30'×40', 30'×50'",
+    roadWidths: '40 FT Main Boulevard Road',
+    startingPrice: '₹ 21.60 Lakhs',
+    highlights: 'Flagship project in Pollachi Mahalingapuram with 40ft heavy compaction roads, 10% dedicated open park space, royal palm avenues, and panoramic Anamalai mountain views.',
+    svgBlueprint: `
+      <svg width="100%" height="240" viewBox="0 0 500 240" style="background: #F4EFE4;">
+        <rect x="20" y="105" width="460" height="30" fill="#39452F"/>
+        <text x="250" y="125" font-family="monospace" font-size="10" fill="#F7F1E3" text-anchor="middle" letter-spacing="2">40 FT MAIN BOULEVARD ROAD</text>
+        <rect x="235" y="15" width="30" height="210" fill="#39452F"/>
+        <rect x="30" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="57" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">101</text>
+        <rect x="95" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="122" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">102</text>
+        <rect x="160" y="25" width="55" height="35" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
+        <text x="187" y="47" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">103</text>
+        <rect x="280" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="307" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">117</text>
+        <rect x="345" y="25" width="55" height="35" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
+        <text x="372" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">118</text>
+        <rect x="410" y="25" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="437" y="47" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">119</text>
+        <rect x="30" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="57" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">145</text>
+        <rect x="95" y="150" width="55" height="35" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
+        <text x="122" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">146</text>
+        <rect x="160" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="187" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">147</text>
+        <rect x="280" y="150" width="55" height="35" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
+        <text x="307" y="172" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">149</text>
+        <rect x="345" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="372" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">150</text>
+        <rect x="410" y="150" width="55" height="35" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="437" y="172" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">151</text>
+      </svg>
+    `
+  },
+  madurai: {
+    city: 'Madurai',
+    tag: 'AIIMS & RING ROAD CORRIDOR',
+    title: 'VELS Temple City Heights & Ring Road',
+    subtitle: 'Madurai AIIMS Corridor • Mattuthavani Access Zone',
+    approval: 'DTCP & RERA Approved',
+    totalPlots: '160 DTCP Plots',
+    available: 110,
+    prebooked: 22,
+    sold: 28,
+    plotSizes: '3.00 to 8.00 Cents',
+    dimensions: "30'×45', 40'×60', 50'×70'",
+    roadWidths: '40 FT Heavy Tar Highways',
+    startingPrice: '₹ 28.00 Lakhs',
+    highlights: 'Strategically located on Madurai Ring Road & AIIMS Hospital Corridor. Designed for rapid asset appreciation, 40ft wide internal tar avenues, and complete clear parent deed documentation.',
+    svgBlueprint: `
+      <svg width="100%" height="240" viewBox="0 0 500 240" style="background: #F4EFE4;">
+        <rect x="20" y="25" width="460" height="32" fill="#39452F"/>
+        <text x="250" y="45" font-family="monospace" font-size="10" fill="#F7F1E3" text-anchor="middle" letter-spacing="2">40 FT MADURAI RING ROAD EXPRESSWAY</text>
+        <rect x="140" y="57" width="30" height="165" fill="#39452F"/>
+        <rect x="330" y="57" width="30" height="165" fill="#39452F"/>
+        <rect x="30" y="70" width="95" height="40" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="77" y="94" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">M-101</text>
+        <rect x="185" y="70" width="130" height="40" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
+        <text x="250" y="94" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">M-102 (COMMERCIAL)</text>
+        <rect x="375" y="70" width="95" height="40" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="422" y="94" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">M-103</text>
+        <rect x="30" y="130" width="95" height="40" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
+        <text x="77" y="154" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">M-120</text>
+        <rect x="185" y="130" width="130" height="40" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="250" y="154" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">M-121</text>
+        <rect x="375" y="130" width="95" height="40" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
+        <text x="422" y="154" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">M-122</text>
+      </svg>
+    `
+  },
+  chennai: {
+    city: 'Chennai',
+    tag: 'ECR BAY & GST METRO CORRIDOR',
+    title: 'VELS ECR Bay Vistas & GST Smart Layout',
+    subtitle: 'Chennai East Coast Road & GST Metro Extension',
+    approval: 'CMDA & RERA Approved',
+    totalPlots: '195 CMDA Plots',
+    available: 120,
+    prebooked: 35,
+    sold: 40,
+    plotSizes: '2.50 to 10.00 Cents',
+    dimensions: "30'×40', 40'×60', 50'×80'",
+    roadWidths: '50 FT Avenue & 40 FT Boulevards',
+    startingPrice: '₹ 45.00 Lakhs',
+    highlights: 'Coastal gated enclave near Chennai ECR & GST Metro extension. CMDA approved masterplan layout featuring 50ft avenues, underground power cables, rainwater runoff systems, and sea breeze environment.',
+    svgBlueprint: `
+      <svg width="100%" height="240" viewBox="0 0 500 240" style="background: #F4EFE4;">
+        <rect x="20" y="15" width="460" height="38" fill="#39452F"/>
+        <text x="250" y="38" font-family="monospace" font-size="10" fill="#F7F1E3" text-anchor="middle" letter-spacing="2">50 FT CHENNAI ECR BEACH BOULEVARD</text>
+        <rect x="225" y="53" width="50" height="175" fill="#39452F"/>
+        <text x="250" y="140" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle" transform="rotate(-90, 250, 140)" letter-spacing="2">40 FT METRO AVENUE</text>
+        <rect x="30" y="65" width="80" height="50" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="70" y="93" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">CH-101</text>
+        <rect x="125" y="65" width="80" height="50" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
+        <text x="165" y="93" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">CH-102</text>
+        <rect x="290" y="65" width="80" height="50" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="330" y="93" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">CH-103</text>
+        <rect x="385" y="65" width="85" height="50" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
+        <text x="427" y="93" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">CH-104</text>
+        <rect x="30" y="135" width="80" height="50" fill="rgba(168, 102, 75, 0.9)" stroke="#7E452E" rx="2"/>
+        <text x="70" y="163" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">CH-125</text>
+        <rect x="125" y="135" width="80" height="50" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="165" y="163" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">CH-126</text>
+        <rect x="290" y="135" width="80" height="50" fill="rgba(198, 161, 91, 0.9)" stroke="#99793B" rx="2"/>
+        <text x="330" y="163" font-family="monospace" font-size="9" fill="#283322" font-weight="bold" text-anchor="middle">CH-127</text>
+        <rect x="385" y="135" width="85" height="50" fill="rgba(57, 69, 47, 0.88)" stroke="#283322" rx="2"/>
+        <text x="427" y="163" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle">CH-128</text>
+      </svg>
+    `
+  }
+};
+
+function openLocationMasterplanModal(cityKey) {
+  const data = LOCATION_MASTERPLANS[cityKey];
+  if (!data) return;
+
+  const modal = document.getElementById('location-masterplan-modal');
+  if (!modal) return;
+
+  document.getElementById('loc-modal-tag').textContent = `${data.city.toUpperCase()} — ${data.tag}`;
+  document.getElementById('loc-modal-title').textContent = data.title;
+  document.getElementById('loc-modal-subtitle').textContent = `${data.subtitle} • ${data.approval}`;
+  document.getElementById('loc-modal-blueprint-title').textContent = `MASTER PLAN BLUEPRINT — ${data.totalPlots} (${data.city.toUpperCase()})`;
+
+  const svgWrap = document.getElementById('loc-modal-svg-wrap');
+  if (svgWrap) svgWrap.innerHTML = data.svgBlueprint;
+
+  const badgesWrap = document.getElementById('loc-modal-status-badges');
+  if (badgesWrap) {
+    badgesWrap.innerHTML = `
+      <span class="badge-status badge-available" style="padding: 6px 14px; font-size: 0.76rem;">${data.available} AVAILABLE</span>
+      <span class="badge-status badge-prebooked" style="padding: 6px 14px; font-size: 0.76rem;">${data.prebooked} PRE-BOOKED</span>
+      <span class="badge-status badge-sold" style="padding: 6px 14px; font-size: 0.76rem;">${data.sold} SOLD</span>
+    `;
+  }
+
+  const specsGrid = document.getElementById('loc-modal-specs-grid');
+  if (specsGrid) {
+    specsGrid.innerHTML = `
+      <div class="project-spec-item">
+        <span class="project-spec-label">TOTAL LAYOUT</span>
+        <span class="project-spec-val">${data.totalPlots}</span>
+      </div>
+      <div class="project-spec-item">
+        <span class="project-spec-label">PLOT SIZES</span>
+        <span class="project-spec-val">${data.plotSizes}</span>
+      </div>
+      <div class="project-spec-item">
+        <span class="project-spec-label">STANDARD DIMENSIONS</span>
+        <span class="project-spec-val">${data.dimensions}</span>
+      </div>
+      <div class="project-spec-item">
+        <span class="project-spec-label">ROAD WIDTHS</span>
+        <span class="project-spec-val">${data.roadWidths}</span>
+      </div>
+      <div class="project-spec-item">
+        <span class="project-spec-label">APPROVAL STATUS</span>
+        <span class="project-spec-val text-gold">${data.approval}</span>
+      </div>
+      <div class="project-spec-item">
+        <span class="project-spec-label">STARTING PRICE</span>
+        <span class="project-spec-val text-gold">${data.startingPrice}</span>
+      </div>
+    `;
+  }
+
+  const highlightsEl = document.getElementById('loc-modal-highlights');
+  if (highlightsEl) highlightsEl.textContent = data.highlights;
+
+  const exploreBtn = document.getElementById('loc-modal-explore-btn');
+  if (exploreBtn) exploreBtn.href = `plots.html?location=${encodeURIComponent(data.city)}`;
+
+  const enquireBtn = document.getElementById('loc-modal-enquire-btn');
+  if (enquireBtn) enquireBtn.href = `contact.html?location=${encodeURIComponent(data.city)}&project=${encodeURIComponent(data.title)}`;
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLocationMasterplanModal() {
+  const modal = document.getElementById('location-masterplan-modal');
+  if (modal) {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
