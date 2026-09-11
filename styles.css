@@ -380,16 +380,15 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 @keyframes goldenShimmerGlow {
   0% {
-    background-position: 0% 50%;
-    filter: drop-shadow(0 0 3px rgba(198, 161, 91, 0.4));
+    background-position: -200% 0;
+    filter: drop-shadow(0 0 4px rgba(198, 161, 91, 0.4));
   }
   50% {
-    background-position: 100% 50%;
-    filter: drop-shadow(0 0 12px rgba(229, 210, 166, 0.95)) drop-shadow(0 0 20px rgba(198, 161, 91, 0.75));
+    filter: drop-shadow(0 0 16px rgba(229, 210, 166, 0.95)) drop-shadow(0 0 30px rgba(198, 161, 91, 0.8));
   }
   100% {
-    background-position: 0% 50%;
-    filter: drop-shadow(0 0 3px rgba(198, 161, 91, 0.4));
+    background-position: 200% 0;
+    filter: drop-shadow(0 0 4px rgba(198, 161, 91, 0.4));
   }
 }
 
@@ -404,9 +403,12 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   }
 }
 
+.logo-title {
+  font-size: 1.45rem;
+}
+
 .logo-title, .gold-glow-letters {
   font-family: var(--font-heading);
-  font-size: 1.45rem;
   font-weight: 800;
   letter-spacing: 2px;
   line-height: 1;
@@ -1297,6 +1299,61 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   color: var(--olive-deep);
 }
 
+/* ADMIN DASHBOARD HERO SECTION WITH BACKGROUND MASTERPLAN IMAGE */
+.admin-hero-section {
+  position: relative;
+  width: 100vw;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-color: var(--bg-ivory);
+  padding-top: 110px;
+  padding-bottom: 60px;
+  border-bottom: 1px solid var(--gold-border);
+}
+
+.admin-hero-bg-img {
+  position: absolute;
+  top: 0;
+  right: -1%;
+  width: 95%;
+  height: 100%;
+  z-index: 1;
+  background-image: url('Images/Admin_Hero_Bg.jpg');
+  background-size: cover;
+  background-position: center right;
+  perspective: 1200px;
+  transform: perspective(1200px) rotateY(-3deg);
+  transform-origin: right center;
+  border-left: 1px solid rgba(198, 161, 91, 0.25);
+  box-shadow: -20px 0 40px rgba(57, 69, 47, 0.1);
+  filter: brightness(0.95);
+}
+
+.admin-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(90deg, 
+    #F7F1E3 0%, 
+    #F7F1E3 28%, 
+    rgba(247, 241, 227, 0.85) 40%, 
+    rgba(247, 241, 227, 0.25) 55%, 
+    rgba(247, 241, 227, 0) 70%
+  );
+  pointer-events: none;
+}
+
+.admin-hero-content {
+  position: relative;
+  z-index: 3;
+  max-width: 680px;
+}
+
 /* FIND YOUR PLOT PAGE HERO — EXACT HOMEPAGE 95% FIT & LEFT CORNER BLEND FORMAT */
 .plots-hero-section {
   position: relative;
@@ -1973,15 +2030,14 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 
 .admin-table th {
-  font-family: var(--font-heading);
-  color: var(--gold-primary);
+  font-family: var(--font-mono);
+  color: #FFFDF7 !important;
   text-transform: uppercase;
   font-size: 0.76rem;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.2px;
   padding: 16px 18px;
   border-bottom: 2px solid var(--gold-primary);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   white-space: nowrap;
 }
 
@@ -2106,6 +2162,51 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   background-color: rgba(168, 102, 75, 0.18);
   color: var(--terracotta);
   border: 1px solid var(--terracotta);
+}
+
+/* ==========================================================================
+   NEW ENQUIRY BADGES (SUMMARY CARDS & FILTER CHIPS)
+   ========================================================================== */
+.chip-new-badge, .new-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #D9534F 0%, #B52B27 100%);
+  color: #FFFFFF !important;
+  font-size: 0.7rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  padding: 2px 7px;
+  border-radius: 10px;
+  margin-left: 6px;
+  box-shadow: 0 2px 8px rgba(217, 83, 79, 0.4);
+  letter-spacing: 0.5px;
+  animation: newBadgePulse 2s infinite ease-in-out;
+}
+
+@keyframes newBadgePulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217, 83, 79, 0.6); }
+  50% { transform: scale(1.08); box-shadow: 0 0 0 6px rgba(217, 83, 79, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217, 83, 79, 0); }
+}
+
+.row-new-badge {
+  display: inline-block;
+  background: #D9534F;
+  color: #FFFFFF !important;
+  font-size: 0.62rem;
+  font-weight: 900;
+  font-family: var(--font-mono);
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  animation: newBadgePulse 2s infinite ease-in-out;
+  transition: background 0.2s ease;
+}
+
+.row-new-badge:hover {
+  background: #B52B27;
 }
 
 /* FOOTER */
@@ -3018,15 +3119,69 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   position: relative;
 }
 
-@keyframes goldenShimmerGlow {
+.about-hero-title {
+  font-size: clamp(3.5rem, 6.5vw, 5.5rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: 3px !important;
+  line-height: 1.1 !important;
+  margin: 10px auto 20px !important;
+  text-align: center !important;
+}
+
+.about-hero-title .gold-glow-letters {
+  font-size: inherit !important;
+  letter-spacing: 3px !important;
+}
+
+/* ==========================================================================
+   VELS MOVING WAVE GOLDEN GLOW WATERMARK
+   ========================================================================== */
+.vels-wave-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-heading);
+  font-size: clamp(6rem, 18vw, 15rem);
+  font-weight: 900;
+  letter-spacing: 14px;
+  color: transparent;
+  background: linear-gradient(
+    115deg,
+    rgba(198, 161, 91, 0.04) 0%,
+    rgba(229, 210, 166, 0.18) 35%,
+    rgba(255, 253, 247, 0.42) 50%,
+    rgba(229, 210, 166, 0.18) 65%,
+    rgba(198, 161, 91, 0.04) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+  animation: watermarkWaveSweep 5s linear infinite, watermarkFloat 4s ease-in-out infinite;
+  opacity: 0.28;
+  white-space: nowrap;
+}
+
+@keyframes watermarkWaveSweep {
   0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
+    background-position: -200% 0;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 200% 0;
+  }
+}
+
+@keyframes watermarkFloat {
+  0%, 100% {
+    transform: translate(-50%, -52%) scale(1);
+    filter: drop-shadow(0 0 15px rgba(198, 161, 91, 0.25));
+  }
+  50% {
+    transform: translate(-50%, -48%) scale(1.03);
+    filter: drop-shadow(0 0 40px rgba(229, 210, 166, 0.6));
   }
 }
 
@@ -3925,15 +4080,26 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
   .logo-title {
     font-family: var(--font-heading) !important;
-    font-size: 1.25rem !important;
+    font-size: 1.35rem !important;
     font-weight: 800 !important;
     letter-spacing: 1.5px !important;
     line-height: 1 !important;
-    color: #FFFDF7 !important;
-    -webkit-text-fill-color: #FFFDF7 !important;
-    background: none !important;
-    display: block !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+    display: inline-block !important;
+    color: transparent !important;
+    background: linear-gradient(
+      115deg,
+      #C6A15B 0%,
+      #E5D2A6 20%,
+      #FFFDF7 40%,
+      #FFFDF7 50%,
+      #E5D2A6 70%,
+      #C6A15B 100%
+    ) !important;
+    background-size: 200% 100% !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    animation: goldenShimmerGlow 3.5s linear infinite, goldenTextPulse 2.5s ease-in-out infinite !important;
   }
 
   .logo-subtitle {
@@ -5178,15 +5344,32 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 
 @media (max-width: 768px) {
-  .logo-title, .gold-glow-letters {
+  .logo-title,
+  .gold-glow-letters {
     font-size: 1.4rem !important;
-    color: #F3E5AB !important;
-    -webkit-text-fill-color: #F3E5AB !important;
-    background: none !important;
-    text-shadow: 0 0 10px rgba(198, 161, 91, 0.9), 0 0 20px rgba(243, 229, 171, 0.7) !important;
-    opacity: 1 !important;
-    visibility: visible !important;
     display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: transparent !important;
+    background: linear-gradient(
+      115deg,
+      #C6A15B 0%,
+      #E5D2A6 20%,
+      #FFFDF7 40%,
+      #FFFDF7 50%,
+      #E5D2A6 70%,
+      #C6A15B 100%
+    ) !important;
+    background-size: 200% 100% !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    animation: goldenShimmerGlow 3.5s linear infinite, goldenTextPulse 2.5s ease-in-out infinite !important;
+  }
+
+  .about-hero-title,
+  .about-hero-title .gold-glow-letters {
+    font-size: clamp(2rem, 7vw, 2.8rem) !important;
   }
 
   .nav-overlay {
@@ -5284,6 +5467,293 @@ h1, h2, h3, h4, h5, h6, .font-heading {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+}
+
+/* ==========================================================================
+   ADMIN TABLE & AI RECOMMENDATION BOX CLEAN STYLING
+   ========================================================================== */
+/* ==========================================================================
+   EMERALD GREEN & METALLIC GOLD ANIMATED LEAD COUNTER CARDS & TABLE STYLING
+   ========================================================================== */
+
+/* 1. Animated Lead Counter Cards */
+.lead-summary-card {
+  position: relative;
+  padding: 20px 18px;
+  border-radius: var(--radius-md);
+  text-align: center;
+  background: var(--bg-cream);
+  border: 1.5px solid rgba(198, 161, 91, 0.35);
+  box-shadow: 0 4px 18px rgba(57, 69, 47, 0.05);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  overflow: hidden;
+  animation: cardPopIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) ease-out both;
+}
+
+@keyframes cardPopIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.lead-summary-card:nth-child(1) { animation-delay: 0.05s; }
+.lead-summary-card:nth-child(2) { animation-delay: 0.12s; }
+.lead-summary-card:nth-child(3) { animation-delay: 0.19s; }
+.lead-summary-card:nth-child(4) { animation-delay: 0.26s; }
+
+.lead-summary-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(10, 75, 50, 0.15), 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+/* Status Pulse Dot */
+.card-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+/* HOT LEADS CARD (Crimson + Metallic Gold Accent) */
+.lead-card-hot {
+  background: linear-gradient(145deg, #FFFDF8 0%, rgba(217, 83, 79, 0.06) 100%);
+  border: 1.5px solid rgba(217, 83, 79, 0.35);
+}
+.lead-card-hot:hover {
+  border-color: #d9534f;
+  box-shadow: 0 12px 32px rgba(217, 83, 79, 0.25), 0 0 20px rgba(212, 175, 55, 0.35);
+}
+.lead-card-hot .card-label {
+  font-family: var(--font-heading);
+  color: #C53030;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.lead-card-hot h4 {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  color: #C53030;
+  margin: 4px 0;
+  font-weight: 800;
+}
+.lead-card-hot .dot-hot {
+  background: #d9534f;
+  box-shadow: 0 0 8px #d9534f;
+  animation: pulseDotRed 2s infinite;
+}
+@keyframes pulseDotRed {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.5; }
+}
+
+/* WARM LEADS CARD (Honey Amber + Metallic Gold Accent) */
+.lead-card-warm {
+  background: linear-gradient(145deg, #FFFDF8 0%, rgba(198, 161, 91, 0.08) 100%);
+  border: 1.5px solid rgba(198, 161, 91, 0.45);
+}
+.lead-card-warm:hover {
+  border-color: var(--gold-primary);
+  box-shadow: 0 12px 32px rgba(198, 161, 91, 0.25), 0 0 20px rgba(198, 161, 91, 0.35);
+}
+.lead-card-warm .card-label {
+  font-family: var(--font-heading);
+  color: var(--gold-antique);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.lead-card-warm h4 {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  color: var(--gold-antique);
+  margin: 4px 0;
+  font-weight: 800;
+}
+.lead-card-warm .dot-warm {
+  background: var(--gold-primary);
+  box-shadow: 0 0 8px var(--gold-primary);
+  animation: pulseDotGold 2s infinite;
+}
+@keyframes pulseDotGold {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.5; }
+}
+
+/* COLD LEADS CARD (Slate Ocean + Gold Accent) */
+.lead-card-cold {
+  background: linear-gradient(145deg, #FFFDF8 0%, rgba(60, 90, 120, 0.07) 100%);
+  border: 1.5px solid rgba(60, 90, 120, 0.3);
+}
+.lead-card-cold:hover {
+  border-color: #3c5a78;
+  box-shadow: 0 12px 32px rgba(60, 90, 120, 0.2), 0 0 20px rgba(198, 161, 91, 0.25);
+}
+.lead-card-cold .card-label {
+  font-family: var(--font-heading);
+  color: #2C4A6F;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.lead-card-cold h4 {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  color: #2C4A6F;
+  margin: 4px 0;
+  font-weight: 800;
+}
+.lead-card-cold .dot-cold {
+  background: #3c5a78;
+  box-shadow: 0 0 8px #3c5a78;
+}
+
+/* TOP LEAD SCORE CARD (Deep Emerald Green + Gold Crown Accent) */
+.lead-card-top {
+  background: linear-gradient(145deg, #0A4B32 0%, #063825 100%);
+  border: 1.5px solid var(--gold-primary);
+  box-shadow: 0 6px 22px rgba(10, 75, 50, 0.3), inset 0 0 15px rgba(212, 175, 55, 0.15);
+}
+.lead-card-top:hover {
+  border-color: #F5E6BE;
+  box-shadow: 0 14px 36px rgba(10, 75, 50, 0.4), 0 0 25px rgba(212, 175, 55, 0.5);
+}
+.lead-card-top .card-label {
+  font-family: var(--font-heading);
+  color: #E5C158;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.lead-card-top h4 {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  color: #FFFDF8;
+  margin: 4px 0;
+  font-weight: 800;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+.lead-card-top .card-desc {
+  color: #E5D2A6 !important;
+}
+.lead-card-top .dot-top {
+  background: #D4AF37;
+  box-shadow: 0 0 10px #D4AF37;
+  animation: pulseDotEmerald 1.8s infinite;
+}
+@keyframes pulseDotEmerald {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.6; }
+}
+
+.card-desc {
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+  display: block;
+  margin-top: 2px;
+}
+
+/* 2. Filter Chips (Emerald & Metallic Gold) */
+.filter-chip {
+  padding: 9px 20px;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--gold-border);
+  background: var(--bg-cream);
+  color: var(--olive-deep);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.filter-chip:hover {
+  border-color: #0A4B32;
+  color: #0A4B32;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(10, 75, 50, 0.12);
+}
+
+.filter-chip.active {
+  background: linear-gradient(135deg, #0A4B32 0%, #063825 100%);
+  color: #FFFDF8 !important;
+  border-color: var(--gold-primary);
+  box-shadow: 0 4px 16px rgba(10, 75, 50, 0.3), 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+/* 3. Ultra-Luxury Emerald & Gold Table Styling */
+.admin-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: 'Plus Jakarta Sans', var(--font-body);
+  background: #FFFDF8;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--gold-border);
+  box-shadow: 0 8px 30px rgba(10, 75, 50, 0.06);
+}
+
+.admin-table thead tr {
+  background: linear-gradient(135deg, #0A4B32 0%, #063825 100%) !important;
+}
+
+.admin-table th {
+  background: transparent !important;
+  color: #F5E6BE !important; /* Metallic Gold Cream Text */
+  font-family: var(--font-heading) !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.4px !important;
+  text-transform: uppercase !important;
+  padding: 16px 18px !important;
+  text-align: left !important;
+  border-bottom: 2px solid var(--gold-primary) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+  white-space: nowrap !important;
+}
+
+.admin-table td {
+  padding: 18px 16px;
+  vertical-align: top;
+  color: #1A2819;
+  font-size: 0.88rem;
+  border-bottom: 1px solid rgba(198, 161, 91, 0.2);
+  line-height: 1.55;
+  font-family: 'Plus Jakarta Sans', var(--font-body);
+}
+
+.admin-table tbody tr {
+  transition: background-color 0.25s ease;
+}
+
+.admin-table tbody tr:hover {
+  background-color: rgba(10, 75, 50, 0.04) !important;
+}
+
+.ai-recommendation-box {
+  background: linear-gradient(145deg, rgba(10, 75, 50, 0.04) 0%, rgba(198, 161, 91, 0.06) 100%);
+  border: 1px solid rgba(198, 161, 91, 0.4);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 0.83rem;
+  color: #0E4D34;
+  line-height: 1.5;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', var(--font-body);
+  box-shadow: inset 0 1px 3px rgba(10, 75, 50, 0.03);
 }
 
 

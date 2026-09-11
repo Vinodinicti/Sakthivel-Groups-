@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Environment Variables (Contains DB secrets & passwords)
+.env
+
+# Local JSON database backups
+data/
+
+# System / Log files
+*.log
+.DS_Store

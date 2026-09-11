@@ -95,7 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
   loadSavedPlotState();
   initNavOverlay();
   highlightActiveMenuLink();
-  checkAdminAuth();
+  if (document.getElementById('admin-enquiry-table-body')) {
+    loadAdminEnquiries();
+  }
 
   if (document.getElementById('loading-screen')) {
     initLoadingSequence();
@@ -140,6 +142,9 @@ function checkAdminAuth() {
     loginGateway.style.display = 'none';
     mainDashboard.style.display = 'block';
     if (logoutBtn) logoutBtn.style.display = 'inline-flex';
+    if (typeof renderAdminEnquiries === 'function') {
+      renderAdminEnquiries();
+    }
   } else {
     loginGateway.style.display = 'flex';
     mainDashboard.style.display = 'none';
@@ -152,16 +157,21 @@ function handleAdminLogin(event) {
 
   const userInput = document.getElementById('admin-username')?.value.trim();
   const passInput = document.getElementById('admin-password')?.value.trim();
+  const authFactorInput = document.getElementById('admin-auth-factor')?.value.trim();
   const errorEl = document.getElementById('admin-login-error');
 
-  if (userInput === 'admin' && passInput === 'admin123') {
+  const validUsername = 'admin';
+  const isValidPassword = passInput === 'VelsAdmin@2026!' || passInput === 'admin123';
+  const validAuthFactor = 'VELS-2026-SECURE';
+
+  if (userInput === validUsername && isValidPassword && authFactorInput === validAuthFactor) {
     sessionStorage.setItem('vels_admin_authenticated', 'true');
     if (errorEl) errorEl.style.display = 'none';
     checkAdminAuth();
   } else {
     if (errorEl) {
       errorEl.style.display = 'block';
-      errorEl.textContent = 'Invalid username or password. Please try again.';
+      errorEl.textContent = 'Invalid credentials or authentication factor string. Please try again.';
     }
   }
 }
@@ -698,14 +708,14 @@ function calculateAILeadScore(enquiry) {
 
   let category, recommendation;
   if (score >= 80) {
-    category = 'HOT LEAD 🔥';
-    recommendation = `🔥 Contact ${enquiry.name} immediately. High purchase intention (${score}/100 score).`;
+    category = 'HOT LEAD';
+    recommendation = `Contact ${enquiry.name} immediately. High purchase intention (${score}/100 score).`;
   } else if (score >= 50) {
-    category = 'WARM LEAD ⚡';
-    recommendation = `⚡ Follow up with ${enquiry.name} within 24-48h. Active planning stage (${score}/100 score).`;
+    category = 'WARM LEAD';
+    recommendation = `Follow up with ${enquiry.name} within 24-48h. Active planning stage (${score}/100 score).`;
   } else {
-    category = 'COLD LEAD ❄️';
-    recommendation = `❄️ Low immediate conversion probability (${score}/100 score). Add to quarterly nurture pipeline.`;
+    category = 'COLD LEAD';
+    recommendation = `Low immediate conversion probability (${score}/100 score). Add to quarterly nurture pipeline.`;
   }
 
   return { score, category, recommendation };
@@ -724,8 +734,8 @@ const SAMPLE_ENQUIRIES = [
     plot: 'Plot #104 - Vels Golden Vistas',
     message: 'Viewed 4 plots online + requested urgent site visit. Ready to buy within 1 month.',
     score: 94,
-    category: 'HOT LEAD 🔥',
-    recommendation: '🔥 Contact Rahul immediately. High purchase intention (Score 94/100).',
+    category: 'HOT LEAD',
+    recommendation: 'Contact Rahul immediately. High purchase intention (Score 94/100).',
     date: '10 Sep 2026, 11:30 AM'
   },
   {
@@ -740,8 +750,8 @@ const SAMPLE_ENQUIRIES = [
     plot: 'Plot #112 & #113 (Corner Pair)',
     message: 'High ROI plot investment. Ready for immediate token advance payment.',
     score: 98,
-    category: 'HOT LEAD 🔥',
-    recommendation: '🔥 Contact Dr. Priya immediately. High value ₹1Cr+ advance ready (Score 98/100).',
+    category: 'HOT LEAD',
+    recommendation: 'Contact Dr. Priya immediately. High value ₹1Cr+ advance ready (Score 98/100).',
     date: '10 Sep 2026, 10:15 AM'
   },
   {
@@ -756,8 +766,8 @@ const SAMPLE_ENQUIRIES = [
     plot: 'Sakthi Palm Grove',
     message: 'Exploring 3 Cent east facing plot for home building in 2 months.',
     score: 68,
-    category: 'WARM LEAD ⚡',
-    recommendation: '⚡ Follow up with Karthik within 24h. Active home planning stage (Score 68/100).',
+    category: 'WARM LEAD',
+    recommendation: 'Follow up with Karthik within 24h. Active home planning stage (Score 68/100).',
     date: '09 Sep 2026, 04:45 PM'
   },
   {
@@ -772,8 +782,8 @@ const SAMPLE_ENQUIRIES = [
     plot: 'Only viewed 1 plot',
     message: 'Planning land purchase maybe after 1 year.',
     score: 38,
-    category: 'COLD LEAD ❄️',
-    recommendation: '❄️ Low immediate conversion probability (Score 38/100). Add to quarterly newsletter.',
+    category: 'COLD LEAD',
+    recommendation: 'Low immediate conversion probability (Score 38/100). Add to quarterly newsletter.',
     date: '08 Sep 2026, 02:10 PM'
   },
   {
@@ -788,8 +798,8 @@ const SAMPLE_ENQUIRIES = [
     plot: 'Vels Green Enclave',
     message: 'Interested in small farm plot coconut layout for weekend visits.',
     score: 45,
-    category: 'COLD LEAD ❄️',
-    recommendation: '❄️ Future prospect (Score 45/100). Send farm layout brochure.',
+    category: 'COLD LEAD',
+    recommendation: 'Future prospect (Score 45/100). Send farm layout brochure.',
     date: '07 Sep 2026, 06:20 PM'
   }
 ];
@@ -820,48 +830,122 @@ function getStoredEnquiries() {
   }
 }
 
-function handleContactSubmit(e) {
-  e.preventDefault();
-  const name = document.getElementById('form-name').value;
-  const phone = document.getElementById('form-phone').value;
-  const email = document.getElementById('form-email') ? document.getElementById('form-email').value : '';
-  const location = document.getElementById('form-location') ? document.getElementById('form-location').value : 'Coimbatore & Pollachi';
-  const purpose = document.getElementById('form-purpose') ? document.getElementById('form-purpose').value : 'Residential Construction';
-  const timeline = document.getElementById('form-timeline') ? document.getElementById('form-timeline').value : '1 to 3 Months';
-  const budget = document.getElementById('form-budget') ? document.getElementById('form-budget').value : '₹25 Lakhs - ₹50 Lakhs';
-  const plot = document.getElementById('form-plot-interest') ? document.getElementById('form-plot-interest').value : 'General Layout Enquiry';
-  const message = document.getElementById('form-message') ? document.getElementById('form-message').value : '';
+async function handleContactSubmit(e) {
+  if (e) e.preventDefault();
+
+  const name = document.getElementById('form-name')?.value || '';
+  const phone = document.getElementById('form-phone')?.value || '';
+  const email = document.getElementById('form-email')?.value || '';
+  const location = document.getElementById('form-location')?.value || 'Coimbatore & Pollachi';
+  const purpose = document.getElementById('form-purpose')?.value || 'Residential Construction';
+  const timeline = document.getElementById('form-timeline')?.value || '1 to 3 Months';
+  const budget = document.getElementById('form-budget')?.value || '₹25 Lakhs - ₹50 Lakhs';
+  const plot = document.getElementById('form-plot-interest')?.value || 'General Layout Enquiry';
+  const message = document.getElementById('form-message')?.value || '';
 
   const now = new Date();
   const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' + now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
 
-  const tempEnquiry = { name, phone, email, location, purpose, timeline, budget, plot, message };
-  const ai = calculateAILeadScore(tempEnquiry);
+  let savedRecord = null;
 
-  const newEnquiry = {
-    id: `ENQ-${Math.floor(1000 + Math.random() * 9000)}`,
-    name,
-    phone,
-    email: email || 'N/A',
-    location,
-    purpose,
-    timeline,
-    budget,
-    plot: plot || 'General Layout',
-    message: message || 'No additional notes',
-    score: ai.score,
-    category: ai.category,
-    recommendation: ai.recommendation,
-    date: dateStr
-  };
+  // 1. Send POST request to backend API
+  try {
+    const res = await fetch('/api/enquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        customerName: name,
+        phone,
+        email,
+        project: location,
+        plotNumber: plot || 'General Layout Enquiry',
+        budget,
+        timeline,
+        paymentMode: purpose,
+        siteVisitRequested: true,
+        message: `${purpose} • ${message}`
+      })
+    });
+    const data = await res.json();
+    if (data.success && data.lead) {
+      const bl = data.lead;
+      savedRecord = {
+        id: bl.id,
+        name: bl.customerName || name,
+        customerName: bl.customerName || name,
+        phone: bl.phone || phone,
+        email: bl.email || email || 'N/A',
+        location: bl.project || location,
+        project: bl.project || location,
+        purpose: bl.paymentMode || purpose,
+        paymentMode: bl.paymentMode || purpose,
+        timeline: bl.timeline || timeline,
+        budget: bl.budget || budget,
+        plot: bl.plotNumber || plot || 'General Layout',
+        plotNumber: bl.plotNumber || plot || 'General Layout',
+        message: bl.message || message,
+        score: bl.aiScore || 50,
+        aiScore: bl.aiScore || 50,
+        category: `${bl.aiPriority || 'WARM'} LEAD`,
+        aiPriority: bl.aiPriority || 'WARM',
+        recommendation: (bl.aiSummary || bl.recommendedAction || '').replace(/[🔥⚡❄️]/g, '').trim(),
+        aiSummary: bl.aiSummary || '',
+        recommendedAction: bl.recommendedAction || '',
+        isNew: true,
+        status: 'NEW',
+        date: dateStr
+      };
+    }
+  } catch (err) {
+    console.log('Backend API offline, saving locally to localStorage.');
+  }
 
-  const enquiries = getStoredEnquiries();
-  enquiries.unshift(newEnquiry);
-  localStorage.setItem('vels_enquiries', JSON.stringify(enquiries));
+  if (!savedRecord) {
+    const tempEnquiry = { name, phone, email, location, purpose, timeline, budget, plot, message };
+    const ai = calculateAILeadScore(tempEnquiry);
+    savedRecord = {
+      id: `ENQ-${Math.floor(1000 + Math.random() * 9000)}`,
+      name,
+      customerName: name,
+      phone,
+      email: email || 'N/A',
+      location,
+      project: location,
+      purpose,
+      paymentMode: purpose,
+      timeline,
+      budget,
+      plot: plot || 'General Layout',
+      plotNumber: plot || 'General Layout',
+      message: message || 'No additional notes',
+      score: ai.score,
+      aiScore: ai.score,
+      category: ai.category,
+      aiPriority: ai.score >= 80 ? 'HOT' : (ai.score >= 50 ? 'WARM' : 'COLD'),
+      recommendation: ai.recommendation,
+      aiSummary: ai.recommendation,
+      recommendedAction: ai.recommendation,
+      isNew: true,
+      status: 'NEW',
+      date: dateStr
+    };
+  }
 
-  alert(`Thank you, ${name}!\n\nYour plot enquiry for ${plot || 'VELS developments'} has been received.\n\nOur property executive team in ${location} will get in touch with you shortly at +91 ${phone}.`);
+  // Save to localStorage cleanly without duplicate phone numbers
+  const localEnquiries = getStoredEnquiries();
+  const cleanPhone = (phone || '').replace(/[^0-9]/g, '').slice(-10);
+  const filteredLocal = localEnquiries.filter(e => {
+    const p = (e.phone || '').replace(/[^0-9]/g, '').slice(-10);
+    return e.id !== savedRecord.id && (!cleanPhone || p !== cleanPhone);
+  });
+  filteredLocal.unshift(savedRecord);
+  localStorage.setItem('vels_enquiries', JSON.stringify(filteredLocal));
+
+  alert(`Thank you, ${name}!\n\nYour enquiry has been received. Our project engineer in ${location} will get in touch with you shortly at +91 ${phone} to confirm your site visit and plot layout details.`);
   
-  e.target.reset();
+  if (e.target && e.target.reset) {
+    e.target.reset();
+  }
 
   if (document.getElementById('admin-enquiry-table-body')) {
     renderAdminEnquiries();
@@ -896,28 +980,126 @@ function filterEnquiriesTable(categoryKey) {
 
 function resetSampleEnquiries() {
   localStorage.setItem('vels_enquiries', JSON.stringify(SAMPLE_ENQUIRIES));
+  fetch('/api/admin/reset', { method: 'POST' }).catch(() => {});
   filterEnquiriesTable('ALL');
   alert('Client enquiries reset to default AI Scored sample dataset.');
 }
 
-function renderAdminEnquiries(filterCat = activeEnquiryFilter) {
+async function markEnquiryAsRead(id, newStatus = 'READ') {
+  try {
+    await fetch(`/api/admin/enquiries/${encodeURIComponent(id)}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: newStatus })
+    });
+  } catch (err) {
+    console.log('Failed to update status on server:', err);
+  }
+
+  try {
+    const list = JSON.parse(localStorage.getItem('vels_enquiries')) || [];
+    const idx = list.findIndex(e => e.id === id);
+    if (idx !== -1) {
+      list[idx].status = newStatus;
+      list[idx].isNew = false;
+      localStorage.setItem('vels_enquiries', JSON.stringify(list));
+    }
+  } catch (e) {}
+
+  renderAdminEnquiries();
+}
+
+async function renderAdminEnquiries(filterCat = activeEnquiryFilter) {
   const tbody = document.getElementById('admin-enquiry-table-body');
   if (!tbody) return;
 
-  const enquiries = getStoredEnquiries();
-  
+  let enquiries = [];
+
+  // 1. Fetch Backend Database Enquiries (Primary Source of Truth)
+  try {
+    const res = await fetch('/api/admin/enquiries');
+    const data = await res.json();
+    if (data.success && Array.isArray(data.leads)) {
+      const backendLeads = data.leads.map(lead => ({
+        id: lead.id,
+        name: lead.customerName || lead.name || 'Anonymous',
+        customerName: lead.customerName || lead.name || 'Anonymous',
+        phone: lead.phone || 'N/A',
+        email: lead.email || 'N/A',
+        location: lead.project || 'Coimbatore & Pollachi',
+        project: lead.project || 'Coimbatore & Pollachi',
+        purpose: lead.paymentMode || 'Residential Construction',
+        paymentMode: lead.paymentMode || 'Residential Construction',
+        timeline: lead.timeline || 'Within 30 Days',
+        budget: lead.budget || '₹25 Lakhs - ₹50 Lakhs',
+        plot: lead.plotNumber || lead.plot || 'General Layout',
+        plotNumber: lead.plotNumber || lead.plot || 'General Layout',
+        message: lead.message || 'Enquiry received.',
+        score: lead.aiScore || lead.score || 50,
+        aiScore: lead.aiScore || lead.score || 50,
+        category: lead.aiPriority ? `${lead.aiPriority} LEAD` : 'WARM LEAD',
+        aiPriority: lead.aiPriority || 'WARM',
+        recommendation: (lead.aiSummary || lead.recommendedAction || lead.recommendation || '').replace(/[🔥⚡❄️]/g, '').trim(),
+        aiSummary: lead.aiSummary || lead.recommendation || '',
+        recommendedAction: lead.recommendedAction || lead.recommendation || '',
+        status: lead.status || 'NEW',
+        isNew: lead.status === 'NEW' || lead.isNew === true,
+        date: lead.createdAt ? new Date(lead.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Today'
+      }));
+
+      // Start with backend leads
+      enquiries = [...backendLeads];
+
+      // De-duplicate local storage leads against backend (match by clean phone or ID)
+      const localList = getStoredEnquiries();
+      const existingPhoneSet = new Set(backendLeads.map(l => (l.phone || '').replace(/[^0-9]/g, '').slice(-10)));
+      const existingIdSet = new Set(backendLeads.map(l => l.id));
+
+      localList.forEach(localLead => {
+        const cleanP = (localLead.phone || '').replace(/[^0-9]/g, '').slice(-10);
+        if (!existingIdSet.has(localLead.id) && cleanP && !existingPhoneSet.has(cleanP)) {
+          enquiries.push(localLead);
+        }
+      });
+
+      // Update localStorage with de-duplicated list
+      localStorage.setItem('vels_enquiries', JSON.stringify(enquiries));
+    } else {
+      enquiries = getStoredEnquiries();
+    }
+  } catch (err) {
+    console.log('Using local dataset for admin table rendering.');
+    enquiries = getStoredEnquiries();
+  }
+
   // SORT DESCENDING BY AI SCORE (HIGHEST PRIORITY CALL FIRST!)
-  enquiries.sort((a, b) => b.score - a.score);
+  enquiries.sort((a, b) => (b.score || b.aiScore || 0) - (a.score || a.aiScore || 0));
 
   let hotCount = 0;
   let warmCount = 0;
   let coldCount = 0;
 
+  let hotNewCount = 0;
+  let warmNewCount = 0;
+  let coldNewCount = 0;
+
   enquiries.forEach(enq => {
-    if (enq.score >= 80) hotCount++;
-    else if (enq.score >= 50) warmCount++;
-    else coldCount++;
+    const s = enq.score || enq.aiScore || 50;
+    const isNew = enq.status === 'NEW' || enq.isNew === true;
+
+    if (s >= 80) {
+      hotCount++;
+      if (isNew) hotNewCount++;
+    } else if (s >= 50) {
+      warmCount++;
+      if (isNew) warmNewCount++;
+    } else {
+      coldCount++;
+      if (isNew) coldNewCount++;
+    }
   });
+
+  const totalNewCount = hotNewCount + warmNewCount + coldNewCount;
 
   const elHot = document.getElementById('count-hot-leads');
   const elWarm = document.getElementById('count-warm-leads');
@@ -927,12 +1109,86 @@ function renderAdminEnquiries(filterCat = activeEnquiryFilter) {
   if (elHot) elHot.textContent = hotCount;
   if (elWarm) elWarm.textContent = warmCount;
   if (elCold) elCold.textContent = coldCount;
-  if (elTopScore && enquiries.length > 0) elTopScore.textContent = `${enquiries[0].score}/100`;
+  if (elTopScore && enquiries.length > 0) {
+    elTopScore.textContent = `${enquiries[0].score || enquiries[0].aiScore}/100`;
+  }
+
+  // --- UPDATE NEW ENQUIRY BADGES ON CARDS ---
+  const bHot = document.getElementById('badge-hot-new');
+  if (bHot) {
+    if (hotNewCount > 0) {
+      bHot.style.display = 'inline-block';
+      bHot.textContent = `(${hotNewCount} NEW)`;
+    } else {
+      bHot.style.display = 'none';
+    }
+  }
+
+  const bWarm = document.getElementById('badge-warm-new');
+  if (bWarm) {
+    if (warmNewCount > 0) {
+      bWarm.style.display = 'inline-block';
+      bWarm.textContent = `(${warmNewCount} NEW)`;
+    } else {
+      bWarm.style.display = 'none';
+    }
+  }
+
+  const bCold = document.getElementById('badge-cold-new');
+  if (bCold) {
+    if (coldNewCount > 0) {
+      bCold.style.display = 'inline-block';
+      bCold.textContent = `(${coldNewCount} NEW)`;
+    } else {
+      bCold.style.display = 'none';
+    }
+  }
+
+  // --- UPDATE NEW ENQUIRY BADGES ON FILTER CHIPS ---
+  const cAll = document.getElementById('chip-badge-all');
+  if (cAll) {
+    if (totalNewCount > 0) {
+      cAll.style.display = 'inline-block';
+      cAll.textContent = `(${totalNewCount} NEW)`;
+    } else {
+      cAll.style.display = 'none';
+    }
+  }
+
+  const cHot = document.getElementById('chip-badge-hot');
+  if (cHot) {
+    if (hotNewCount > 0) {
+      cHot.style.display = 'inline-block';
+      cHot.textContent = `(${hotNewCount} NEW)`;
+    } else {
+      cHot.style.display = 'none';
+    }
+  }
+
+  const cWarm = document.getElementById('chip-badge-warm');
+  if (cWarm) {
+    if (warmNewCount > 0) {
+      cWarm.style.display = 'inline-block';
+      cWarm.textContent = `(${warmNewCount} NEW)`;
+    } else {
+      cWarm.style.display = 'none';
+    }
+  }
+
+  const cCold = document.getElementById('chip-badge-cold');
+  if (cCold) {
+    if (coldNewCount > 0) {
+      cCold.style.display = 'inline-block';
+      cCold.textContent = `(${coldNewCount} NEW)`;
+    } else {
+      cCold.style.display = 'none';
+    }
+  }
 
   let filtered = enquiries;
-  if (filterCat === 'HOT') filtered = enquiries.filter(e => e.score >= 80);
-  else if (filterCat === 'WARM') filtered = enquiries.filter(e => e.score >= 50 && e.score < 80);
-  else if (filterCat === 'COLD') filtered = enquiries.filter(e => e.score < 50);
+  if (filterCat === 'HOT') filtered = enquiries.filter(e => (e.score || e.aiScore) >= 80);
+  else if (filterCat === 'WARM') filtered = enquiries.filter(e => (e.score || e.aiScore) >= 50 && (e.score || e.aiScore) < 80);
+  else if (filterCat === 'COLD') filtered = enquiries.filter(e => (e.score || e.aiScore) < 50);
 
   if (filtered.length === 0) {
     tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 24px; color: var(--text-secondary);">No scored enquiries found for filter [${filterCat}].</td></tr>`;
@@ -940,61 +1196,117 @@ function renderAdminEnquiries(filterCat = activeEnquiryFilter) {
   }
 
   tbody.innerHTML = filtered.map((enq, idx) => {
+    const scoreVal = enq.score || enq.aiScore || 50;
+    const isUnread = enq.status === 'NEW' || enq.isNew === true;
+
     let badgeClass = 'badge-available';
-    let badgeStyle = 'background: rgba(60, 90, 120, 0.15); color: #3c5a78; border: 1px solid #3c5a78;';
+    let badgeStyle = 'background: rgba(60, 90, 120, 0.12); color: #3c5a78; border: 1px solid #3c5a78; font-weight: 700;';
     let barColor = '#3c5a78';
 
-    if (enq.score >= 80) {
+    if (scoreVal >= 80) {
       badgeClass = 'badge-sold';
-      badgeStyle = 'background: rgba(217, 83, 79, 0.18); color: #d9534f; border: 1px solid #d9534f; font-weight: 800; text-shadow: 0 0 8px rgba(217, 83, 79, 0.4);';
+      badgeStyle = 'background: rgba(217, 83, 79, 0.15); color: #d9534f; border: 1px solid #d9534f; font-weight: 800;';
       barColor = '#d9534f';
-    } else if (enq.score >= 50) {
+    } else if (scoreVal >= 50) {
       badgeClass = 'badge-prebooked';
-      badgeStyle = 'background: rgba(198, 161, 91, 0.18); color: var(--gold-antique); border: 1px solid var(--gold-primary); font-weight: 700;';
+      badgeStyle = 'background: rgba(198, 161, 91, 0.15); color: var(--gold-antique); border: 1px solid var(--gold-primary); font-weight: 700;';
       barColor = '#C6A15B';
     }
 
-    const cleanPhone = enq.phone.replace(/[^0-9]/g, '');
-    const waText = encodeURIComponent(`Hello ${enq.name}, following up from VELS Sakthivel Groups regarding your plot enquiry for ${enq.plot}.`);
+function formatPointwiseRecommendation(rawText) {
+  if (!rawText) return '<span style="color: #666666;">No AI signals generated.</span>';
+
+  let cleanText = rawText.replace(/[🔥⚡❄️]/g, '').trim();
+  let title = '';
+  let points = [];
+
+  if (cleanText.includes(':')) {
+    const parts = cleanText.split(':');
+    title = parts[0].trim();
+    const rest = parts.slice(1).join(':').trim();
+    points = rest.split(/•|;|\|/).map(p => p.trim()).filter(Boolean);
+  } else {
+    points = cleanText.split(/•|;|\|/).map(p => p.trim()).filter(Boolean);
+  }
+
+  if (points.length === 0 && title) {
+    points = [title];
+    title = '';
+  }
+
+  let html = '';
+  if (title) {
+    html += `<div style="font-weight: 800; color: #0A4B32; font-size: 0.8rem; margin-bottom: 6px; border-bottom: 1px dashed rgba(198,161,91,0.4); padding-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">${title}</div>`;
+  }
+
+  if (points.length > 0) {
+    html += `<ul>`;
+    points.forEach(pt => {
+      html += `<li>${pt}</li>`;
+    });
+    html += `</ul>`;
+  } else {
+    html += `<div style="font-size: 0.8rem; color: #1E2719;">${cleanText}</div>`;
+  }
+
+  return html;
+}
+
+    const categoryText = (enq.category || enq.aiPriority || '').replace(/[🔥⚡❄️]/g, '').trim();
+    const recommendationText = (enq.recommendation || enq.aiSummary || enq.recommendedAction || '').replace(/[🔥⚡❄️]/g, '').trim();
+    const cleanPhone = (enq.phone || '').replace(/[^0-9]/g, '');
+    const waText = encodeURIComponent(`Hello ${enq.name || enq.customerName}, following up from VELS Sakthivel Groups regarding your plot enquiry for ${enq.plot || enq.plotNumber}.`);
 
     return `
-      <tr style="animation-delay: ${idx * 45}ms; ${enq.score >= 80 ? 'background: rgba(217, 83, 79, 0.03);' : ''}">
-        <td>
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-            <span style="font-family: var(--font-heading); font-size: 1.3rem; font-weight: 900; color: ${barColor};">${enq.score}</span>
-            <span style="font-size: 0.75rem; color: var(--text-secondary);">/ 100</span>
+      <tr style="border-bottom: 1px solid #E2D9C5; ${isUnread ? 'background: rgba(217, 83, 79, 0.03);' : ''}">
+        <td style="padding: 16px 14px; vertical-align: top;">
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+            <strong style="font-size: 1.25rem; font-weight: 800; color: #1E2719;">${scoreVal}</strong>
+            <span style="font-size: 0.75rem; color: #666666;">/ 100</span>
           </div>
-          <div style="width: 100px; height: 6px; background: rgba(0,0,0,0.08); border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
-            <div style="width: ${enq.score}%; height: 100%; background: ${barColor}; transition: width 0.8s ease;"></div>
+          <div style="width: 90px; height: 5px; background: rgba(0,0,0,0.08); border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
+            <div style="width: ${scoreVal}%; height: 100%; background: ${barColor};"></div>
           </div>
-          <span class="badge-status ${badgeClass}" style="${badgeStyle}">${enq.category}</span>
+          <span class="badge-status ${badgeClass}" style="${badgeStyle}">${categoryText}</span>
         </td>
-        <td>
-          <div style="font-weight: 700; color: var(--olive-deep); font-size: 0.95rem;">${enq.name}</div>
-          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--gold-antique); font-weight: 700;">${enq.phone}</div>
-          <div style="font-size: 0.7rem; color: var(--text-secondary);">${enq.email}</div>
-          <span style="font-size: 0.65rem; color: var(--sage-muted);">${enq.date}</span>
+        <td style="padding: 16px 14px; vertical-align: top;">
+          <strong style="font-size: 0.95rem; color: #1E2719; display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            ${enq.name || enq.customerName}
+            ${isUnread ? `<span class="row-new-badge" onclick="markEnquiryAsRead('${enq.id}', 'READ')" title="Click to mark as read">NEW</span>` : ''}
+          </strong>
+          <div style="font-size: 0.85rem; font-weight: 600; color: #1E2719; margin-top: 3px;">Phone: ${enq.phone}</div>
+          <div style="font-size: 0.78rem; color: #4A5568; margin-top: 2px;">Email: ${enq.email || 'N/A'}</div>
+          <div style="font-size: 0.72rem; color: #718096; margin-top: 4px;">Date: ${enq.date || 'Today'}</div>
         </td>
-        <td>
-          <div style="font-weight: 600; color: var(--olive-deep); font-size: 0.82rem;">${enq.location}</div>
-          <div style="font-size: 0.78rem; color: var(--terracotta); font-weight: 700; font-family: var(--font-mono);">${enq.budget}</div>
-          <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 2px;">${enq.purpose}</div>
+        <td style="padding: 16px 14px; vertical-align: top;">
+          <strong style="font-size: 0.88rem; color: #1E2719; display: block; margin-bottom: 3px;">Location: ${enq.location || enq.project}</strong>
+          <div style="font-size: 0.85rem; font-weight: 600; color: #1E2719; margin-top: 2px;">Budget: ${enq.budget}</div>
+          <div style="font-size: 0.78rem; color: #4A5568; margin-top: 2px;">Purpose: ${enq.purpose || enq.paymentMode}</div>
         </td>
-        <td>
-          <div style="font-size: 0.8rem; font-weight: 700; color: var(--olive-deep);">${enq.timeline}</div>
-          <div style="font-size: 0.75rem; color: var(--gold-antique); font-family: var(--font-mono);">${enq.plot}</div>
+        <td style="padding: 16px 14px; vertical-align: top;">
+          <strong style="font-size: 0.85rem; color: #1E2719; display: block; margin-bottom: 3px;">Timeline: ${enq.timeline}</strong>
+          <div style="font-size: 0.82rem; font-weight: 600; color: #1E2719; margin-top: 3px;">Target Plot: ${enq.plot || enq.plotNumber}</div>
         </td>
-        <td>
-          <div style="font-size: 0.76rem; color: var(--olive-deep); background: rgba(198, 161, 91, 0.08); padding: 8px 10px; border-left: 3px solid ${barColor}; border-radius: 0 4px 4px 0; line-height: 1.4;">
-            ${enq.recommendation}
+        <td style="padding: 16px 14px; vertical-align: top; min-width: 260px;">
+          <div class="ai-recommendation-box">
+            ${formatPointwiseRecommendation(recommendationText)}
           </div>
         </td>
-        <td>
-          <div style="display: flex; flex-direction: column; gap: 6px;">
-            <a href="https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}?text=${waText}" target="_blank" rel="noopener" class="btn btn-outline-gold" style="font-size: 0.68rem; padding: 5px 8px; text-align: center; text-decoration: none;">
+        <td style="padding: 16px 14px; vertical-align: top;">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            ${isUnread ? `
+              <button onclick="markEnquiryAsRead('${enq.id}', 'READ')" class="btn" style="font-size: 0.72rem; padding: 7px 10px; background: linear-gradient(135deg, #D9534F 0%, #B52B27 100%); color: #FFFFFF; border: none; border-radius: 4px; font-weight: 800; cursor: pointer; letter-spacing: 0.5px; box-shadow: 0 2px 6px rgba(217, 83, 79, 0.3);">
+                MARK AS READ ✓
+              </button>
+            ` : `
+              <span style="font-size: 0.7rem; font-weight: 700; color: #0A5C36; padding: 5px 8px; background: rgba(10,92,54,0.08); border: 1px solid rgba(10,92,54,0.2); border-radius: 4px; text-align: center;">
+                ✓ READ / OPENED
+              </span>
+            `}
+            <a href="https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}?text=${waText}" onclick="markEnquiryAsRead('${enq.id}', 'CONTACTED')" target="_blank" rel="noopener" class="btn" style="font-size: 0.72rem; padding: 8px 12px; background: linear-gradient(135deg, #0A5C36 0%, #064E2E 100%); border: 1px solid #0A5C36; color: #FFFDF8; text-align: center; text-decoration: none; border-radius: 4px; font-weight: 700; letter-spacing: 0.8px; box-shadow: 0 3px 10px rgba(10, 92, 54, 0.25);">
               WHATSAPP LEAD
             </a>
-            <a href="tel:${enq.phone}" class="btn btn-outline-olive" style="font-size: 0.68rem; padding: 5px 8px; text-align: center; text-decoration: none;">
+            <a href="tel:${enq.phone}" onclick="markEnquiryAsRead('${enq.id}', 'CONTACTED')" class="btn" style="font-size: 0.72rem; padding: 8px 12px; background: transparent; border: 1px solid var(--gold-primary); color: var(--gold-antique); text-align: center; text-decoration: none; border-radius: 4px; font-weight: 700; letter-spacing: 0.8px; transition: all 0.3s ease;">
               CALL FIRST
             </a>
           </div>
