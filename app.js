@@ -1213,29 +1213,29 @@ function initGalleryFilter() {
 
 // Helper function to render a dense, detailed 80-100 plot masterplan layout SVG
 function generateRichMasterplanSVG(prefix, highwayName, boulevardName) {
-  let svg = `<svg width="100%" height="440" viewBox="0 0 850 440" style="background: #F4EFE4; border-radius: 6px;">`;
+  let svg = `<svg width="100%" height="auto" viewBox="0 0 850 440" style="background: #F4EFE4; border-radius: 6px; display: block; min-width: 780px;">`;
   
   // Top Highway
   svg += `<rect x="15" y="10" width="820" height="34" fill="#283322" rx="4"/>`;
   svg += `<line x1="15" y1="27" x2="835" y2="27" stroke="#C6A15B" stroke-dasharray="8 6" stroke-width="1.5"/>`;
-  svg += `<text x="425" y="22" font-family="monospace" font-size="10" fill="#F7F1E3" text-anchor="middle" font-weight="bold" letter-spacing="2">${highwayName}</text>`;
+  svg += `<text x="425" y="22" font-family="monospace" font-size="10.5" fill="#F7F1E3" text-anchor="middle" font-weight="bold" letter-spacing="2">${highwayName}</text>`;
   
   // Central Main Boulevard (Horizontal)
   svg += `<rect x="15" y="210" width="820" height="28" fill="#39452F"/>`;
-  svg += `<text x="425" y="228" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle" letter-spacing="2">${boulevardName}</text>`;
+  svg += `<text x="425" y="228" font-family="monospace" font-size="9.5" fill="#F7F1E3" text-anchor="middle" letter-spacing="2">${boulevardName}</text>`;
   
   // Central Avenue Street (Vertical)
   svg += `<rect x="410" y="44" width="30" height="385" fill="#39452F"/>`;
   
   // Entrance Gate Marker
   svg += `<rect x="402" y="44" width="46" height="8" fill="#C6A15B" rx="2"/>`;
-  svg += `<text x="425" y="40" font-family="monospace" font-size="7" fill="#283322" text-anchor="middle" font-weight="bold">GRAND ARCH ENTRY</text>`;
+  svg += `<text x="425" y="40" font-family="monospace" font-size="7.5" fill="#283322" text-anchor="middle" font-weight="bold">GRAND ARCH ENTRY</text>`;
   
   // Helper to render quadrant grid of plots
   function renderBlock(startX, startY, rows, cols, startNum, isBlockC = false) {
     let blockSvg = '';
     let currentNum = startNum;
-    let w = 46, h = 40, dx = 51, dy = 45;
+    let w = 48, h = 42, dx = 53, dy = 47;
     
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
@@ -1245,7 +1245,7 @@ function generateRichMasterplanSVG(prefix, highwayName, boulevardName) {
         if (isBlockC && r === 2 && c >= 4) {
           if (c === 4 && r === 2) {
             blockSvg += `<rect x="${x}" y="${y}" width="${3 * dx - 5}" height="${h}" fill="#587045" stroke="#283322" rx="4"/>`;
-            blockSvg += `<text x="${x + (3 * dx - 5) / 2}" y="${y + 24}" font-family="monospace" font-size="8" fill="#F7F1E3" text-anchor="middle" font-weight="bold">🌳 GREEN PARK & PLAY ZONE</text>`;
+            blockSvg += `<text x="${x + (3 * dx - 5) / 2}" y="${y + 25}" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle" font-weight="bold">🌳 GREEN PARK & PLAY ZONE</text>`;
           }
           continue;
         }
@@ -1253,25 +1253,26 @@ function generateRichMasterplanSVG(prefix, highwayName, boulevardName) {
         let pId = `${prefix}-${currentNum}`;
         currentNum++;
         
-        let fill = 'rgba(57, 69, 47, 0.88)';
-        let stroke = '#283322';
-        let textFill = '#F7F1E3';
-        let fontW = 'normal';
+        let fill = 'rgba(57, 69, 47, 0.92)';
+        let stroke = '#1E2719';
+        let textFill = '#FFFDF7';
+        let fontW = 'bold';
         
         if (currentNum % 5 === 0) {
-          fill = 'rgba(198, 161, 91, 0.92)';
-          stroke = '#99793B';
-          textFill = '#283322';
+          fill = 'rgba(198, 161, 91, 0.98)';
+          stroke = '#806227';
+          textFill = '#1A2216';
           fontW = 'bold';
         } else if (currentNum % 7 === 0 || currentNum % 11 === 0) {
-          fill = 'rgba(168, 102, 75, 0.9)';
-          stroke = '#7E452E';
-          textFill = '#F7F1E3';
+          fill = 'rgba(168, 102, 75, 0.95)';
+          stroke = '#61321F';
+          textFill = '#FFFDF7';
+          fontW = 'bold';
         }
         
         blockSvg += `<g class="plot-item">`;
-        blockSvg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}" stroke="${stroke}" stroke-width="1.2" rx="3" class="plot-rect"/>`;
-        blockSvg += `<text x="${x + w/2}" y="${y + h/2 + 3}" font-family="monospace" font-size="8" fill="${textFill}" font-weight="${fontW}" text-anchor="middle">${pId}</text>`;
+        blockSvg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}" stroke="${stroke}" stroke-width="1.3" rx="3" class="plot-rect"/>`;
+        blockSvg += `<text x="${x + w/2}" y="${y + h/2 + 3.5}" font-family="monospace" font-size="9.5" fill="${textFill}" font-weight="${fontW}" text-anchor="middle">${pId}</text>`;
         blockSvg += `</g>`;
       }
     }

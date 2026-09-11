@@ -5152,6 +5152,31 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   padding: 24px 28px 32px;
 }
 
+.loc-modal-svg-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid rgba(198, 161, 91, 0.3);
+  border-radius: 6px;
+  background-color: #F4EFE4;
+  padding: 10px;
+}
+
+.loc-modal-svg-container svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-width: 780px;
+}
+
+.mobile-scroll-hint {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--gold-antique);
+  letter-spacing: 1px;
+}
+
 @media (max-width: 768px) {
   .logo-title, .gold-glow-letters {
     font-size: 1.4rem !important;
@@ -5188,6 +5213,10 @@ h1, h2, h3, h4, h5, h6, .font-heading {
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
+  }
+
+  .mobile-scroll-hint {
+    display: inline-block !important;
   }
 
   .overlay-link {
