@@ -730,7 +730,7 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   background: var(--gold-primary);
 }
 
-/* Subtle Soft Blend Gradient on Left Edge of Image Only */
+/* High-Opacity Soft Blend Gradient behind text for crisp legibility */
 .hero-text-blend-overlay {
   position: absolute;
   top: 0;
@@ -740,10 +740,10 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   z-index: 2;
   background: linear-gradient(90deg, 
     #F7F1E3 0%, 
-    #F7F1E3 30%, 
-    rgba(247, 241, 227, 0.85) 40%, 
-    rgba(247, 241, 227, 0.3) 50%, 
-    rgba(247, 241, 227, 0) 60%
+    #F7F1E3 42%, 
+    rgba(247, 241, 227, 0.98) 52%, 
+    rgba(247, 241, 227, 0.75) 62%, 
+    rgba(247, 241, 227, 0) 75%
   );
   pointer-events: none;
 }
@@ -1340,10 +1340,10 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   z-index: 2;
   background: linear-gradient(90deg, 
     #F7F1E3 0%, 
-    #F7F1E3 28%, 
-    rgba(247, 241, 227, 0.85) 40%, 
-    rgba(247, 241, 227, 0.25) 55%, 
-    rgba(247, 241, 227, 0) 70%
+    #F7F1E3 40%, 
+    rgba(247, 241, 227, 0.96) 52%, 
+    rgba(247, 241, 227, 0.65) 65%, 
+    rgba(247, 241, 227, 0) 75%
   );
   pointer-events: none;
 }
@@ -1394,10 +1394,10 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   z-index: 2;
   background: linear-gradient(90deg, 
     #F7F1E3 0%, 
-    #F7F1E3 24%, 
-    rgba(247, 241, 227, 0.82) 34%, 
-    rgba(247, 241, 227, 0.2) 44%, 
-    rgba(247, 241, 227, 0) 54%
+    #F7F1E3 40%, 
+    rgba(247, 241, 227, 0.96) 52%, 
+    rgba(247, 241, 227, 0.65) 65%, 
+    rgba(247, 241, 227, 0) 75%
   );
   pointer-events: none;
 }
