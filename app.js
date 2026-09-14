@@ -986,8 +986,31 @@ function resetSampleEnquiries() {
 }
 
 async function markEnquiryAsRead(id, newStatus = 'READ') {
+  const cleanId = (id || '').toString().trim();
+  
+  // 1. Update in LocalStorage immediately
   try {
-    await fetch(`/api/admin/enquiries/${encodeURIComponent(id)}`, {
+    const list = getStoredEnquiries();
+    list.forEach(e => {
+      const eId = (e.id || '').toString().trim();
+      const ePhone = (e.phone || '').replace(/[^0-9]/g, '').slice(-10);
+      const cPhone = cleanId.replace(/[^0-9]/g, '').slice(-10);
+      if (eId === cleanId || (cPhone && cPhone.length >= 7 && ePhone === cPhone)) {
+        e.status = newStatus;
+        e.isNew = false;
+      }
+    });
+    localStorage.setItem('vels_enquiries', JSON.stringify(list));
+
+    // Save in persistent read status map
+    const readMap = JSON.parse(localStorage.getItem('vels_read_status_map') || '{}');
+    readMap[cleanId] = newStatus;
+    localStorage.setItem('vels_read_status_map', JSON.stringify(readMap));
+  } catch (e) {}
+
+  // 2. Send PUT to Server
+  try {
+    await fetch(`/api/admin/enquiries/${encodeURIComponent(cleanId)}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: newStatus })
@@ -996,16 +1019,7 @@ async function markEnquiryAsRead(id, newStatus = 'READ') {
     console.log('Failed to update status on server:', err);
   }
 
-  try {
-    const list = JSON.parse(localStorage.getItem('vels_enquiries')) || [];
-    const idx = list.findIndex(e => e.id === id);
-    if (idx !== -1) {
-      list[idx].status = newStatus;
-      list[idx].isNew = false;
-      localStorage.setItem('vels_enquiries', JSON.stringify(list));
-    }
-  } catch (e) {}
-
+  // 3. Re-render Admin Enquiries UI
   renderAdminEnquiries();
 }
 
@@ -1014,38 +1028,44 @@ async function renderAdminEnquiries(filterCat = activeEnquiryFilter) {
   if (!tbody) return;
 
   let enquiries = [];
+  const readMap = JSON.parse(localStorage.getItem('vels_read_status_map') || '{}');
 
   // 1. Fetch Backend Database Enquiries (Primary Source of Truth)
   try {
     const res = await fetch('/api/admin/enquiries');
     const data = await res.json();
     if (data.success && Array.isArray(data.leads)) {
-      const backendLeads = data.leads.map(lead => ({
-        id: lead.id,
-        name: lead.customerName || lead.name || 'Anonymous',
-        customerName: lead.customerName || lead.name || 'Anonymous',
-        phone: lead.phone || 'N/A',
-        email: lead.email || 'N/A',
-        location: lead.project || 'Coimbatore & Pollachi',
-        project: lead.project || 'Coimbatore & Pollachi',
-        purpose: lead.paymentMode || 'Residential Construction',
-        paymentMode: lead.paymentMode || 'Residential Construction',
-        timeline: lead.timeline || 'Within 30 Days',
-        budget: lead.budget || '₹25 Lakhs - ₹50 Lakhs',
-        plot: lead.plotNumber || lead.plot || 'General Layout',
-        plotNumber: lead.plotNumber || lead.plot || 'General Layout',
-        message: lead.message || 'Enquiry received.',
-        score: lead.aiScore || lead.score || 50,
-        aiScore: lead.aiScore || lead.score || 50,
-        category: lead.aiPriority ? `${lead.aiPriority} LEAD` : 'WARM LEAD',
-        aiPriority: lead.aiPriority || 'WARM',
-        recommendation: (lead.aiSummary || lead.recommendedAction || lead.recommendation || '').replace(/[🔥⚡❄️]/g, '').trim(),
-        aiSummary: lead.aiSummary || lead.recommendation || '',
-        recommendedAction: lead.recommendedAction || lead.recommendation || '',
-        status: lead.status || 'NEW',
-        isNew: lead.status === 'NEW' || lead.isNew === true,
-        date: lead.createdAt ? new Date(lead.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Today'
-      }));
+      const backendLeads = data.leads.map(lead => {
+        const leadId = (lead.id || '').toString().trim();
+        const savedStatus = readMap[leadId] || lead.status || 'NEW';
+        const isNewFlag = savedStatus === 'NEW';
+        return {
+          id: lead.id,
+          name: lead.customerName || lead.name || 'Anonymous',
+          customerName: lead.customerName || lead.name || 'Anonymous',
+          phone: lead.phone || 'N/A',
+          email: lead.email || 'N/A',
+          location: lead.project || 'Coimbatore & Pollachi',
+          project: lead.project || 'Coimbatore & Pollachi',
+          purpose: lead.paymentMode || 'Residential Construction',
+          paymentMode: lead.paymentMode || 'Residential Construction',
+          timeline: lead.timeline || 'Within 30 Days',
+          budget: lead.budget || '₹25 Lakhs - ₹50 Lakhs',
+          plot: lead.plotNumber || lead.plot || 'General Layout',
+          plotNumber: lead.plotNumber || lead.plot || 'General Layout',
+          message: lead.message || 'Enquiry received.',
+          score: lead.aiScore || lead.score || 50,
+          aiScore: lead.aiScore || lead.score || 50,
+          category: lead.aiPriority ? `${lead.aiPriority} LEAD` : 'WARM LEAD',
+          aiPriority: lead.aiPriority || 'WARM',
+          recommendation: (lead.aiSummary || lead.recommendedAction || lead.recommendation || '').replace(/[🔥⚡❄️]/g, '').trim(),
+          aiSummary: lead.aiSummary || lead.recommendation || '',
+          recommendedAction: lead.recommendedAction || lead.recommendation || '',
+          status: savedStatus,
+          isNew: isNewFlag,
+          date: lead.createdAt ? new Date(lead.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Today'
+        };
+      });
 
       // Start with backend leads
       enquiries = [...backendLeads];
@@ -1106,11 +1126,46 @@ async function renderAdminEnquiries(filterCat = activeEnquiryFilter) {
   const elCold = document.getElementById('count-cold-leads');
   const elTopScore = document.getElementById('count-top-score');
 
-  if (elHot) elHot.textContent = hotCount;
-  if (elWarm) elWarm.textContent = warmCount;
-  if (elCold) elCold.textContent = coldCount;
+  // --- SMOOTH COUNT-UP NUMBER ANIMATION HELPER ---
+  if (!window.animateNumberCountUp) {
+    window.animateNumberCountUp = function(element, targetNumber, duration = 800, isScore = false) {
+      if (!element) return;
+      const startNumber = 0;
+      const startTime = performance.now();
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeProgress = progress * (2 - progress);
+        const current = Math.floor(easeProgress * (targetNumber - startNumber) + startNumber);
+        
+        if (isScore) {
+          element.textContent = `${current}/100`;
+        } else {
+          element.textContent = current;
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          if (isScore) {
+            element.textContent = `${targetNumber}/100`;
+          } else {
+            element.textContent = targetNumber;
+          }
+        }
+      }
+
+      requestAnimationFrame(update);
+    };
+  }
+
+  if (elHot) window.animateNumberCountUp(elHot, hotCount);
+  if (elWarm) window.animateNumberCountUp(elWarm, warmCount);
+  if (elCold) window.animateNumberCountUp(elCold, coldCount);
   if (elTopScore && enquiries.length > 0) {
-    elTopScore.textContent = `${enquiries[0].score || enquiries[0].aiScore}/100`;
+    const topVal = parseInt(enquiries[0].score || enquiries[0].aiScore || 98, 10);
+    window.animateNumberCountUp(elTopScore, topVal, 800, true);
   }
 
   // --- UPDATE NEW ENQUIRY BADGES ON CARDS ---
@@ -1214,7 +1269,7 @@ async function renderAdminEnquiries(filterCat = activeEnquiryFilter) {
     }
 
 function formatPointwiseRecommendation(rawText) {
-  if (!rawText) return '<span style="color: #666666;">No AI signals generated.</span>';
+  if (!rawText) return '<span style="color: #718096; font-size: 0.78rem;">No AI signals generated.</span>';
 
   let cleanText = rawText.replace(/[🔥⚡❄️]/g, '').trim();
   let title = '';
@@ -1236,17 +1291,17 @@ function formatPointwiseRecommendation(rawText) {
 
   let html = '';
   if (title) {
-    html += `<div style="font-weight: 800; color: #0A4B32; font-size: 0.8rem; margin-bottom: 6px; border-bottom: 1px dashed rgba(198,161,91,0.4); padding-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">${title}</div>`;
+    html += `<div style="font-weight: 800; color: #0A4B32; font-size: 0.78rem; margin-bottom: 6px; border-bottom: 1px dashed rgba(198,161,91,0.4); padding-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">${title}</div>`;
   }
 
   if (points.length > 0) {
-    html += `<ul>`;
+    html += `<ul style="margin: 0; padding-left: 15px; font-size: 0.78rem; color: #2D3748; line-height: 1.45;">`;
     points.forEach(pt => {
-      html += `<li>${pt}</li>`;
+      html += `<li style="margin-bottom: 4px;">${pt}</li>`;
     });
     html += `</ul>`;
   } else {
-    html += `<div style="font-size: 0.8rem; color: #1E2719;">${cleanText}</div>`;
+    html += `<div style="font-size: 0.78rem; color: #2D3748; line-height: 1.45;">${cleanText}</div>`;
   }
 
   return html;
@@ -1258,55 +1313,92 @@ function formatPointwiseRecommendation(rawText) {
     const waText = encodeURIComponent(`Hello ${enq.name || enq.customerName}, following up from VELS Sakthivel Groups regarding your plot enquiry for ${enq.plot || enq.plotNumber}.`);
 
     return `
-      <tr style="border-bottom: 1px solid #E2D9C5; ${isUnread ? 'background: rgba(217, 83, 79, 0.03);' : ''}">
-        <td style="padding: 16px 14px; vertical-align: top;">
-          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
-            <strong style="font-size: 1.25rem; font-weight: 800; color: #1E2719;">${scoreVal}</strong>
-            <span style="font-size: 0.75rem; color: #666666;">/ 100</span>
+      <tr style="border-bottom: 1px solid rgba(198, 161, 91, 0.2); ${isUnread ? 'background: rgba(217, 83, 79, 0.03);' : ''}">
+        <td style="padding: 16px 12px; vertical-align: top; text-align: center;">
+          <div style="display: inline-flex; align-items: baseline; justify-content: center; gap: 4px; margin-bottom: 6px;">
+            <strong style="font-size: 1.3rem; font-weight: 800; color: #1E2719; line-height: 1;">${scoreVal}</strong>
+            <span style="font-size: 0.75rem; font-weight: 600; color: #718096;">/ 100</span>
           </div>
-          <div style="width: 90px; height: 5px; background: rgba(0,0,0,0.08); border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
-            <div style="width: ${scoreVal}%; height: 100%; background: ${barColor};"></div>
+          <div style="width: 75px; height: 5px; background: rgba(0,0,0,0.08); border-radius: 3px; overflow: hidden; margin: 0 auto 8px auto;">
+            <div style="width: ${scoreVal}%; height: 100%; background: ${barColor}; border-radius: 3px;"></div>
           </div>
-          <span class="badge-status ${badgeClass}" style="${badgeStyle}">${categoryText}</span>
+          <span class="badge-status ${badgeClass}" style="${badgeStyle} font-size: 0.72rem; padding: 4px 8px; display: inline-block;">${categoryText}</span>
         </td>
-        <td style="padding: 16px 14px; vertical-align: top;">
-          <strong style="font-size: 0.95rem; color: #1E2719; display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-            ${enq.name || enq.customerName}
+
+        <td style="padding: 16px 12px; vertical-align: top;">
+          <div style="font-size: 0.95rem; font-weight: 700; color: #1E2719; display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+            <span>${enq.name || enq.customerName}</span>
             ${isUnread ? `<span class="row-new-badge" onclick="markEnquiryAsRead('${enq.id}', 'READ')" title="Click to mark as read">NEW</span>` : ''}
-          </strong>
-          <div style="font-size: 0.85rem; font-weight: 600; color: #1E2719; margin-top: 3px;">Phone: ${enq.phone}</div>
-          <div style="font-size: 0.78rem; color: #4A5568; margin-top: 2px;">Email: ${enq.email || 'N/A'}</div>
-          <div style="font-size: 0.72rem; color: #718096; margin-top: 4px;">Date: ${enq.date || 'Today'}</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 5px; font-size: 0.82rem;">
+            <div style="color: #2D3748; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+              <span style="color: #718096; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; min-width: 42px;">Phone</span>
+              <a href="tel:${enq.phone}" style="color: #0A5C36; text-decoration: none; font-weight: 700;">${enq.phone}</a>
+            </div>
+            <div style="color: #4A5568; display: flex; align-items: center; gap: 6px;">
+              <span style="color: #718096; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; min-width: 42px;">Email</span>
+              <span style="color: #2D3748; font-weight: 500; word-break: break-all;" title="${enq.email || 'N/A'}">${enq.email || 'N/A'}</span>
+            </div>
+            <div style="color: #718096; display: flex; align-items: center; gap: 6px; font-size: 0.76rem;">
+              <span style="color: #718096; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; min-width: 42px;">Date</span>
+              <span style="color: #4A5568;">${enq.date || 'Today'}</span>
+            </div>
+          </div>
         </td>
-        <td style="padding: 16px 14px; vertical-align: top;">
-          <strong style="font-size: 0.88rem; color: #1E2719; display: block; margin-bottom: 3px;">Location: ${enq.location || enq.project}</strong>
-          <div style="font-size: 0.85rem; font-weight: 600; color: #1E2719; margin-top: 2px;">Budget: ${enq.budget}</div>
-          <div style="font-size: 0.78rem; color: #4A5568; margin-top: 2px;">Purpose: ${enq.purpose || enq.paymentMode}</div>
+
+        <td style="padding: 16px 12px; vertical-align: top;">
+          <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem;">
+            <div>
+              <span style="display: block; font-size: 0.7rem; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Location</span>
+              <span style="font-weight: 700; color: #1E2719; font-size: 0.85rem;">${enq.location || enq.project}</span>
+            </div>
+            <div>
+              <span style="display: block; font-size: 0.7rem; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Budget</span>
+              <span style="font-weight: 700; color: #0A5C36; font-size: 0.85rem;">${enq.budget}</span>
+            </div>
+            <div>
+              <span style="display: block; font-size: 0.7rem; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Purpose</span>
+              <span style="color: #4A5568; font-weight: 500; font-size: 0.8rem;">${enq.purpose || enq.paymentMode}</span>
+            </div>
+          </div>
         </td>
-        <td style="padding: 16px 14px; vertical-align: top;">
-          <strong style="font-size: 0.85rem; color: #1E2719; display: block; margin-bottom: 3px;">Timeline: ${enq.timeline}</strong>
-          <div style="font-size: 0.82rem; font-weight: 600; color: #1E2719; margin-top: 3px;">Target Plot: ${enq.plot || enq.plotNumber}</div>
+
+        <td style="padding: 16px 12px; vertical-align: top;">
+          <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.82rem;">
+            <div>
+              <span style="display: block; font-size: 0.7rem; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Timeline</span>
+              <span style="font-weight: 700; color: #1E2719; font-size: 0.83rem;">${enq.timeline}</span>
+            </div>
+            <div>
+              <span style="display: block; font-size: 0.7rem; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Target Plot</span>
+              <span style="display: inline-block; padding: 4px 10px; background: rgba(198, 161, 91, 0.15); border: 1px solid #C6A15B; color: #1E2719; font-weight: 800; font-size: 0.78rem; border-radius: 4px; letter-spacing: 0.5px;">
+                ${enq.plot || enq.plotNumber}
+              </span>
+            </div>
+          </div>
         </td>
-        <td style="padding: 16px 14px; vertical-align: top; min-width: 260px;">
+
+        <td style="padding: 16px 12px; vertical-align: top;">
           <div class="ai-recommendation-box">
             ${formatPointwiseRecommendation(recommendationText)}
           </div>
         </td>
-        <td style="padding: 16px 14px; vertical-align: top;">
-          <div style="display: flex; flex-direction: column; gap: 8px;">
+
+        <td style="padding: 16px 12px; vertical-align: top; text-align: center;">
+          <div style="display: flex; flex-direction: column; gap: 7px; min-width: 110px;">
             ${isUnread ? `
-              <button onclick="markEnquiryAsRead('${enq.id}', 'READ')" class="btn" style="font-size: 0.72rem; padding: 7px 10px; background: linear-gradient(135deg, #D9534F 0%, #B52B27 100%); color: #FFFFFF; border: none; border-radius: 4px; font-weight: 800; cursor: pointer; letter-spacing: 0.5px; box-shadow: 0 2px 6px rgba(217, 83, 79, 0.3);">
+              <button onclick="markEnquiryAsRead('${enq.id}', 'READ')" class="btn" style="font-size: 0.68rem; padding: 7px 6px; background: linear-gradient(135deg, #D9534F 0%, #B52B27 100%); color: #FFFFFF; border: none; border-radius: 4px; font-weight: 800; cursor: pointer; letter-spacing: 0.5px; box-shadow: 0 2px 6px rgba(217, 83, 79, 0.3); width: 100%;">
                 MARK AS READ ✓
               </button>
             ` : `
-              <span style="font-size: 0.7rem; font-weight: 700; color: #0A5C36; padding: 5px 8px; background: rgba(10,92,54,0.08); border: 1px solid rgba(10,92,54,0.2); border-radius: 4px; text-align: center;">
+              <span style="font-size: 0.66rem; font-weight: 700; color: #0A5C36; padding: 5px 4px; background: rgba(10,92,54,0.08); border: 1px solid rgba(10,92,54,0.2); border-radius: 4px; text-align: center; display: block; width: 100%;">
                 ✓ READ / OPENED
               </span>
             `}
-            <a href="https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}?text=${waText}" onclick="markEnquiryAsRead('${enq.id}', 'CONTACTED')" target="_blank" rel="noopener" class="btn" style="font-size: 0.72rem; padding: 8px 12px; background: linear-gradient(135deg, #0A5C36 0%, #064E2E 100%); border: 1px solid #0A5C36; color: #FFFDF8; text-align: center; text-decoration: none; border-radius: 4px; font-weight: 700; letter-spacing: 0.8px; box-shadow: 0 3px 10px rgba(10, 92, 54, 0.25);">
+            <a href="https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}?text=${waText}" onclick="markEnquiryAsRead('${enq.id}', 'CONTACTED')" target="_blank" rel="noopener" class="btn" style="font-size: 0.68rem; padding: 7px 6px; background: linear-gradient(135deg, #0A5C36 0%, #064E2E 100%); border: 1px solid #0A5C36; color: #FFFDF8; text-align: center; text-decoration: none; border-radius: 4px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 2px 6px rgba(10, 92, 54, 0.2); display: block; width: 100%;">
               WHATSAPP LEAD
             </a>
-            <a href="tel:${enq.phone}" onclick="markEnquiryAsRead('${enq.id}', 'CONTACTED')" class="btn" style="font-size: 0.72rem; padding: 8px 12px; background: transparent; border: 1px solid var(--gold-primary); color: var(--gold-antique); text-align: center; text-decoration: none; border-radius: 4px; font-weight: 700; letter-spacing: 0.8px; transition: all 0.3s ease;">
+            <a href="tel:${enq.phone}" onclick="markEnquiryAsRead('${enq.id}', 'CONTACTED')" class="btn" style="font-size: 0.68rem; padding: 7px 6px; background: transparent; border: 1px solid var(--gold-primary); color: var(--gold-antique); text-align: center; text-decoration: none; border-radius: 4px; font-weight: 700; letter-spacing: 0.5px; display: block; width: 100%;">
               CALL FIRST
             </a>
           </div>

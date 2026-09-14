@@ -200,15 +200,34 @@ async function saveLeadRecord(record) {
 
 async function updateLeadStatusRecord(id, newStatus) {
   const localLeads = readLocalDB();
-  const idx = localLeads.findIndex(l => l.id === id);
-  if (idx !== -1) {
-    localLeads[idx].status = newStatus;
+  const cleanId = (id || '').toString().trim();
+  const cleanPhone = cleanId.replace(/[^0-9]/g, '').slice(-10);
+
+  let updated = false;
+  localLeads.forEach(l => {
+    const lId = (l.id || '').toString().trim();
+    const lPhone = (l.phone || '').replace(/[^0-9]/g, '').slice(-10);
+    if (lId === cleanId || (cleanPhone && cleanPhone.length >= 7 && lPhone === cleanPhone)) {
+      l.status = newStatus;
+      l.isNew = false;
+      updated = true;
+    }
+  });
+  if (updated) {
     writeLocalDB(localLeads);
   }
 
   if (isMongoConnected) {
     try {
-      await Enquiry.findOneAndUpdate({ id: id }, { status: newStatus });
+      await Enquiry.updateMany(
+        { 
+          $or: [
+            { id: cleanId }, 
+            { phone: cleanPhone ? new RegExp(cleanPhone + '$') : cleanId }
+          ] 
+        },
+        { $set: { status: newStatus, isNew: false } }
+      );
     } catch (e) {
       console.error('MongoDB update status error:', e.message);
     }
