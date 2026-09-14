@@ -4940,6 +4940,9 @@ h1, h2, h3, h4, h5, h6, .font-heading {
     gap: 10px !important;
   }
 
+  /* ==========================================================================
+     ULTRA-LUXURY UN-CONGESTED MOBILE ADMIN DASHBOARD & TABLE LAYOUT
+     ========================================================================== */
   .admin-table-container,
   div[style*="overflow-x: auto"] {
     width: 100% !important;
@@ -4947,30 +4950,101 @@ h1, h2, h3, h4, h5, h6, .font-heading {
     -webkit-overflow-scrolling: touch !important;
     touch-action: pan-x pan-y !important;
     display: block !important;
-    border-radius: 8px !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: 0 4px 18px rgba(10, 75, 50, 0.08) !important;
   }
 
   .admin-table {
-    min-width: 680px !important;
+    min-width: 860px !important;
     width: 100% !important;
-    border-collapse: collapse !important;
+    table-layout: fixed !important;
+    border-collapse: separate !important;
   }
 
-  .admin-table th,
-  .admin-table td {
-    padding: 10px 8px !important;
-    font-size: 0.78rem !important;
+  .admin-table th {
+    padding: 12px 10px !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.8px !important;
     white-space: nowrap !important;
   }
 
-  .admin-table select,
-  .admin-table button {
-    padding: 6px 10px !important;
+  .admin-table td {
+    padding: 14px 10px !important;
+    font-size: 0.82rem !important;
+    line-height: 1.45 !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+  }
+
+  /* Lead Summary Cards Grid on Mobile (Neat 2x2 Matrix) */
+  div[style*="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr))"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .lead-summary-card {
+    padding: 14px 10px !important;
+  }
+
+  .lead-summary-card h4 {
+    font-size: 1.6rem !important;
+    margin: 2px 0 !important;
+  }
+
+  .lead-summary-card .card-label {
+    font-size: 0.65rem !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  .lead-summary-card .card-desc {
     font-size: 0.74rem !important;
   }
 
-  div[style*="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between"] {
-    gap: 12px !important;
+  /* Admin Header Buttons Stacked on Mobile */
+  div[style*="display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between"] {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 14px !important;
+  }
+
+  /* Admin Container Card Mobile Padding */
+  div[style*="padding: 32px"],
+  div[style*="padding: 30px"] {
+    padding: 18px 14px !important;
+    border-radius: 12px !important;
+  }
+
+  /* Filter Chips 2x2 Layout on Mobile */
+  div[style*="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap"] {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .filter-chip {
+    width: 100% !important;
+    padding: 10px 8px !important;
+    font-size: 0.72rem !important;
+    text-align: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Plot Toolbar Controls Stacked on Mobile */
+  div[style*="background: rgba(212, 175, 55, 0.05)"] {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 12px 10px !important;
+    gap: 10px !important;
+  }
+
+  div[style*="background: rgba(212, 175, 55, 0.05)"] input,
+  div[style*="background: rgba(212, 175, 55, 0.05)"] select {
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   /* ABOUT US PAGE MOBILE RESPONSIVE SETUP */
