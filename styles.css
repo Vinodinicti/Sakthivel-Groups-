@@ -4237,12 +4237,60 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   .page-hero {
     min-height: auto !important;
     height: auto !important;
-    padding: 68px 14px 24px !important;
+    padding: 68px 14px 28px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: stretch !important;
     position: relative !important;
-    background-color: var(--bg-ivory) !important;
+    background: linear-gradient(180deg, #141A11 0%, #1A2416 100%) !important;
+  }
+
+  /* Ensure Hero Typography is Crystal-Clear on Mobile */
+  .hero-fit-content .hero-headline,
+  .plots-hero-content .page-title,
+  .founder-hero-content h1,
+  .contact-hero-content h1,
+  .gallery-hero-compact h1 {
+    color: #FFFDF7 !important;
+  }
+
+  .hero-fit-content .hero-headline span {
+    color: #E5D2A6 !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7) !important;
+  }
+
+  .hero-fit-content .hero-subtext,
+  .plots-hero-content p,
+  .founder-hero-content p,
+  .contact-hero-content p,
+  .gallery-hero-compact p {
+    color: #F7F1E3 !important;
+    opacity: 0.95 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .hero-fit-content .architectural-tag,
+  .plots-hero-content .architectural-tag,
+  .gallery-hero-compact .architectural-tag,
+  .founder-hero-content .architectural-tag,
+  .contact-hero-content .architectural-tag {
+    color: #E5D2A6 !important;
+    border-color: rgba(229, 210, 166, 0.4) !important;
+    background: rgba(198, 161, 91, 0.12) !important;
+  }
+
+  .hero-fit-content .gold-hero-badge {
+    background: linear-gradient(135deg, #C6A15B 0%, #E5D2A6 100%) !important;
+    color: #141A11 !important;
+    border: 1px solid #F5E6BE !important;
+    text-shadow: none !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .hero-actions-row .btn-outline-gold {
+    color: #F5E6BE !important;
+    border-color: #C6A15B !important;
+    background: rgba(198, 161, 91, 0.08) !important;
   }
 
   /* 100% Fully Visible Hero Image Card at Top */
@@ -4268,7 +4316,7 @@ h1, h2, h3, h4, h5, h6, .font-heading {
     overflow: hidden !important;
     margin-bottom: 20px !important;
     border: 1.5px solid var(--gold-border) !important;
-    box-shadow: 0 10px 28px rgba(40, 51, 34, 0.22) !important;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4) !important;
     transform: none !important;
     perspective: none !important;
     z-index: 1 !important;
