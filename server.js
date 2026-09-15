@@ -141,6 +141,9 @@ if (mongoURI && !mongoURI.includes('<db_password>') && !mongoURI.includes('<pass
       if (count === 0) {
         await Enquiry.insertMany(initialLeads);
         console.log(' MongoDB seeded with initial enquiries.');
+      } else {
+        // Sync any local JSON leads that were created while offline into MongoDB
+        await syncLocalLeadsToMongo();
       }
     })
     .catch(err => {
@@ -170,6 +173,35 @@ function writeLocalDB(data) {
   fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
 }
 
+// Auto-Sync Local JSON Leads to MongoDB Atlas
+async function syncLocalLeadsToMongo() {
+  if (!isMongoConnected) return;
+  try {
+    const localLeads = readLocalDB();
+    let syncedCount = 0;
+    for (const lead of localLeads) {
+      const existing = await Enquiry.findOne({ 
+        $or: [
+          { id: lead.id }, 
+          { phone: lead.phone, customerName: lead.customerName }
+        ] 
+      });
+      if (!existing) {
+        const docToSave = { ...lead };
+        delete docToSave._id;
+        await Enquiry.create(docToSave);
+        syncedCount++;
+        console.log(`[MONGO AUTO-SYNC] Synced local lead to MongoDB: ${lead.customerName} (${lead.id})`);
+      }
+    }
+    if (syncedCount > 0) {
+      console.log(` Successfully auto-synced ${syncedCount} offline lead(s) into MongoDB Atlas!`);
+    }
+  } catch (err) {
+    console.error('Error syncing local leads to MongoDB:', err.message);
+  }
+}
+
 // Unified Database Access Functions
 async function fetchAllLeads() {
   if (isMongoConnected) {
@@ -185,15 +217,21 @@ async function fetchAllLeads() {
 
 async function saveLeadRecord(record) {
   const localLeads = readLocalDB();
-  localLeads.unshift(record);
-  writeLocalDB(localLeads);
+  const exists = localLeads.some(l => l.id === record.id);
+  if (!exists) {
+    localLeads.unshift(record);
+    writeLocalDB(localLeads);
+  }
 
   if (isMongoConnected) {
     try {
-      const newDoc = new Enquiry(record);
+      const docToSave = { ...record };
+      delete docToSave._id;
+      const newDoc = new Enquiry(docToSave);
       await newDoc.save();
+      console.log(`[MONGO SAVE SUCCESS] Saved lead to MongoDB Atlas: ${record.customerName} (${record.id})`);
     } catch (e) {
-      console.error('MongoDB save error:', e.message);
+      console.error('[MONGO SAVE ERROR]', e.message);
     }
   }
 }
