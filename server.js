@@ -364,13 +364,13 @@ app.post('/api/enquiries', async (req, res) => {
       customerName: body.customerName || body.name || 'Anonymous Prospect',
       phone: body.phone || body.mobile || 'Not Provided',
       email: body.email || 'Not Provided',
-      project: body.project || 'General VELS Layouts',
-      plotNumber: body.plotNumber || body.selectedPlot || 'General Layout Enquiry',
+      project: body.project || body.area || body.location || 'General VELS Layouts',
+      plotNumber: body.plotNumber || body.plotNo || body.selectedPlot || 'General Layout Enquiry',
       budget: body.budget || '₹ 25.00 - 35.00 Lakhs',
-      timeline: body.timeline || 'Within 30 Days',
+      timeline: body.timeline || 'Immediate (Within 15 Days)',
       paymentMode: body.paymentMode || 'Bank Loan / Self Funded',
-      siteVisitRequested: body.siteVisitRequested === true || body.siteVisit === 'yes' || false,
-      message: body.message || 'Interested in layout plots.',
+      siteVisitRequested: body.siteVisitRequested === true || body.siteVisit === 'yes' || true,
+      message: body.message || body.description || 'Interested in layout plots.',
       status: 'NEW',
       createdAt: new Date().toISOString()
     };

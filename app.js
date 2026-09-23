@@ -126,6 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initSelectedPlotUrlParams();
   initGalleryModal();
   initGalleryFilter();
+  if (document.getElementById('customer-reviews-section')) {
+    initCustomerReviewsSlider();
+  }
 });
 
 // --- EXECUTIVE ADMIN AUTHENTICATION GATEWAY ---
@@ -943,6 +946,139 @@ async function handleContactSubmit(e) {
 
   alert(`Thank you, ${name}!\n\nYour enquiry has been received. Our project engineer in ${location} will get in touch with you shortly at +91 ${phone} to confirm your site visit and plot layout details.`);
   
+  if (e.target && e.target.reset) {
+    e.target.reset();
+  }
+
+  if (document.getElementById('admin-enquiry-table-body')) {
+    renderAdminEnquiries();
+  }
+}
+
+async function handleQuickEnquirySubmit(e) {
+  if (e) e.preventDefault();
+
+  const name = document.getElementById('quick-name')?.value?.trim() || '';
+  const mobile = document.getElementById('quick-mobile')?.value?.trim() || '';
+  const area = document.getElementById('quick-area')?.value?.trim() || 'Coimbatore & Pollachi';
+  const plotNo = document.getElementById('quick-plot')?.value?.trim() || 'General Layout Enquiry';
+  const desc = document.getElementById('quick-desc')?.value?.trim() || 'Interested in layout plot.';
+
+  if (!name || !mobile) {
+    alert('Please fill in your name and mobile number.');
+    return;
+  }
+
+  const submitBtn = document.getElementById('quick-submit-btn');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>EVALUATING AI SCORE...</span>';
+  }
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' + now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+  let savedRecord = null;
+
+  // 1. Post enquiry to backend server API
+  try {
+    const res = await fetch('/api/enquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        customerName: name,
+        phone: mobile,
+        project: area,
+        plotNumber: plotNo,
+        message: desc,
+        budget: '₹ 25.00 - 40.00 Lakhs',
+        timeline: 'Immediate (Within 15 Days)',
+        paymentMode: 'Bank Loan / Self Funded',
+        siteVisitRequested: true
+      })
+    });
+    const data = await res.json();
+    if (data.success && data.lead) {
+      const bl = data.lead;
+      savedRecord = {
+        id: bl.id,
+        name: bl.customerName || name,
+        customerName: bl.customerName || name,
+        phone: bl.phone || mobile,
+        email: 'N/A',
+        location: bl.project || area,
+        project: bl.project || area,
+        purpose: 'Plot Purchase / Villa Build',
+        paymentMode: 'Bank Loan / Self Funded',
+        timeline: 'Immediate (Within 15 Days)',
+        budget: '₹ 25.00 - 40.00 Lakhs',
+        plot: bl.plotNumber || plotNo,
+        plotNumber: bl.plotNumber || plotNo,
+        message: bl.message || desc,
+        score: bl.aiScore || 85,
+        aiScore: bl.aiScore || 85,
+        category: `${bl.aiPriority || 'HOT'} LEAD`,
+        aiPriority: bl.aiPriority || 'HOT',
+        recommendation: (bl.aiSummary || bl.recommendedAction || '').replace(/[🔥⚡❄️]/g, '').trim(),
+        aiSummary: bl.aiSummary || '',
+        recommendedAction: bl.recommendedAction || '',
+        isNew: true,
+        status: 'NEW',
+        date: dateStr
+      };
+    }
+  } catch (err) {
+    console.log('Backend API offline, evaluating AI score locally.');
+  }
+
+  if (!savedRecord) {
+    const tempEnquiry = { name, phone: mobile, location: area, plot: plotNo, message: desc };
+    const ai = calculateAILeadScore(tempEnquiry);
+    savedRecord = {
+      id: `ENQ-${Math.floor(1000 + Math.random() * 9000)}`,
+      name,
+      customerName: name,
+      phone: mobile,
+      email: 'N/A',
+      location: area,
+      project: area,
+      purpose: 'Plot Purchase / Villa Build',
+      paymentMode: 'Bank Loan / Self Funded',
+      timeline: 'Immediate',
+      budget: '₹ 25.00 - 40.00 Lakhs',
+      plot: plotNo || 'General Layout',
+      plotNumber: plotNo || 'General Layout',
+      message: desc || 'Submitted via Home Quick Enquiry',
+      score: ai.score,
+      aiScore: ai.score,
+      category: ai.category,
+      aiPriority: ai.score >= 80 ? 'HOT' : (ai.score >= 50 ? 'WARM' : 'COLD'),
+      recommendation: ai.recommendation,
+      aiSummary: ai.recommendation,
+      recommendedAction: ai.recommendation,
+      isNew: true,
+      status: 'NEW',
+      date: dateStr
+    };
+  }
+
+  // Store in LocalStorage without duplicates
+  const localEnquiries = getStoredEnquiries();
+  const cleanPhone = (mobile || '').replace(/[^0-9]/g, '').slice(-10);
+  const filteredLocal = localEnquiries.filter(e => {
+    const p = (e.phone || '').replace(/[^0-9]/g, '').slice(-10);
+    return e.id !== savedRecord.id && (!cleanPhone || p !== cleanPhone);
+  });
+  filteredLocal.unshift(savedRecord);
+  localStorage.setItem('vels_enquiries', JSON.stringify(filteredLocal));
+
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<span>SUBMIT ENQUIRY</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+  }
+
+  alert(`Thank you, ${name}!\n\nYour enquiry for ${plotNo || 'Plot'} in ${area} has been received and evaluated with AI Priority (${savedRecord.aiScore}/100 - ${savedRecord.aiPriority} LEAD).\n\nOur VELS project engineer will contact you shortly at +91 ${mobile}.`);
+
   if (e.target && e.target.reset) {
     e.target.reset();
   }
@@ -1846,4 +1982,173 @@ function closeLocationMasterplanModal() {
     document.body.style.overflow = '';
   }
 }
+
+/* ==========================================================================
+   CUSTOMER REVIEWS & TESTIMONIALS SLIDER CONTROLLER
+   ========================================================================== */
+function initCustomerReviewsSlider() {
+  const track = document.getElementById('reviews-slider-track');
+  const prevBtn = document.getElementById('reviews-prev-btn');
+  const nextBtn = document.getElementById('reviews-next-btn');
+  const dotsContainer = document.getElementById('reviews-dots-container');
+  const viewport = document.getElementById('reviews-slider-viewport');
+
+  if (!track || !viewport) return;
+
+  const cards = track.querySelectorAll('.review-card-item');
+  const totalCards = cards.length;
+  if (totalCards === 0) return;
+
+  let currentIndex = 0;
+  let autoSlideTimer = null;
+  const slideInterval = 2200; // 2.2 seconds fast review carousel cycle
+
+  function getCardsPerView() {
+    return window.innerWidth <= 991 ? 1 : 2;
+  }
+
+  function getMaxIndex() {
+    const perView = getCardsPerView();
+    return Math.max(0, totalCards - perView);
+  }
+
+  function createDots() {
+    if (!dotsContainer) return;
+    dotsContainer.innerHTML = '';
+    const maxIdx = getMaxIndex();
+
+    for (let i = 0; i <= maxIdx; i++) {
+      const dot = document.createElement('div');
+      dot.className = `review-dot ${i === currentIndex ? 'active' : ''}`;
+      dot.setAttribute('aria-label', `Go to review slide ${i + 1}`);
+      dot.addEventListener('click', () => {
+        currentIndex = i;
+        updateSlider();
+        resetTimer();
+      });
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  function updateSlider() {
+    const maxIdx = getMaxIndex();
+    if (currentIndex > maxIdx) currentIndex = maxIdx;
+    if (currentIndex < 0) currentIndex = 0;
+
+    const perView = getCardsPerView();
+    const cardWidthPercent = 100 / perView;
+    const translateVal = currentIndex * cardWidthPercent;
+
+    track.style.transform = `translateX(-${translateVal}%)`;
+
+    // Update active dot
+    if (dotsContainer) {
+      const dots = dotsContainer.querySelectorAll('.review-dot');
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === currentIndex);
+      });
+    }
+
+    // Disable/enable nav buttons visually if needed
+    if (prevBtn) prevBtn.style.opacity = currentIndex === 0 ? '0.6' : '1';
+    if (nextBtn) nextBtn.style.opacity = currentIndex >= maxIdx ? '0.6' : '1';
+  }
+
+  function nextSlide() {
+    const maxIdx = getMaxIndex();
+    if (currentIndex >= maxIdx) {
+      currentIndex = 0; // loop back to start
+    } else {
+      currentIndex++;
+    }
+    updateSlider();
+  }
+
+  function prevSlide() {
+    const maxIdx = getMaxIndex();
+    if (currentIndex <= 0) {
+      currentIndex = maxIdx; // loop to end
+    } else {
+      currentIndex--;
+    }
+    updateSlider();
+  }
+
+  function startTimer() {
+    stopTimer();
+    autoSlideTimer = setInterval(nextSlide, slideInterval);
+  }
+
+  function stopTimer() {
+    if (autoSlideTimer) {
+      clearInterval(autoSlideTimer);
+      autoSlideTimer = null;
+    }
+  }
+
+  function resetTimer() {
+    stopTimer();
+    startTimer();
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      nextSlide();
+      resetTimer();
+    });
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      prevSlide();
+      resetTimer();
+    });
+  }
+
+  // Hover to pause auto slide
+  viewport.addEventListener('mouseenter', stopTimer);
+  viewport.addEventListener('mouseleave', startTimer);
+
+  // Dynamic Window Resize Handler
+  let resizeDebounce;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeDebounce);
+    resizeDebounce = setTimeout(() => {
+      createDots();
+      updateSlider();
+    }, 100);
+  });
+
+  // Mobile Touch Swipe gesture support
+  let startX = 0;
+  let isSwiping = false;
+
+  viewport.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    isSwiping = true;
+    stopTimer();
+  }, { passive: true });
+
+  viewport.addEventListener('touchend', (e) => {
+    if (!isSwiping) return;
+    const endX = e.changedTouches[0].clientX;
+    const diffX = startX - endX;
+
+    if (Math.abs(diffX) > 40) {
+      if (diffX > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+    isSwiping = false;
+    startTimer();
+  }, { passive: true });
+
+  // Initialize slider state
+  createDots();
+  updateSlider();
+  startTimer();
+}
+
 

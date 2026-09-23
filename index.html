@@ -182,115 +182,105 @@
       </div>
     </div>
 
-    <!-- WHY CHOOSE VELS GROUP SECTION (REFERENCING REGAL ARCH LAYOUT) -->
-    <section class="py-section why-choose-vels-section">
+    <!-- QUICK PLOT & VILLA ENQUIRY SECTION (AFTER HERO SECTION) -->
+    <section class="quick-enquiry-section">
       <div class="container">
-        <div class="why-choose-grid">
-          <div>
-            <span class="architectural-tag">THE VELS BENCHMARK ADVANTAGE</span>
-            <h2 class="why-choose-title">
-              Why Choose <span style="color: var(--gold-antique);">VELS Group</span>
-            </h2>
-            <p style="color: var(--text-secondary); font-size: 1.02rem; line-height: 1.6; margin-bottom: 12px;">
-              Pioneering 15+ years of legal transparency, premier gated layout infrastructure, and strategic high-growth locations across Coimbatore & Pollachi.
-            </p>
-
-            <div class="why-choose-features">
-              <div class="why-choose-item">
-                <div class="why-choose-icon-box">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                    <path d="m9 12 2 2 4-4"/>
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="why-choose-item-title">DTCP & RERA APPROVED</h3>
-                  <p class="why-choose-item-desc">100% legal title verification, clear parent document history, and instant bank loan eligibility.</p>
-                </div>
-              </div>
-
-              <div class="why-choose-item">
-                <div class="why-choose-icon-box">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="why-choose-item-title">LUXURY GATED COMMUNITY</h3>
-                  <p class="why-choose-item-desc">Fully secured compound perimeter walls, 24/7 security entry booth, solar lighting, and avenue plantations.</p>
-                </div>
-              </div>
-
-              <div class="why-choose-item">
-                <div class="why-choose-icon-box">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 3H3v18h18V3z"/>
-                    <path d="M9 3v18"/>
-                    <path d="M15 3v18"/>
-                    <path d="M3 9h18"/>
-                    <path d="M3 15h18"/>
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="why-choose-item-title">FLEXIBLE PLOT SIZES</h3>
-                  <p class="why-choose-item-desc">Flexible layout parcels from 2.0 to 10.0+ Cents (30'×40', 30'×50', 40'×60' & corner sites) for custom villa home plans.</p>
-                </div>
-              </div>
-
-              <div class="why-choose-item">
-                <div class="why-choose-icon-box">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="why-choose-item-title">HIGH CONNECTIVITY CORRIDOR</h3>
-                  <p class="why-choose-item-desc">Strategically positioned on Pollachi Main Road & Coimbatore Bypass with strong annual land value appreciation.</p>
-                </div>
-              </div>
-
-              <div class="why-choose-item">
-                <div class="why-choose-icon-box">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 19L9 5"/>
-                    <path d="M20 19L15 5"/>
-                    <path d="M12 6V8"/>
-                    <path d="M12 12V14"/>
-                    <path d="M12 18V20"/>
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="why-choose-item-title">40 FT ENGINEERED ROADS</h3>
-                  <p class="why-choose-item-desc">Wide heavy-load asphalt avenues, underground stormwater drains, street lights, and rainwater harvesting pits.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="why-choose-arch-wrapper">
-            <div class="why-choose-arch-frame">
-              <img src="Images/Hero_Arch.jpg" alt="VELS Entrance Grand Arch Layout" class="why-choose-arch-img" />
-              <div class="why-choose-arch-badge">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="12 8 8 12 12 16 16 12 12 8"/></svg>
-                SAKTHIVEL GROUPS • 15+ YRS TRUST
-              </div>
-            </div>
-          </div>
+        <div class="quick-enquiry-header">
+          <span class="architectural-tag" style="color: var(--gold-light);">INSTANT LAYOUT & PLOT ENQUIRY</span>
+          <h2>Quick Plot & Villa Enquiry</h2>
+          <p>Submit your target area, plot number, and requirements for instant AI lead priority evaluation and project engineer callback.</p>
         </div>
+
+        <form id="quick-enquiry-form" class="quick-enquiry-form" onsubmit="handleQuickEnquirySubmit(event)">
+          <div class="quick-enquiry-field">
+            <label for="quick-name">FULL NAME *</label>
+            <input type="text" id="quick-name" class="quick-enquiry-input" placeholder="e.g. Ramesh Kumar" required />
+          </div>
+
+          <div class="quick-enquiry-field">
+            <label for="quick-mobile">MOBILE NO *</label>
+            <input type="tel" id="quick-mobile" class="quick-enquiry-input" placeholder="e.g. 98422 10542" required />
+          </div>
+
+          <div class="quick-enquiry-field">
+            <label for="quick-area">AREA / LOCATION *</label>
+            <input type="text" id="quick-area" class="quick-enquiry-input" placeholder="e.g. Pollachi, Kovaipudur" required />
+          </div>
+
+          <div class="quick-enquiry-field">
+            <label for="quick-plot">PLOT NO</label>
+            <input type="text" id="quick-plot" class="quick-enquiry-input" placeholder="e.g. Plot P-101 / Villa #14" />
+          </div>
+
+          <div class="quick-enquiry-field">
+            <label for="quick-desc">DESCRIPTION / NOTES</label>
+            <input type="text" id="quick-desc" class="quick-enquiry-input" placeholder="e.g. 40ft road, corner plot..." />
+          </div>
+
+          <div class="quick-enquiry-field">
+            <button type="submit" id="quick-submit-btn" class="btn btn-gold quick-enquiry-btn">
+              <span>SUBMIT ENQUIRY</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </form>
       </div>
     </section>
 
+    <!-- SVG DEFINITIONS FOR 3D SANDAL & GOLDEN RIBBONS -->
+    <svg style="display:none;" aria-hidden="true">
+      <defs>
+        <linearGradient id="sandalRibbonGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#FFFDF8" stop-opacity="0.95"/>
+          <stop offset="35%" stop-color="#F5EBD7" stop-opacity="0.85"/>
+          <stop offset="70%" stop-color="#E8D19F" stop-opacity="0.75"/>
+          <stop offset="100%" stop-color="#FFF8E7" stop-opacity="0.9"/>
+        </linearGradient>
+
+        <linearGradient id="sandalRibbonGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FAF0DA" stop-opacity="0.9"/>
+          <stop offset="50%" stop-color="#E5C789" stop-opacity="0.65"/>
+          <stop offset="100%" stop-color="#FFFDF7" stop-opacity="0.85"/>
+        </linearGradient>
+
+        <linearGradient id="goldEdgeGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#C6A15B" stop-opacity="0.3"/>
+          <stop offset="30%" stop-color="#FFD700" stop-opacity="0.95"/>
+          <stop offset="50%" stop-color="#FFFFFF" stop-opacity="1"/>
+          <stop offset="70%" stop-color="#FFD700" stop-opacity="0.95"/>
+          <stop offset="100%" stop-color="#C6A15B" stop-opacity="0.3"/>
+        </linearGradient>
+      </defs>
+    </svg>
+
     <!-- 4 LOCATION MASTERPLAN CARDS & POPUP INSPECTOR SECTION -->
-    <section class="py-section bg-cream" id="location-masterplans-section">
-      <div class="container">
-        <div style="text-align: center; max-width: 780px; margin: 0 auto 45px;">
+    <section class="py-section sandal-pale-section" id="location-masterplans-section">
+      <!-- PURE CSS & SVG 3D SANDAL RIBBON ANIMATED BACKGROUND BEHIND CARDS -->
+      <div class="sandal-3d-ribbon-overlay" aria-hidden="true">
+        <div class="ribbon-3d-wrapper ribbon-layer-1">
+          <svg class="ribbon-svg" viewBox="0 0 1440 600" preserveAspectRatio="none">
+            <path class="ribbon-body" fill="url(#sandalRibbonGrad1)" d="M-100,500 C300,100 800,550 1540,50 L1540,220 C800,720 300,270 -100,670 Z"/>
+            <path class="ribbon-gold-edge" stroke="url(#goldEdgeGlow)" stroke-width="7" fill="none" d="M-100,500 C300,100 800,550 1540,50"/>
+          </svg>
+        </div>
+
+        <div class="ribbon-3d-wrapper ribbon-layer-2">
+          <svg class="ribbon-svg" viewBox="0 0 1440 600" preserveAspectRatio="none">
+            <path class="ribbon-body" fill="url(#sandalRibbonGrad2)" d="M-100,50 C400,450 900,50 1540,400 L1540,520 C900,170 400,570 -100,170 Z"/>
+            <path class="ribbon-gold-edge" stroke="url(#goldEdgeGlow)" stroke-width="6" fill="none" d="M-100,50 C400,450 900,50 1540,400"/>
+          </svg>
+        </div>
+
+        <div class="sandal-gloss-beam"></div>
+      </div>
+
+      <div class="container" style="position: relative; z-index: 2;">
+        <div style="text-align: center; max-width: 780px; margin: 0 auto 40px;">
           <span class="architectural-tag">TAMILNADU REGIONAL CORRIDORS</span>
-          <h2 style="font-family: var(--font-heading); font-size: clamp(2.2rem, 3.8vw, 3rem); color: var(--olive-deep); margin-top: 10px; margin-bottom: 16px;">
+          <h2 style="font-family: var(--font-heading); font-size: clamp(2.0rem, 3.5vw, 2.6rem); color: var(--olive-deep); margin-top: 8px; margin-bottom: 12px;">
             REGIONAL LOCATION MASTER PLANS
           </h2>
-          <p style="color: var(--text-secondary); font-size: 1.02rem; line-height: 1.6;">
+          <p style="color: var(--text-secondary); font-size: 0.98rem; line-height: 1.55;">
             Select any of our 4 major location corridors below to open the corresponding layout masterplan blueprint, plot dimensions, live availability, and full summary details in a popup inspector.
           </p>
         </div>
@@ -426,6 +416,832 @@
       </div>
     </section>
 
+    <!-- UPCOMING PROJECTS READY TO LAUNCH -->
+    <section class="project-showcase-section py-section">
+      <div class="container">
+        <div class="section-heading">
+          <span class="architectural-tag">READY TO LAUNCH</span>
+          <h2>Upcoming Projects</h2>
+        </div>
+
+        <div class="project-scroll-shell" aria-label="Upcoming project cards carousel">
+          <div class="project-scroll-track">
+            <!-- ARTICLE 1 -->
+            <article class="project-card">
+              <div class="project-card-image-wrap">
+                <img src="Images/Upcoming_Green_Valley.jpg" alt="VELS Green Valley upcoming project in Pollachi" />
+                <span class="project-badge">Ready to Launch</span>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Pollachi</span>
+                  <span class="project-tag">Farm Plots</span>
+                </div>
+                <h3>VELS Green Valley</h3>
+                <p>101 premium gated agro-residency units with drip irrigation, solar avenue lights, and lush coconut grove vistas.</p>
+                <div class="project-card-stats">
+                  <span><strong>5.9</strong> Acres</span>
+                  <span><strong>40</strong> ft Roads</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- ARTICLE 2 -->
+            <article class="project-card">
+              <div class="project-card-image-wrap">
+                <img src="Images/Upcoming_Heritage_Hills.jpg" alt="VELS Heritage Hills upcoming project in Coimbatore" />
+                <span class="project-badge">Ready to Launch</span>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Coimbatore</span>
+                  <span class="project-tag">Residential</span>
+                </div>
+                <h3>VELS Heritage Hills</h3>
+                <p>High-growth residential pocket near IT corridor with DTCP approval, underground utilities, and grand arch entrance.</p>
+                <div class="project-card-stats">
+                  <span><strong>8.3</strong> Acres</span>
+                  <span><strong>60</strong> ft Entry</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- ARTICLE 3 -->
+            <article class="project-card">
+              <div class="project-card-image-wrap">
+                <img src="Images/Upcoming_Emerald_Palms.jpg" alt="VELS Emerald Palms upcoming project in Kinathukadavu" />
+                <span class="project-badge">Phase 1 Booking</span>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Kinathukadavu</span>
+                  <span class="project-tag">Eco Vistas</span>
+                </div>
+                <h3>VELS Emerald Palms</h3>
+                <p>Scenic eco-friendly plantation community featuring perimeter fencing, rainwater harvesting, and Western Ghats views.</p>
+                <div class="project-card-stats">
+                  <span><strong>12.5</strong> Acres</span>
+                  <span><strong>33</strong> ft Roads</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- ARTICLE 4 -->
+            <article class="project-card">
+              <div class="project-card-image-wrap">
+                <img src="Images/Upcoming_Royal_Enclave.jpg" alt="VELS Royal Enclave upcoming project in Kovaipudur" />
+                <span class="project-badge">Pre-Launch</span>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Kovaipudur</span>
+                  <span class="project-tag">Villa Township</span>
+                </div>
+                <h3>VELS Royal Enclave</h3>
+                <p>Exclusive hillside villa plot layout offering panoramic valley views, central clubhouse park, and 24/7 security.</p>
+                <div class="project-card-stats">
+                  <span><strong>15.0</strong> Acres</span>
+                  <span><strong>50</strong> ft Main Road</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- DUPLICATE LOOP FOR INFINITE SCROLL -->
+            <article class="project-card">
+              <div class="project-card-image-wrap">
+                <img src="Images/Upcoming_Green_Valley.jpg" alt="VELS Green Valley upcoming project in Pollachi" />
+                <span class="project-badge">Ready to Launch</span>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Pollachi</span>
+                  <span class="project-tag">Farm Plots</span>
+                </div>
+                <h3>VELS Green Valley</h3>
+                <p>101 premium gated agro-residency units with drip irrigation, solar avenue lights, and lush coconut grove vistas.</p>
+                <div class="project-card-stats">
+                  <span><strong>5.9</strong> Acres</span>
+                  <span><strong>40</strong> ft Roads</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-card-image-wrap">
+                <img src="Images/Upcoming_Heritage_Hills.jpg" alt="VELS Heritage Hills upcoming project in Coimbatore" />
+                <span class="project-badge">Ready to Launch</span>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Coimbatore</span>
+                  <span class="project-tag">Residential</span>
+                </div>
+                <h3>VELS Heritage Hills</h3>
+                <p>High-growth residential pocket near IT corridor with DTCP approval, underground utilities, and grand arch entrance.</p>
+                <div class="project-card-stats">
+                  <span><strong>8.3</strong> Acres</span>
+                  <span><strong>60</strong> ft Entry</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-card-image-wrap">
+                <img src="Images/Upcoming_Emerald_Palms.jpg" alt="VELS Emerald Palms upcoming project in Kinathukadavu" />
+                <span class="project-badge">Phase 1 Booking</span>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Kinathukadavu</span>
+                  <span class="project-tag">Eco Vistas</span>
+                </div>
+                <h3>VELS Emerald Palms</h3>
+                <p>Scenic eco-friendly plantation community featuring perimeter fencing, rainwater harvesting, and Western Ghats views.</p>
+                <div class="project-card-stats">
+                  <span><strong>12.5</strong> Acres</span>
+                  <span><strong>33</strong> ft Roads</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-card-image-wrap">
+                <img src="Images/Upcoming_Royal_Enclave.jpg" alt="VELS Royal Enclave upcoming project in Kovaipudur" />
+                <span class="project-badge">Pre-Launch</span>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Kovaipudur</span>
+                  <span class="project-tag">Villa Township</span>
+                </div>
+                <h3>VELS Royal Enclave</h3>
+                <p>Exclusive hillside villa plot layout offering panoramic valley views, central clubhouse park, and 24/7 security.</p>
+                <div class="project-card-stats">
+                  <span><strong>15.0</strong> Acres</span>
+                  <span><strong>50</strong> ft Main Road</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CURRENT CONSTRUCTION DETAILS -->
+    <section class="project-showcase-section py-section bg-cream construction-showcase-section">
+      <div class="container">
+        <div class="section-heading">
+          <span class="architectural-tag">CURRENTLY BUILDING</span>
+          <h2>Construction Details</h2>
+        </div>
+
+        <div class="project-scroll-shell project-scroll-shell-compact" aria-label="Under construction home cards carousel">
+          <div class="project-scroll-track project-scroll-track-compact">
+            <!-- STAGE 1: JUST STARTED (15%) -->
+            <article class="project-card project-card-compact">
+              <div class="project-card-image-wrap">
+                <img src="Images/Construction_Started.jpg" alt="Villa construction started foundation phase in Saravanampatti" />
+                <span class="project-badge project-badge-alt">Just Started</span>
+                <div class="construction-progress-bar">
+                  <div class="construction-progress-fill" style="width: 15%;"></div>
+                </div>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Saravanampatti</span>
+                  <span class="project-tag">Foundation Phase</span>
+                </div>
+                <h3>VELS Crest Villa #14</h3>
+                <p>Groundbreaking foundation work initiated with reinforced concrete footings, column rebar cages, and utility marking.</p>
+                <div class="project-card-stats">
+                  <span><strong>15%</strong> Progress</span>
+                  <span><strong>3BHK</strong> Build</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- STAGE 2: UNDER CONSTRUCTION (50%) -->
+            <article class="project-card project-card-compact">
+              <div class="project-card-image-wrap">
+                <img src="Images/Construction_Underway.jpg" alt="Villa under active construction structure phase in Mahalingapuram" />
+                <span class="project-badge project-badge-alt">Under Construction</span>
+                <div class="construction-progress-bar">
+                  <div class="construction-progress-fill" style="width: 50%;"></div>
+                </div>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Mahalingapuram</span>
+                  <span class="project-tag">Structure Phase</span>
+                </div>
+                <h3>Cornerstone Luxury Villa</h3>
+                <p>Active brickwork masonry, RCC beam slab casting, and electrical conduit piping under civil construction.</p>
+                <div class="project-card-stats">
+                  <span><strong>50%</strong> Built</span>
+                  <span><strong>4BHK</strong> Modern</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- STAGE 3: 75% COMPLETED -->
+            <article class="project-card project-card-compact">
+              <div class="project-card-image-wrap">
+                <img src="Images/Construction_75_Percent.jpg" alt="Villa at 75% completed finishing phase in Kovaipudur" />
+                <span class="project-badge project-badge-alt">75% Completed</span>
+                <div class="construction-progress-bar">
+                  <div class="construction-progress-fill" style="width: 75%;"></div>
+                </div>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Kovaipudur</span>
+                  <span class="project-tag">Finishing Phase</span>
+                </div>
+                <h3>Heritage Hillside Villa</h3>
+                <p>Exterior smooth plastering, primer coat painting, glass balcony railings, and interior tile fitting in progress.</p>
+                <div class="project-card-stats">
+                  <span><strong>75%</strong> Built</span>
+                  <span><strong>4BHK</strong> Independent</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- STAGE 4: KEY HANDOVER (100%) -->
+            <article class="project-card project-card-compact">
+              <div class="project-card-image-wrap">
+                <img src="Images/Construction_Key_Handover.jpg" alt="Finished luxury villa key handover ceremony in Peelamedu" />
+                <span class="project-badge project-badge-alt">Key Handover</span>
+                <div class="construction-progress-bar">
+                  <div class="construction-progress-fill" style="width: 100%;"></div>
+                </div>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Peelamedu</span>
+                  <span class="project-tag">Ready to Move</span>
+                </div>
+                <h3>Oak Crest Residency</h3>
+                <p>100% completed luxury villa handed over to happy owners with ceremonial key presentation and move-in readiness.</p>
+                <div class="project-card-stats">
+                  <span><strong>100%</strong> Ready</span>
+                  <span><strong>Key Handover</strong></span>
+                </div>
+              </div>
+            </article>
+
+            <!-- DUPLICATE LOOP FOR INFINITE SCROLL -->
+            <article class="project-card project-card-compact">
+              <div class="project-card-image-wrap">
+                <img src="Images/Construction_Started.jpg" alt="Villa construction started foundation phase in Saravanampatti" />
+                <span class="project-badge project-badge-alt">Just Started</span>
+                <div class="construction-progress-bar">
+                  <div class="construction-progress-fill" style="width: 15%;"></div>
+                </div>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Saravanampatti</span>
+                  <span class="project-tag">Foundation Phase</span>
+                </div>
+                <h3>VELS Crest Villa #14</h3>
+                <p>Groundbreaking foundation work initiated with reinforced concrete footings, column rebar cages, and utility marking.</p>
+                <div class="project-card-stats">
+                  <span><strong>15%</strong> Progress</span>
+                  <span><strong>3BHK</strong> Build</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="project-card project-card-compact">
+              <div class="project-card-image-wrap">
+                <img src="Images/Construction_Underway.jpg" alt="Villa under active construction structure phase in Mahalingapuram" />
+                <span class="project-badge project-badge-alt">Under Construction</span>
+                <div class="construction-progress-bar">
+                  <div class="construction-progress-fill" style="width: 50%;"></div>
+                </div>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Mahalingapuram</span>
+                  <span class="project-tag">Structure Phase</span>
+                </div>
+                <h3>Cornerstone Luxury Villa</h3>
+                <p>Active brickwork masonry, RCC beam slab casting, and electrical conduit piping under civil construction.</p>
+                <div class="project-card-stats">
+                  <span><strong>50%</strong> Built</span>
+                  <span><strong>4BHK</strong> Modern</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="project-card project-card-compact">
+              <div class="project-card-image-wrap">
+                <img src="Images/Construction_75_Percent.jpg" alt="Villa at 75% completed finishing phase in Kovaipudur" />
+                <span class="project-badge project-badge-alt">75% Completed</span>
+                <div class="construction-progress-bar">
+                  <div class="construction-progress-fill" style="width: 75%;"></div>
+                </div>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Kovaipudur</span>
+                  <span class="project-tag">Finishing Phase</span>
+                </div>
+                <h3>Heritage Hillside Villa</h3>
+                <p>Exterior smooth plastering, primer coat painting, glass balcony railings, and interior tile fitting in progress.</p>
+                <div class="project-card-stats">
+                  <span><strong>75%</strong> Built</span>
+                  <span><strong>4BHK</strong> Independent</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="project-card project-card-compact">
+              <div class="project-card-image-wrap">
+                <img src="Images/Construction_Key_Handover.jpg" alt="Finished luxury villa key handover ceremony in Peelamedu" />
+                <span class="project-badge project-badge-alt">Key Handover</span>
+                <div class="construction-progress-bar">
+                  <div class="construction-progress-fill" style="width: 100%;"></div>
+                </div>
+              </div>
+              <div class="project-card-body">
+                <div class="project-card-meta">
+                  <span class="project-city">Peelamedu</span>
+                  <span class="project-tag">Ready to Move</span>
+                </div>
+                <h3>Oak Crest Residency</h3>
+                <p>100% completed luxury villa handed over to happy owners with ceremonial key presentation and move-in readiness.</p>
+                <div class="project-card-stats">
+                  <span><strong>100%</strong> Ready</span>
+                  <span><strong>Key Handover</strong></span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY CHOOSE VELS GROUP SECTION -->
+    <section class="py-section why-choose-vels-section sandal-pale-section" id="why-choose-section">
+      <!-- PURE CSS & SVG 3D SANDAL RIBBON ANIMATED BACKGROUND BEHIND CARDS -->
+      <div class="sandal-3d-ribbon-overlay" aria-hidden="true">
+        <div class="ribbon-3d-wrapper ribbon-layer-1">
+          <svg class="ribbon-svg" viewBox="0 0 1440 600" preserveAspectRatio="none">
+            <path class="ribbon-body" fill="url(#sandalRibbonGrad1)" d="M-100,500 C300,100 800,550 1540,50 L1540,220 C800,720 300,270 -100,670 Z"/>
+            <path class="ribbon-gold-edge" stroke="url(#goldEdgeGlow)" stroke-width="7" fill="none" d="M-100,500 C300,100 800,550 1540,50"/>
+          </svg>
+        </div>
+
+        <div class="ribbon-3d-wrapper ribbon-layer-2">
+          <svg class="ribbon-svg" viewBox="0 0 1440 600" preserveAspectRatio="none">
+            <path class="ribbon-body" fill="url(#sandalRibbonGrad2)" d="M-100,50 C400,450 900,50 1540,400 L1540,520 C900,170 400,570 -100,170 Z"/>
+            <path class="ribbon-gold-edge" stroke="url(#goldEdgeGlow)" stroke-width="6" fill="none" d="M-100,50 C400,450 900,50 1540,400"/>
+          </svg>
+        </div>
+
+        <div class="sandal-gloss-beam"></div>
+      </div>
+
+      <div class="container" style="position: relative; z-index: 2;">
+        <div class="why-choose-grid">
+          <div>
+            <span class="architectural-tag">THE VELS BENCHMARK ADVANTAGE</span>
+            <h2 class="why-choose-title">
+              Why Choose <span style="color: var(--gold-antique);">VELS Group</span>
+            </h2>
+            <p style="color: var(--text-secondary); font-size: 0.98rem; line-height: 1.55; margin-bottom: 12px;">
+              Pioneering 15+ years of legal transparency, premier gated layout infrastructure, and strategic high-growth locations across Coimbatore & Pollachi.
+            </p>
+
+            <div class="why-choose-features">
+              <div class="why-choose-item">
+                <div class="why-choose-icon-box">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="why-choose-item-title">DTCP & RERA APPROVED</h3>
+                  <p class="why-choose-item-desc">100% legal title verification, clear parent document history, and instant bank loan eligibility.</p>
+                </div>
+              </div>
+
+              <div class="why-choose-item">
+                <div class="why-choose-icon-box">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="why-choose-item-title">LUXURY GATED COMMUNITY</h3>
+                  <p class="why-choose-item-desc">Fully secured compound perimeter walls, 24/7 security entry booth, solar lighting, and avenue plantations.</p>
+                </div>
+              </div>
+
+              <div class="why-choose-item">
+                <div class="why-choose-icon-box">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 3H3v18h18V3z"/>
+                    <path d="M9 3v18"/>
+                    <path d="M15 3v18"/>
+                    <path d="M3 9h18"/>
+                    <path d="M3 15h18"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="why-choose-item-title">FLEXIBLE PLOT SIZES</h3>
+                  <p class="why-choose-item-desc">Flexible layout parcels from 2.0 to 10.0+ Cents (30'×40', 30'×50', 40'×60' & corner sites) for custom villa home plans.</p>
+                </div>
+              </div>
+
+              <div class="why-choose-item">
+                <div class="why-choose-icon-box">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="why-choose-item-title">HIGH CONNECTIVITY CORRIDOR</h3>
+                  <p class="why-choose-item-desc">Strategically positioned on Pollachi Main Road & Coimbatore Bypass with strong annual land value appreciation.</p>
+                </div>
+              </div>
+
+              <div class="why-choose-item">
+                <div class="why-choose-icon-box">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19L9 5"/>
+                    <path d="M20 19L15 5"/>
+                    <path d="M12 6V8"/>
+                    <path d="M12 12V14"/>
+                    <path d="M12 18V20"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="why-choose-item-title">40 FT ENGINEERED ROADS</h3>
+                  <p class="why-choose-item-desc">Wide heavy-load asphalt avenues, underground stormwater drains, street lights, and rainwater harvesting pits.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="why-choose-arch-wrapper">
+            <div class="why-choose-arch-frame">
+              <img src="Images/Hero_Arch.jpg" alt="VELS Entrance Grand Arch Layout" class="why-choose-arch-img" />
+              <div class="why-choose-arch-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="12 8 8 12 12 16 16 12 12 8"/></svg>
+                SAKTHIVEL GROUPS • 15+ YRS TRUST
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REAL CUSTOMER REVIEWS & TESTIMONIALS SECTION -->
+    <section class="py-section reviews-section-wrapper sandal-pale-section" id="customer-reviews-section">
+      <!-- PURE CSS & SVG 3D SANDAL RIBBON ANIMATED BACKGROUND BEHIND CARDS -->
+      <div class="sandal-3d-ribbon-overlay" aria-hidden="true">
+        <div class="ribbon-3d-wrapper ribbon-layer-1">
+          <svg class="ribbon-svg" viewBox="0 0 1440 600" preserveAspectRatio="none">
+            <path class="ribbon-body" fill="url(#sandalRibbonGrad1)" d="M-100,500 C300,100 800,550 1540,50 L1540,220 C800,720 300,270 -100,670 Z"/>
+            <path class="ribbon-gold-edge" stroke="url(#goldEdgeGlow)" stroke-width="7" fill="none" d="M-100,500 C300,100 800,550 1540,50"/>
+          </svg>
+        </div>
+
+        <div class="ribbon-3d-wrapper ribbon-layer-2">
+          <svg class="ribbon-svg" viewBox="0 0 1440 600" preserveAspectRatio="none">
+            <path class="ribbon-body" fill="url(#sandalRibbonGrad2)" d="M-100,50 C400,450 900,50 1540,400 L1540,520 C900,170 400,570 -100,170 Z"/>
+            <path class="ribbon-gold-edge" stroke="url(#goldEdgeGlow)" stroke-width="6" fill="none" d="M-100,50 C400,450 900,50 1540,400"/>
+          </svg>
+        </div>
+
+        <div class="sandal-gloss-beam"></div>
+      </div>
+
+      <div class="container" style="position: relative; z-index: 2;">
+        <div class="reviews-header">
+          <span class="architectural-tag">VERIFIED PLOT BUYER TESTIMONIALS</span>
+          <h2 class="reviews-main-title">
+            WHAT OUR CLIENTS SAY ABOUT VELS
+          </h2>
+          <p class="reviews-sub-desc">
+            Real experiences and trust stories from plot buyers and residents across Tamil Nadu.
+          </p>
+        </div>
+
+        <!-- REVIEWS SLIDER -->
+        <div class="reviews-slider-viewport" id="reviews-slider-viewport">
+          <div class="reviews-slider-track" id="reviews-slider-track">
+            
+            <!-- Review 1: P. Murugesan -->
+            <div class="review-card-item">
+              <div class="review-card">
+                <div class="review-card-top">
+                  <div class="quote-mark-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                  <div class="star-rating-pill">
+                    <div class="stars-gold-wrap">
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                    </div>
+                    <span class="rating-num">5.0</span>
+                  </div>
+                </div>
+                
+                <p class="review-text">
+                  "Bought a plot in Madurai AIIMS corridor. Sakthivel Groups provided 100% genuine DTCP documents and clear titles. Very transparent and trustworthy team!"
+                </p>
+
+                <div class="review-author-row">
+                  <div class="review-avatar avatar-olive">PM</div>
+                  <div class="author-details">
+                    <h4 class="author-name">P. Murugesan</h4>
+                    <p class="author-role">Plot Buyer — <span class="text-gold-dark">Madurai AIIMS Layout</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Review 2: R. Vignesh -->
+            <div class="review-card-item">
+              <div class="review-card">
+                <div class="review-card-top">
+                  <div class="quote-mark-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                  <div class="star-rating-pill">
+                    <div class="stars-gold-wrap">
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                    </div>
+                    <span class="rating-num">5.0</span>
+                  </div>
+                </div>
+                
+                <p class="review-text">
+                  "Selected a plot in VELS Heritage Peelamedu. 40ft wide tar roads, peaceful gated surrounding, and quick plot registration. Excellent service!"
+                </p>
+
+                <div class="review-author-row">
+                  <div class="review-avatar avatar-gold">RV</div>
+                  <div class="author-details">
+                    <h4 class="author-name">R. Vignesh</h4>
+                    <p class="author-role">Plot Buyer — <span class="text-gold-dark">Coimbatore Peelamedu</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Review 3: M. Meenakshi -->
+            <div class="review-card-item">
+              <div class="review-card">
+                <div class="review-card-top">
+                  <div class="quote-mark-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                  <div class="star-rating-pill">
+                    <div class="stars-gold-wrap">
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                    </div>
+                    <span class="rating-num">5.0</span>
+                  </div>
+                </div>
+                
+                <p class="review-text">
+                  "Buying our villa plot at ECR Bay Vistas Chennai was smooth and hassle-free. Legal check was crystal clear, and registration was completed fast."
+                </p>
+
+                <div class="review-author-row">
+                  <div class="review-avatar avatar-terracotta">MM</div>
+                  <div class="author-details">
+                    <h4 class="author-name">M. Meenakshi</h4>
+                    <p class="author-role">Villa Plot Buyer — <span class="text-gold-dark">Chennai ECR Coast</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Review 4: S. Arunkumar -->
+            <div class="review-card-item">
+              <div class="review-card">
+                <div class="review-card-top">
+                  <div class="quote-mark-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                  <div class="star-rating-pill">
+                    <div class="stars-gold-wrap">
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                    </div>
+                    <span class="rating-num">5.0</span>
+                  </div>
+                </div>
+                
+                <p class="review-text">
+                  "Purchased a plot in Pollachi VELS Golden Vistas. The grand entrance arch, compound wall, and tree plantation make it a top quality layout."
+                </p>
+
+                <div class="review-author-row">
+                  <div class="review-avatar avatar-sage">SA</div>
+                  <div class="author-details">
+                    <h4 class="author-name">S. Arunkumar</h4>
+                    <p class="author-role">Gated Plot Owner — <span class="text-gold-dark">Pollachi Layout</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Review 5: K. Selvaraj -->
+            <div class="review-card-item">
+              <div class="review-card">
+                <div class="review-card-top">
+                  <div class="quote-mark-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                  <div class="star-rating-pill">
+                    <div class="stars-gold-wrap">
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                    </div>
+                    <span class="rating-num">5.0</span>
+                  </div>
+                </div>
+                
+                <p class="review-text">
+                  "Very good guidance from Sakthivel Groups. Bank loan was arranged smoothly and plot value has already increased in short time."
+                </p>
+
+                <div class="review-author-row">
+                  <div class="review-avatar avatar-olive">KS</div>
+                  <div class="author-details">
+                    <h4 class="author-name">K. Selvaraj</h4>
+                    <p class="author-role">Plot Buyer — <span class="text-gold-dark">Madurai Ring Road</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Review 6: T. Kavitha -->
+            <div class="review-card-item">
+              <div class="review-card">
+                <div class="review-card-top">
+                  <div class="quote-mark-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                  <div class="star-rating-pill">
+                    <div class="stars-gold-wrap">
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                    </div>
+                    <span class="rating-num">5.0</span>
+                  </div>
+                </div>
+                
+                <p class="review-text">
+                  "Peaceful residential gated community with solar street lights and clean water. Perfect place for building our family home."
+                </p>
+
+                <div class="review-author-row">
+                  <div class="review-avatar avatar-gold">TK</div>
+                  <div class="author-details">
+                    <h4 class="author-name">T. Kavitha</h4>
+                    <p class="author-role">Residential Plot Buyer — <span class="text-gold-dark">Coimbatore</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Review 7: V. Rajendran -->
+            <div class="review-card-item">
+              <div class="review-card">
+                <div class="review-card-top">
+                  <div class="quote-mark-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                  <div class="star-rating-pill">
+                    <div class="stars-gold-wrap">
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                    </div>
+                    <span class="rating-num">5.0</span>
+                  </div>
+                </div>
+                
+                <p class="review-text">
+                  "Clear title deed documents and no hidden charges. Sakthivel Groups is 100% reliable for buying land in Tamil Nadu."
+                </p>
+
+                <div class="review-author-row">
+                  <div class="review-avatar avatar-terracotta">VR</div>
+                  <div class="author-details">
+                    <h4 class="author-name">V. Rajendran</h4>
+                    <p class="author-role">Plot Owner — <span class="text-gold-dark">Pollachi Town</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Review 8: N. Soundariya -->
+            <div class="review-card-item">
+              <div class="review-card">
+                <div class="review-card-top">
+                  <div class="quote-mark-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                  <div class="star-rating-pill">
+                    <div class="stars-gold-wrap">
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                      <span class="star-gold">★</span>
+                    </div>
+                    <span class="rating-num">5.0</span>
+                  </div>
+                </div>
+                
+                <p class="review-text">
+                  "Well planned plot layout with wide 50ft roads and good drainage system. Really happy with my plot investment!"
+                </p>
+
+                <div class="review-author-row">
+                  <div class="review-avatar avatar-sage">NS</div>
+                  <div class="author-details">
+                    <h4 class="author-name">N. Soundariya</h4>
+                    <p class="author-role">Plot Buyer — <span class="text-gold-dark">Chennai GST Zone</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SLIDER CONTROLS ROW -->
+        <div class="reviews-controls-row">
+          <button class="reviews-nav-btn prev-btn" id="reviews-prev-btn" aria-label="Previous Reviews">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+          </button>
+          
+          <div class="reviews-dots-container" id="reviews-dots-container">
+            <!-- Dynamic Dots generated by JS -->
+          </div>
+
+          <button class="reviews-nav-btn next-btn" id="reviews-next-btn" aria-label="Next Reviews">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
     <!-- DYNAMIC LOCATION MASTERPLAN POPUP MODAL -->
     <div class="project-modal-overlay" id="location-masterplan-modal">
       <div class="project-modal-card location-modal-card">
@@ -537,13 +1353,22 @@
     </div>
   </footer>
 
-  <!-- FLOATING WHATSAPP BUTTON (RIGHT BOTTOM CORNER) -->
-  <a href="https://wa.me/919842212345?text=Hello%20VELS%20Sakthivel%20Groups,%20I%20want%20to%20enquire%20about%20plots" class="floating-whatsapp-btn" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12.031 0C5.385 0 0 5.386 0 12.031c0 2.124.553 4.197 1.604 6.02L0 24l6.155-1.614A11.968 11.968 0 0 0 12.03 24c6.645 0 12.03-5.385 12.03-12.031C24.06 5.386 18.675 0 12.031 0zm.012 22.012c-1.808 0-3.585-.486-5.143-1.408l-.369-.219-3.817 1.001 1.019-3.721-.241-.383A9.99 9.99 0 0 1 2.012 12.03c0-5.524 4.496-10.02 10.031-10.02 5.524 0 10.02 4.496 10.02 10.02 0 5.536-4.496 10.012-10.02 10.012zm5.503-7.519c-.302-.152-1.785-.881-2.062-.981-.277-.101-.479-.152-.68.152-.202.302-.782.981-.959 1.183-.176.201-.353.226-.655.075-1.745-.875-2.894-1.559-4.04-3.535-.302-.52.302-.482.864-1.608.101-.201.05-.378-.025-.529-.075-.152-.68-1.636-.932-2.24-.244-.588-.493-.508-.68-.518-.176-.009-.378-.009-.58-.009-.201 0-.528.075-.804.378-.277.302-1.057 1.032-1.057 2.518 0 1.486 1.082 2.92 1.233 3.122.151.201 2.128 3.25 5.156 4.558 2.164.935 2.809.845 3.791.7.636-.094 1.785-.73 2.037-1.435.252-.705.252-1.309.176-1.435-.076-.125-.278-.201-.58-.352z"/>
-    </svg>
-    <span class="whatsapp-tooltip">Chat with us</span>
-  </a>
+  <!-- FLOATING ACTION STACK (CALL + WHATSAPP) -->
+  <div class="floating-action-stack">
+    <a href="tel:+919842212345" class="floating-action-btn floating-call-btn" title="Call Us Direct" aria-label="Call Us Direct">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+      <span class="floating-tooltip">Call Us (+91 98422 12345)</span>
+    </a>
+
+    <a href="https://wa.me/919842212345?text=Hello%20VELS%20Sakthivel%20Groups,%20I%20want%20to%20enquire%20about%20plots" class="floating-action-btn floating-whatsapp-btn" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12.031 0C5.385 0 0 5.386 0 12.031c0 2.124.553 4.197 1.604 6.02L0 24l6.155-1.614A11.968 11.968 0 0 0 12.03 24c6.645 0 12.03-5.385 12.03-12.031C24.06 5.386 18.675 0 12.031 0zm.012 22.012c-1.808 0-3.585-.486-5.143-1.408l-.369-.219-3.817 1.001 1.019-3.721-.241-.383A9.99 9.99 0 0 1 2.012 12.03c0-5.524 4.496-10.02 10.031-10.02 5.524 0 10.02 4.496 10.02 10.02 0 5.536-4.496 10.012-10.02 10.012zm5.503-7.519c-.302-.152-1.785-.881-2.062-.981-.277-.101-.479-.152-.68.152-.202.302-.782.981-.959 1.183-.176.201-.353.226-.655.075-1.745-.875-2.894-1.559-4.04-3.535-.302-.52.302-.482.864-1.608.101-.201.05-.378-.025-.529-.075-.152-.68-1.636-.932-2.24-.244-.588-.493-.508-.68-.518-.176-.009-.378-.009-.58-.009-.201 0-.528.075-.804.378-.277.302-1.057 1.032-1.057 2.518 0 1.486 1.082 2.92 1.233 3.122.151.201 2.128 3.25 5.156 4.558 2.164.935 2.809.845 3.791.7.636-.094 1.785-.73 2.037-1.435.252-.705.252-1.309.176-1.435-.076-.125-.278-.201-.58-.352z"/>
+      </svg>
+      <span class="floating-tooltip">Chat on WhatsApp</span>
+    </a>
+  </div>
 
   <script src="app.js"></script>
 </body>
