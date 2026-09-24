@@ -475,10 +475,26 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`===================================================`);
   console.log(` Sakthivel Groups VELS Server & AI Agent Running!`);
   console.log(` URL: http://localhost:${PORT}`);
   console.log(` Admin Portal: http://localhost:${PORT}/admin.html`);
   console.log(`===================================================`);
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    const fallbackPort = Number(PORT) + 1;
+    console.log(`\n[PORT BUSY] Port ${PORT} is currently in use. Attempting fallback on port ${fallbackPort}...`);
+    app.listen(fallbackPort, () => {
+      console.log(`===================================================`);
+      console.log(` Sakthivel Groups VELS Server Running on Fallback Port!`);
+      console.log(` URL: http://localhost:${fallbackPort}`);
+      console.log(` Admin Portal: http://localhost:${fallbackPort}/admin.html`);
+      console.log(`===================================================`);
+    });
+  } else {
+    console.error('Server error:', err);
+  }
 });

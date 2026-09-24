@@ -128,47 +128,283 @@
 
           <div class="masterplan-svg-container">
             <svg id="plot-masterplan-svg" viewBox="0 0 1080 720" width="1080" height="720">
-              <!-- Background Outer Landscape Boundary -->
-              <rect x="10" y="10" width="1060" height="700" fill="#F4EFE4" stroke="#C6A15B" stroke-width="2" stroke-dasharray="6"/>
+              <defs>
+                <!-- 1. REALISTIC PLOT GRASS LAWN PATTERN -->
+                <pattern id="plot-grass-pattern" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <rect width="20" height="20" fill="#7cb342"/>
+                  <path d="M 2 18 Q 4 10 7 18 M 10 18 Q 12 8 15 18 M 16 10 Q 18 4 19 10" fill="none" stroke="#689f38" stroke-width="1.2"/>
+                  <circle cx="5" cy="5" r="1.5" fill="#8bc34a" opacity="0.7"/>
+                  <circle cx="15" cy="12" r="1.2" fill="#558b2f" opacity="0.6"/>
+                </pattern>
+
+                <linearGradient id="bg-grass-field" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#2d421e"/>
+                  <stop offset="45%" stop-color="#385423"/>
+                  <stop offset="100%" stop-color="#253818"/>
+                </linearGradient>
+
+                <linearGradient id="park-grass-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#8bc34a"/>
+                  <stop offset="50%" stop-color="#7cb342"/>
+                  <stop offset="100%" stop-color="#558b2f"/>
+                </linearGradient>
+
+                <!-- 2. REALISTIC DARK ASPHALT ROAD GRADIENTS & PATTERNS -->
+                <linearGradient id="road-asphalt-grad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#1f261d"/>
+                  <stop offset="50%" stop-color="#2e382b"/>
+                  <stop offset="100%" stop-color="#1f261d"/>
+                </linearGradient>
+
+                <pattern id="asphalt-grain" width="10" height="10" patternUnits="userSpaceOnUse">
+                  <rect width="10" height="10" fill="#252d22"/>
+                  <circle cx="2" cy="3" r="0.8" fill="#3a4536" opacity="0.5"/>
+                  <circle cx="7" cy="8" r="0.8" fill="#1b2118" opacity="0.6"/>
+                </pattern>
+
+                <!-- Concrete Curb Bevel Edge -->
+                <linearGradient id="curb-bevel" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#eceff1"/>
+                  <stop offset="50%" stop-color="#cfd8dc"/>
+                  <stop offset="100%" stop-color="#90a4ae"/>
+                </linearGradient>
+
+                <!-- Zebra Crosswalk Pattern -->
+                <pattern id="zebra-crosswalk" width="12" height="24" patternUnits="userSpaceOnUse">
+                  <rect width="12" height="24" fill="#252d22"/>
+                  <rect x="2" y="2" width="8" height="20" fill="#ffffff" opacity="0.95"/>
+                </pattern>
+
+                <!-- 3D PLOT STATUS GRADIENTS -->
+                <linearGradient id="plot-gold-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#fdd835"/>
+                  <stop offset="100%" stop-color="#f57f17"/>
+                </linearGradient>
+
+                <linearGradient id="plot-terracotta-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#f4511e"/>
+                  <stop offset="100%" stop-color="#bf360c"/>
+                </linearGradient>
+
+                <!-- Soft 3D Shadows -->
+                <filter id="shadow-3d" x="-10%" y="-10%" width="130%" height="130%">
+                  <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.45"/>
+                </filter>
+                
+                <filter id="tree-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="3" dy="5" stdDeviation="4" flood-color="#121d0b" flood-opacity="0.65"/>
+                </filter>
+              </defs>
+
+              <!-- Outer Surrounding Countryside Landscape -->
+              <rect x="0" y="0" width="1080" height="720" fill="url(#bg-grass-field)" />
+              <rect x="15" y="15" width="1050" height="690" fill="url(#plot-grass-pattern)" opacity="0.4" rx="8" />
+
+              <!-- Surrounding Lush Tree Clusters (Aerial View) -->
+              <g id="surrounding-trees" filter="url(#tree-shadow)">
+                <circle cx="60" cy="20" r="16" fill="#2d4a1b"/><circle cx="85" cy="16" r="14" fill="#3b5e24"/><circle cx="110" cy="22" r="18" fill="#4c7730"/>
+                <circle cx="200" cy="15" r="15" fill="#2d4a1b"/><circle cx="340" cy="15" r="16" fill="#3b5e24"/><circle cx="440" cy="15" r="18" fill="#4c7730"/>
+                <circle cx="600" cy="15" r="15" fill="#2d4a1b"/><circle cx="700" cy="15" r="17" fill="#3b5e24"/><circle cx="820" cy="15" r="16" fill="#4c7730"/>
+                <circle cx="15" cy="90" r="16" fill="#3b5e24"/><circle cx="15" cy="180" r="18" fill="#2d4a1b"/><circle cx="15" cy="280" r="15" fill="#4c7730"/>
+                <circle cx="15" cy="450" r="17" fill="#3b5e24"/><circle cx="15" cy="560" r="16" fill="#2d4a1b"/><circle cx="15" cy="640" r="18" fill="#4c7730"/>
+              </g>
+
+              <!-- Outer Layout Perimeter Wall (3D Bevel Boundary) -->
+              <rect x="22" y="22" width="1036" height="676" fill="none" stroke="#cfd8dc" stroke-width="4.5" rx="6"/>
+              <rect x="24" y="24" width="1032" height="672" fill="none" stroke="#37474f" stroke-width="1.8" rx="5"/>
+
+              <!-- ==========================================================================
+                   REALISTIC ASPHALT ROAD NETWORKS (WITH CURBS, LINES & ZEBRA CROSSWALKS)
+                   ========================================================================== -->
+              <!-- 40 FT MAIN BOULEVARD ROAD - Horizontal Central Axis -->
+              <rect x="25" y="340" width="935" height="50" fill="url(#road-asphalt-grad)" />
+              <rect x="25" y="340" width="935" height="50" fill="url(#asphalt-grain)" opacity="0.3" />
               
-              <!-- Road Networks (Asphalt Dark Olive Grid) -->
-              <!-- 40 FT MAIN ROAD - Horizontal Central Axis -->
-              <rect x="20" y="340" width="1040" height="50" fill="#39452F" />
-              <text x="540" y="370" font-family="monospace" font-size="12" fill="#F7F1E3" text-anchor="middle" letter-spacing="4">40 FT MAIN BOULEVARD ROAD</text>
+              <!-- Concrete Bevel Curbs -->
+              <rect x="25" y="337" width="935" height="4" fill="url(#curb-bevel)" />
+              <rect x="25" y="389" width="935" height="4" fill="url(#curb-bevel)" />
+              
+              <!-- Solid Outer White Road Lines -->
+              <line x1="25" y1="343" x2="960" y2="343" stroke="#ffffff" stroke-width="1.5" opacity="0.9"/>
+              <line x1="25" y1="386" x2="960" y2="386" stroke="#ffffff" stroke-width="1.5" opacity="0.9"/>
+
+              <!-- Double Yellow Central Lane Divider Lines -->
+              <line x1="25" y1="363" x2="960" y2="363" stroke="#fbc02d" stroke-width="1.8" stroke-dasharray="10 8"/>
+              <line x1="25" y1="367" x2="960" y2="367" stroke="#fbc02d" stroke-width="1.8" stroke-dasharray="10 8"/>
+
+              <text x="490" y="369" font-family="sans-serif" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="3" filter="url(#shadow-3d)">40 FEET MAIN BOULEVARD ROAD</text>
+
+              <!-- Pedestrian Zebra Crosswalks at Junctions -->
+              <rect x="235" y="341" width="46" height="12" fill="url(#zebra-crosswalk)" />
+              <rect x="235" y="377" width="46" height="12" fill="url(#zebra-crosswalk)" />
+              <rect x="475" y="341" width="46" height="12" fill="url(#zebra-crosswalk)" />
+              <rect x="475" y="377" width="46" height="12" fill="url(#zebra-crosswalk)" />
+              <rect x="715" y="341" width="46" height="12" fill="url(#zebra-crosswalk)" />
+              <rect x="715" y="377" width="46" height="12" fill="url(#zebra-crosswalk)" />
 
               <!-- 40 FT EAST ROAD - Right Vertical Axis -->
-              <rect x="960" y="20" width="50" height="680" fill="#39452F" />
-              <text x="985" y="200" font-family="monospace" font-size="10" fill="#F7F1E3" text-anchor="middle" transform="rotate(90, 985, 200)" letter-spacing="3">40 FT EAST BOULEVARD</text>
+              <rect x="960" y="25" width="55" height="670" fill="url(#road-asphalt-grad)" />
+              <rect x="957" y="25" width="4" height="670" fill="url(#curb-bevel)" />
+              <rect x="1013" y="25" width="4" height="670" fill="url(#curb-bevel)" />
+              <line x1="987" y1="25" x2="987" y2="695" stroke="#ffffff" stroke-width="2" stroke-dasharray="10 8" opacity="0.9"/>
+              <text x="992" y="220" font-family="sans-serif" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle" transform="rotate(90, 992, 220)" letter-spacing="3">40 FEET EAST ROAD</text>
 
               <!-- 30 FT BRANCH STREETS (Vertical Avenues) -->
-              <rect x="240" y="20" width="35" height="320" fill="#39452F" />
-              <text x="257" y="180" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle" transform="rotate(-90, 257, 180)" letter-spacing="2">30 FT STREET 1</text>
+              <!-- Street 1 -->
+              <rect x="240" y="25" width="36" height="315" fill="url(#road-asphalt-grad)" />
+              <rect x="237" y="25" width="4" height="315" fill="url(#curb-bevel)" />
+              <rect x="274" y="25" width="4" height="315" fill="url(#curb-bevel)" />
+              <line x1="258" y1="25" x2="258" y2="338" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="8 8" opacity="0.8"/>
+              <text x="261" y="170" font-family="sans-serif" font-size="9" font-weight="700" fill="#ffffff" text-anchor="middle" transform="rotate(-90, 261, 170)" letter-spacing="2">30 FEET ROAD</text>
 
-              <rect x="480" y="20" width="35" height="320" fill="#39452F" />
-              <text x="497" y="180" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle" transform="rotate(-90, 497, 180)" letter-spacing="2">30 FT STREET 2</text>
+              <!-- Street 2 -->
+              <rect x="480" y="25" width="36" height="315" fill="url(#road-asphalt-grad)" />
+              <rect x="477" y="25" width="4" height="315" fill="url(#curb-bevel)" />
+              <rect x="514" y="25" width="4" height="315" fill="url(#curb-bevel)" />
+              <line x1="498" y1="25" x2="498" y2="338" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="8 8" opacity="0.8"/>
+              <text x="501" y="170" font-family="sans-serif" font-size="9" font-weight="700" fill="#ffffff" text-anchor="middle" transform="rotate(-90, 501, 170)" letter-spacing="2">40 FEET ROAD</text>
 
-              <rect x="720" y="20" width="35" height="320" fill="#39452F" />
-              <text x="737" y="180" font-family="monospace" font-size="9" fill="#F7F1E3" text-anchor="middle" transform="rotate(-90, 737, 180)" letter-spacing="2">30 FT STREET 3</text>
+              <!-- Street 3 -->
+              <rect x="720" y="25" width="36" height="315" fill="url(#road-asphalt-grad)" />
+              <rect x="717" y="25" width="4" height="315" fill="url(#curb-bevel)" />
+              <rect x="754" y="25" width="4" height="315" fill="url(#curb-bevel)" />
+              <line x1="738" y1="25" x2="738" y2="338" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="8 8" opacity="0.8"/>
+              <text x="741" y="170" font-family="sans-serif" font-size="9" font-weight="700" fill="#ffffff" text-anchor="middle" transform="rotate(-90, 741, 170)" letter-spacing="2">40 FEET ROAD</text>
 
-              <!-- 30 FT STREET - Bottom South Axis -->
-              <rect x="240" y="390" width="35" height="310" fill="#39452F" />
-              <rect x="720" y="390" width="35" height="310" fill="#39452F" />
+              <!-- South Vertical Avenues -->
+              <rect x="240" y="390" width="36" height="305" fill="url(#road-asphalt-grad)" />
+              <rect x="237" y="390" width="4" height="305" fill="url(#curb-bevel)" />
+              <rect x="274" y="390" width="4" height="305" fill="url(#curb-bevel)" />
+              
+              <rect x="480" y="390" width="36" height="305" fill="url(#road-asphalt-grad)" />
+              <rect x="477" y="390" width="4" height="305" fill="url(#curb-bevel)" />
+              <rect x="514" y="390" width="4" height="305" fill="url(#curb-bevel)" />
 
-              <!-- Decorative Trees along Road Borders -->
-              <circle cx="230" cy="50" r="6" fill="#39452F"/><circle cx="230" cy="150" r="6" fill="#39452F"/><circle cx="230" cy="250" r="6" fill="#39452F"/>
-              <circle cx="285" cy="50" r="6" fill="#39452F"/><circle cx="285" cy="150" r="6" fill="#39452F"/><circle cx="285" cy="250" r="6" fill="#39452F"/>
-              <circle cx="470" cy="50" r="6" fill="#39452F"/><circle cx="470" cy="150" r="6" fill="#39452F"/><circle cx="470" cy="250" r="6" fill="#39452F"/>
-              <circle cx="525" cy="50" r="6" fill="#39452F"/><circle cx="525" cy="150" r="6" fill="#39452F"/><circle cx="525" cy="250" r="6" fill="#39452F"/>
+              <rect x="720" y="390" width="36" height="305" fill="url(#road-asphalt-grad)" />
+              <rect x="717" y="390" width="4" height="305" fill="url(#curb-bevel)" />
+              <rect x="754" y="390" width="4" height="305" fill="url(#curb-bevel)" />
+
+              <!-- Street Avenue Trees along Road Borders -->
+              <g id="street-trees" filter="url(#tree-shadow)">
+                <circle cx="232" cy="60" r="7" fill="#43a047"/><circle cx="232" cy="160" r="7" fill="#2e7d32"/><circle cx="232" cy="260" r="7" fill="#43a047"/>
+                <circle cx="282" cy="60" r="7" fill="#2e7d32"/><circle cx="282" cy="160" r="7" fill="#43a047"/><circle cx="282" cy="260" r="7" fill="#2e7d32"/>
+                <circle cx="472" cy="60" r="7" fill="#43a047"/><circle cx="472" cy="160" r="7" fill="#2e7d32"/><circle cx="472" cy="260" r="7" fill="#43a047"/>
+                <circle cx="522" cy="60" r="7" fill="#2e7d32"/><circle cx="522" cy="160" r="7" fill="#43a047"/><circle cx="522" cy="260" r="7" fill="#2e7d32"/>
+              </g>
+
+              <!-- ==========================================================================
+                   PARTITIONED ZONE 1: DEDICATED CHILDREN'S PARK & PLAY AREA
+                   ========================================================================== -->
+              <g id="children-park-zone" filter="url(#shadow-3d)">
+                <!-- Park Base Grass Lawn -->
+                <rect x="762" y="30" width="190" height="295" rx="6" fill="url(#park-grass-grad)" stroke="#2e7d32" stroke-width="2"/>
+                
+                <!-- 3D Partition Wall & Green Hedge Fence Enclosure -->
+                <rect x="764" y="32" width="186" height="291" rx="5" fill="none" stroke="#1b5e20" stroke-width="5"/>
+                <rect x="764" y="32" width="186" height="291" rx="5" fill="none" stroke="#aed581" stroke-width="1.5" stroke-dasharray="6 4"/>
+                <!-- Corner Stone Pillars -->
+                <rect x="760" y="28" width="8" height="8" fill="#546e7a" rx="1"/>
+                <rect x="948" y="28" width="8" height="8" fill="#546e7a" rx="1"/>
+                <rect x="760" y="321" width="8" height="8" fill="#546e7a" rx="1"/>
+                <rect x="948" y="321" width="8" height="8" fill="#546e7a" rx="1"/>
+
+                <!-- Park Perimeter Trees -->
+                <circle cx="778" cy="48" r="10" fill="#2e7d32" filter="url(#tree-shadow)"/>
+                <circle cx="936" cy="48" r="10" fill="#388e3c" filter="url(#tree-shadow)"/>
+                <circle cx="778" cy="310" r="10" fill="#388e3c" filter="url(#tree-shadow)"/>
+                <circle cx="936" cy="310" r="10" fill="#2e7d32" filter="url(#tree-shadow)"/>
+
+                <!-- Partition Signpost Badge -->
+                <rect x="775" y="270" width="164" height="26" rx="4" fill="#1b5e20" opacity="0.95" stroke="#81c784" stroke-width="1.2"/>
+                <text x="857" y="287" font-family="sans-serif" font-size="10" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1">CHILDREN PARK & PLAY AREA</text>
+
+                <!-- PLAYGROUND EQUIPMENT GRAPHICS (SWINGS & SLIDE FORTRESS) -->
+                <!-- 1. Swing Set Graphic -->
+                <g transform="translate(790, 75)">
+                  <rect x="20" y="28" width="38" height="12" fill="#d7ccc8" rx="2" stroke="#8d6e63" stroke-width="1"/>
+                  <line x1="10" y1="40" x2="25" y2="10" stroke="#78909c" stroke-width="3"/>
+                  <line x1="40" y1="40" x2="25" y2="10" stroke="#78909c" stroke-width="3"/>
+                  <line x1="70" y1="40" x2="55" y2="10" stroke="#78909c" stroke-width="3"/>
+                  <line x1="25" y1="10" x2="55" y2="10" stroke="#37474f" stroke-width="3.5"/>
+                  <line x1="32" y1="10" x2="32" y2="30" stroke="#e53935" stroke-width="1.2"/>
+                  <line x1="38" y1="10" x2="38" y2="30" stroke="#e53935" stroke-width="1.2"/>
+                  <rect x="30" y="30" width="10" height="3" fill="#fbc02d" rx="1"/>
+                  <line x1="44" y1="10" x2="44" y2="30" stroke="#e53935" stroke-width="1.2"/>
+                  <line x1="50" y1="10" x2="50" y2="30" stroke="#e53935" stroke-width="1.2"/>
+                  <rect x="42" y="30" width="10" height="3" fill="#e53935" rx="1"/>
+                  <text x="40" y="52" font-family="sans-serif" font-size="7" font-weight="800" fill="#1b5e20" text-anchor="middle">SWING ZONE</text>
+                </g>
+
+                <!-- 2. Play Fortress & Slide Chute Graphic -->
+                <g transform="translate(790, 150)">
+                  <rect x="60" y="20" width="30" height="30" fill="#fb8c00" stroke="#e65100" stroke-width="1.5" rx="3"/>
+                  <polygon points="55,20 75,2 95,20" fill="#e53935" stroke="#b71c1c" stroke-width="1.5"/>
+                  <line x1="65" y1="50" x2="65" y2="20" stroke="#fbc02d" stroke-width="2"/>
+                  <line x1="72" y1="50" x2="72" y2="20" stroke="#fbc02d" stroke-width="2"/>
+                  <line x1="63" y1="40" x2="74" y2="40" stroke="#d84315" stroke-width="1.5"/>
+                  <line x1="63" y1="30" x2="74" y2="30" stroke="#d84315" stroke-width="1.5"/>
+                  <path d="M 85 35 Q 110 40 120 60" fill="none" stroke="#e53935" stroke-width="6" stroke-linecap="round"/>
+                  <path d="M 85 35 Q 110 40 120 60" fill="none" stroke="#ff8a80" stroke-width="2" stroke-linecap="round"/>
+                  <text x="75" y="66" font-family="sans-serif" font-size="7" font-weight="800" fill="#1b5e20" text-anchor="middle">SLIDE & PLAY FORTRESS</text>
+                </g>
+
+                <!-- 3. Park Walking Path -->
+                <path d="M 775 140 Q 850 120 935 140 Q 860 230 775 240" fill="none" stroke="#d7ccc8" stroke-width="8" stroke-linecap="round"/>
+                <path d="M 775 140 Q 850 120 935 140 Q 860 230 775 240" fill="none" stroke="#8d6e63" stroke-width="1" stroke-dasharray="3 3"/>
+              </g>
+
+              <!-- ==========================================================================
+                   PARTITIONED ZONE 2: CENTRAL COMMUNITY PARK & WATER FOUNTAIN
+                   ========================================================================== -->
+              <g id="open-space-zone" filter="url(#shadow-3d)">
+                <!-- Base Lawn Area -->
+                <rect x="762" y="395" width="190" height="295" rx="6" fill="url(#park-grass-grad)" stroke="#2e7d32" stroke-width="2"/>
+                
+                <!-- Partition Hedge Wall -->
+                <rect x="764" y="397" width="186" height="291" rx="5" fill="none" stroke="#1b5e20" stroke-width="5"/>
+                <rect x="764" y="397" width="186" height="291" rx="5" fill="none" stroke="#aed581" stroke-width="1.5" stroke-dasharray="6 4"/>
+                
+                <!-- Central Water Fountain Pool -->
+                <circle cx="857" cy="540" r="32" fill="#81d4fa" stroke="#0288d1" stroke-width="3.5"/>
+                <circle cx="857" cy="540" r="22" fill="#4fc3f7" stroke="#0288d1" stroke-width="1.5"/>
+                <circle cx="857" cy="540" r="10" fill="#e0f7fa" stroke="#0288d1" stroke-width="1"/>
+                <text x="857" y="544" font-family="sans-serif" font-size="7" font-weight="900" fill="#01579b" text-anchor="middle">WATER FOUNTAIN</text>
+                
+                <!-- Flowerbed Rings -->
+                <circle cx="857" cy="450" r="14" fill="#f48fb1" stroke="#c2185b" stroke-width="1.5"/>
+                <circle cx="857" cy="450" r="6" fill="#f8bbd0"/>
+
+                <!-- Partition Title Badge -->
+                <rect x="775" y="650" width="164" height="26" rx="4" fill="#1b5e20" opacity="0.95" stroke="#81c784" stroke-width="1.2"/>
+                <text x="857" y="667" font-family="sans-serif" font-size="10" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1">CENTRAL PARK & GREEN BELT</text>
+              </g>
+
+              <!-- PROJECT ENTRANCE GATEWAY (RIGHT BOTTOM HIGHWAY CONNECTOR) -->
+              <g id="project-entrance-gateway">
+                <rect x="1015" y="330" width="45" height="70" fill="url(#road-asphalt-grad)" />
+                <rect x="1015" y="330" width="8" height="70" fill="#37474f" />
+                <rect x="1052" y="330" width="8" height="70" fill="#37474f" />
+                <text x="1035" y="368" font-family="sans-serif" font-size="8" font-weight="900" fill="#ffe082" text-anchor="middle" transform="rotate(90, 1035, 368)" letter-spacing="2">PROJECT ENTRANCE</text>
+              </g>
+
+              <!-- RED PLOT DIMENSION OVERLAYS (30x50, 30x60, 30x40 IN RED TEXT ACROSS COLUMNS) -->
+              <g id="red-dimension-labels" opacity="0.95">
+                <text x="160" y="195" font-family="sans-serif" font-size="15" font-weight="900" fill="#d32f2f" text-anchor="middle" transform="rotate(-90, 160, 195)" letter-spacing="3" filter="url(#shadow-3d)">30×50</text>
+                <text x="400" y="195" font-family="sans-serif" font-size="15" font-weight="900" fill="#d32f2f" text-anchor="middle" transform="rotate(-90, 400, 195)" letter-spacing="3" filter="url(#shadow-3d)">30×50</text>
+                <text x="440" y="195" font-family="sans-serif" font-size="15" font-weight="900" fill="#d32f2f" text-anchor="middle" transform="rotate(-90, 440, 195)" letter-spacing="3" filter="url(#shadow-3d)">30×60</text>
+                <text x="640" y="195" font-family="sans-serif" font-size="15" font-weight="900" fill="#d32f2f" text-anchor="middle" transform="rotate(-90, 640, 195)" letter-spacing="3" filter="url(#shadow-3d)">30×60</text>
+                
+                <text x="160" y="560" font-family="sans-serif" font-size="15" font-weight="900" fill="#d32f2f" text-anchor="middle" transform="rotate(-90, 160, 560)" letter-spacing="3" filter="url(#shadow-3d)">30×40</text>
+                <text x="400" y="560" font-family="sans-serif" font-size="15" font-weight="900" fill="#d32f2f" text-anchor="middle" transform="rotate(-90, 400, 560)" letter-spacing="3" filter="url(#shadow-3d)">30×40</text>
+                <text x="640" y="560" font-family="sans-serif" font-size="15" font-weight="900" fill="#d32f2f" text-anchor="middle" transform="rotate(-90, 640, 560)" letter-spacing="3" filter="url(#shadow-3d)">30×50</text>
+              </g>
 
               <!-- Compass Rose Compass Star in Top Right -->
-              <g transform="translate(900, 70)">
-                <circle cx="0" cy="0" r="28" fill="#FFFDF7" stroke="#C6A15B" stroke-width="1.5"/>
-                <path d="M0 -22 L6 0 L0 22 L-6 0 Z" fill="#39452F"/>
-                <path d="M-22 0 L0 6 L22 0 L0 -6 Z" fill="#C6A15B"/>
-                <text x="0" y="-32" font-family="serif" font-size="12" font-weight="bold" fill="#39452F" text-anchor="middle">N</text>
-                <text x="0" y="42" font-family="serif" font-size="10" font-weight="bold" fill="#39452F" text-anchor="middle">S</text>
-                <text x="36" y="4" font-family="serif" font-size="10" font-weight="bold" fill="#39452F" text-anchor="middle">E</text>
-                <text x="-36" y="4" font-family="serif" font-size="10" font-weight="bold" fill="#39452F" text-anchor="middle">W</text>
+              <g transform="translate(1030, 70)">
+                <circle cx="0" cy="0" r="24" fill="#1b2416" stroke="#c6a15b" stroke-width="1.5"/>
+                <path d="M0 -18 L5 0 L0 18 L-5 0 Z" fill="#e53935"/>
+                <path d="M-18 0 L0 5 L18 0 L0 -5 Z" fill="#c6a15b"/>
+                <text x="0" y="-27" font-family="serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">N</text>
               </g>
 
               <!-- Dynamic Interactive Plot Rectangles Group -->
@@ -205,63 +441,65 @@
           </div>
         </div>
 
-        <!-- LAYOUT SPECIFICATION & DIMENSION BREAKDOWN TABLE (REFERENCING IMAGE SUMMARY) -->
-        <div class="layout-summary-table-card">
-          <h4 class="summary-table-title">LAYOUT SPECIFICATION & DIMENSION SUMMARY</h4>
-          <div class="table-responsive">
-            <table class="layout-spec-table">
+        <!-- DYNAMIC ALL PLOTS DIRECTORY TABLE WITH CATEGORY FILTERS -->
+        <div class="layout-summary-table-card" id="plots-directory-card" style="margin-top: 35px;">
+          <div class="plots-table-header-bar">
+            <div>
+              <span class="architectural-tag">COMPLETE MASTER PLAN DIRECTORY</span>
+              <h3 class="summary-table-title" style="margin-top: 4px;">ALL PLOT SPECIFICATIONS & PRICING</h3>
+            </div>
+
+            <!-- CATEGORY FILTER CHIPS -->
+            <div class="public-table-filter-chips">
+              <button class="public-table-chip active" data-table-filter="ALL" onclick="filterPublicPlotsTable('ALL')">
+                ALL PLOTS <span id="pub-count-all">(228)</span>
+              </button>
+              <button class="public-table-chip chip-available" data-table-filter="AVAILABLE" onclick="filterPublicPlotsTable('AVAILABLE')">
+                AVAILABLE <span id="pub-count-available">(112)</span>
+              </button>
+              <button class="public-table-chip chip-prebooked" data-table-filter="PRE-BOOKED" onclick="filterPublicPlotsTable('PRE-BOOKED')">
+                PRE-BOOKED <span id="pub-count-prebooked">(25)</span>
+              </button>
+              <button class="public-table-chip chip-sold" data-table-filter="SOLD" onclick="filterPublicPlotsTable('SOLD')">
+                SOLD <span id="pub-count-sold">(50)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- SEARCH & COUNT HEADER -->
+          <div class="public-table-search-bar" style="margin-bottom: 15px; display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+            <div style="position: relative; flex: 1; min-width: 240px; max-width: 360px;">
+              <input type="text" id="public-plot-search" placeholder="Search by plot number or facing..." oninput="handlePublicPlotSearch(this.value)" style="width: 100%; padding: 8px 12px 8px 34px; border-radius: var(--radius-sm); border: 1px solid var(--gold-border); background: var(--bg-cream); font-size: 0.88rem; color: var(--olive-deep);" />
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 10px; top: 10px; opacity: 0.5;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);" id="public-plot-showing-count">
+              Showing plots...
+            </div>
+          </div>
+
+          <div class="table-responsive" style="max-height: 540px; overflow-y: auto;">
+            <table class="layout-spec-table interactive-plots-table">
               <thead>
                 <tr>
-                  <th>SL.NO</th>
+                  <th>PLOT #</th>
                   <th>DIMENSION</th>
-                  <th>CENTS / AREA</th>
-                  <th>TOTAL PLOTS</th>
-                  <th>STATUS BREAKDOWN</th>
+                  <th>AREA (CENTS / SQ.FT)</th>
+                  <th>FACING</th>
+                  <th>ROAD ACCESS</th>
+                  <th>INVESTMENT PRICE</th>
+                  <th>STATUS</th>
+                  <th>ACTION</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td><strong>1</strong></td>
-                  <td><strong>30' × 40'</strong></td>
-                  <td>2.75 Cents (1,200 Sq.Ft)</td>
-                  <td><strong>187 Plots</strong></td>
-                  <td><span class="text-available">112 Available</span> • <span class="text-gold">25 Booked</span> • <span class="text-terracotta">50 Sold</span></td>
-                </tr>
-                <tr>
-                  <td><strong>2</strong></td>
-                  <td><strong>30' × 50'</strong></td>
-                  <td>3.44 Cents (1,500 Sq.Ft)</td>
-                  <td><strong>09 Plots</strong></td>
-                  <td><span class="text-available">05 Available</span> • <span class="text-gold">02 Booked</span> • <span class="text-terracotta">02 Sold</span></td>
-                </tr>
-                <tr>
-                  <td><strong>3</strong></td>
-                  <td><strong>30' × 30'</strong></td>
-                  <td>2.06 Cents (900 Sq.Ft)</td>
-                  <td><strong>17 Plots</strong></td>
-                  <td><span class="text-available">10 Available</span> • <span class="text-gold">03 Booked</span> • <span class="text-terracotta">04 Sold</span></td>
-                </tr>
-                <tr>
-                  <td><strong>4</strong></td>
-                  <td><strong>30' × 35'</strong></td>
-                  <td>2.41 Cents (1,050 Sq.Ft)</td>
-                  <td><strong>03 Plots</strong></td>
-                  <td><span class="text-available">02 Available</span> • <span class="text-gold">00 Booked</span> • <span class="text-terracotta">01 Sold</span></td>
-                </tr>
-                <tr>
-                  <td><strong>5</strong></td>
-                  <td><strong>Other / Corner Sites</strong></td>
-                  <td>3.50 – 5.00 Cents (1,800–2,400 Sq.Ft)</td>
-                  <td><strong>12 Plots</strong></td>
-                  <td><span class="text-available">06 Available</span> • <span class="text-gold">02 Booked</span> • <span class="text-terracotta">04 Sold</span></td>
-                </tr>
-                <tr class="total-row">
-                  <td colspan="3"><strong>TOTAL MASTER PLAN CAPACITY</strong></td>
-                  <td><strong>228 PLOTS</strong></td>
-                  <td><strong>100% DTCP APPROVED LAYOUT</strong></td>
-                </tr>
+              <tbody id="public-plots-tbody">
+                <!-- POPULATED DYNAMICALLY BY JAVASCRIPT -->
               </tbody>
             </table>
+          </div>
+
+          <!-- PAGINATION CONTROLS -->
+          <div class="admin-pagination-container" id="public-plots-pagination" style="margin-top: 15px;">
+            <!-- RENDERED BY JS -->
           </div>
         </div>
       </div>
@@ -317,18 +555,25 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
-        <div>
-          <div class="logo-wrapper" style="margin-bottom: 16px;">
+        <!-- Col 1: Brand & Identity -->
+        <div class="footer-col-brand">
+          <div class="logo-wrapper" style="margin-bottom: 8px;">
             <span class="logo-title gold-glow-letters" style="font-size: 1.8rem; font-weight: 800;">VELS</span>
           </div>
-          <p style="font-size: 0.9rem; color: var(--sage-muted); line-height: 1.6;">
-            Established property developer specializing in plot layouts and custom building construction across Coimbatore & Pollachi.
+          <span class="footer-brand-sub">SAKTHIVEL GROUPS • EST. 2009</span>
+          <p class="footer-brand-desc">
+            Pioneering premium DTCP & RERA approved plot enclaves, farm residency layouts, and custom building construction across Coimbatore & Pollachi.
           </p>
+          <div class="footer-trust-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>100% LEGAL & DTCP APPROVED</span>
+          </div>
         </div>
 
+        <!-- Col 2: Navigation Links -->
         <div>
-          <h4 style="color: var(--gold-light); font-size: 0.95rem; margin-bottom: 16px; letter-spacing: 1.5px;">QUICK LINKS</h4>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+          <h4 class="footer-col-title">QUICK LINKS</h4>
+          <ul class="footer-links-list">
             <li><a href="index.html" class="footer-link">Home</a></li>
             <li><a href="plots.html" class="footer-link">Find Plots</a></li>
             <li><a href="about.html" class="footer-link">About Us</a></li>
@@ -338,38 +583,61 @@
           </ul>
         </div>
 
+        <!-- Col 3: Regional Offices -->
         <div>
-          <h4 style="color: var(--gold-light); font-size: 0.95rem; margin-bottom: 16px; letter-spacing: 1.5px;">LOCATIONS</h4>
-          <p style="font-size: 0.88rem; color: var(--sage-muted);">Coimbatore: Hope College Main Rd</p>
-          <p style="font-size: 0.88rem; color: var(--sage-muted); margin-top: 6px;">Pollachi: Mahalingapuram</p>
+          <h4 class="footer-col-title">REGIONAL OFFICES</h4>
+          <div class="footer-loc-item">
+            <div class="footer-loc-head">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <strong>COIMBATORE</strong>
+            </div>
+            <p>Peelamedu & Hope College Main Road Highway Corridor</p>
+          </div>
+          <div class="footer-loc-item">
+            <div class="footer-loc-head">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <strong>POLLACHI</strong>
+            </div>
+            <p>Mahalingapuram Main Road & Green Vistas Corridor</p>
+          </div>
         </div>
 
+        <!-- Col 4: Direct Contact & Helpline -->
         <div>
-          <h4 style="color: var(--gold-light); font-size: 0.95rem; margin-bottom: 16px; letter-spacing: 1.5px;">DIRECT CONTACT</h4>
-          <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
-            <a href="https://wa.me/919842212345?text=Hello%20VELS%20Sakthivel%20Groups,%20I%20want%20to%20enquire%20about%20plots" target="_blank" rel="noopener" class="footer-small-icon-btn whatsapp-icon" title="Chat on WhatsApp" aria-label="WhatsApp">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12.031 0C5.385 0 0 5.386 0 12.031c0 2.124.553 4.197 1.604 6.02L0 24l6.155-1.614A11.968 11.968 0 0 0 12.03 24c6.645 0 12.03-5.385 12.03-12.031C24.06 5.386 18.675 0 12.031 0zm.012 22.012c-1.808 0-3.585-.486-5.143-1.408l-.369-.219-3.817 1.001 1.019-3.721-.241-.383A9.99 9.99 0 0 1 2.012 12.03c0-5.524 4.496-10.02 10.031-10.02 5.524 0 10.02 4.496 10.02 10.02 0 5.536-4.496 10.012-10.02 10.012zm5.503-7.519c-.302-.152-1.785-.881-2.062-.981-.277-.101-.479-.152-.68.152-.202.302-.782.981-.959 1.183-.176.201-.353.226-.655.075-1.745-.875-2.894-1.559-4.04-3.535-.302-.52.302-.482.864-1.608.101-.201.05-.378-.025-.529-.075-.152-.68-1.636-.932-2.24-.244-.588-.493-.508-.68-.518-.176-.009-.378-.009-.58-.009-.201 0-.528.075-.804.378-.277.302-1.057 1.032-1.057 2.518 0 1.486 1.082 2.92 1.233 3.122.151.201 2.128 3.25 5.156 4.558 2.164.935 2.809.845 3.791.7.636-.094 1.785-.73 2.037-1.435.252-.705.252-1.309.176-1.435-.076-.125-.278-.201-.58-.352z"/>
-              </svg>
+          <h4 class="footer-col-title">DIRECT CONTACT</h4>
+          <div class="footer-contact-list">
+            <a href="tel:+919842212345" class="footer-contact-row">
+              <span class="footer-contact-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </span>
+              <div>
+                <span class="footer-contact-lbl">PROJECT HELPLINE</span>
+                <strong class="footer-contact-val">+91 98422 12345</strong>
+              </div>
             </a>
-            <a href="tel:+919842212345" class="footer-small-icon-btn" title="Phone Call" aria-label="Phone Call">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-              </svg>
-            </a>
-            <a href="contact.html" class="footer-small-icon-btn" title="Send Message" aria-label="Message">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                <polyline points="22,6 12,13 2,6"/>
-              </svg>
+
+            <a href="https://wa.me/919842212345?text=Hello%20VELS%20Sakthivel%20Groups,%20I%20want%20to%20enquire%20about%20plots" target="_blank" rel="noopener" class="footer-contact-row">
+              <span class="footer-contact-icon wa-bg">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 0C5.385 0 0 5.386 0 12.031c0 2.124.553 4.197 1.604 6.02L0 24l6.155-1.614A11.968 11.968 0 0 0 12.03 24c6.645 0 12.03-5.385 12.03-12.031C24.06 5.386 18.675 0 12.031 0zm.012 22.012c-1.808 0-3.585-.486-5.143-1.408l-.369-.219-3.817 1.001 1.019-3.721-.241-.383A9.99 9.99 0 0 1 2.012 12.03c0-5.524 4.496-10.02 10.031-10.02 5.524 0 10.02 4.496 10.02 10.02 0 5.536-4.496 10.012-10.02 10.012zm5.503-7.519c-.302-.152-1.785-.881-2.062-.981-.277-.101-.479-.152-.68.152-.202.302-.782.981-.959 1.183-.176.201-.353.226-.655.075-1.745-.875-2.894-1.559-4.04-3.535-.302-.52.302-.482.864-1.608.101-.201.05-.378-.025-.529-.075-.152-.68-1.636-.932-2.24-.244-.588-.493-.508-.68-.518-.176-.009-.378-.009-.58-.009-.201 0-.528.075-.804.378-.277.302-1.057 1.032-1.057 2.518 0 1.486 1.082 2.92 1.233 3.122.151.201 2.128 3.25 5.156 4.558 2.164.935 2.809.845 3.791.7.636-.094 1.785-.73 2.037-1.435.252-.705.252-1.309.176-1.435-.076-.125-.278-.201-.58-.352z"/></svg>
+              </span>
+              <div>
+                <span class="footer-contact-lbl">WHATSAPP CHAT</span>
+                <strong class="footer-contact-val">Instant Enquiry →</strong>
+              </div>
             </a>
           </div>
         </div>
       </div>
 
+      <!-- Footer Bottom Bar with Floating Buttons Clearance -->
       <div class="footer-bottom">
         <span>© 2026 VELS — Sakthivel Groups. All Rights Reserved.</span>
-        <span>Coimbatore & Pollachi, Tamil Nadu</span>
+        <span class="footer-legal-group">
+          <a href="javascript:void(0)" onclick="openLegalModal('privacy')" class="footer-legal-link">Privacy Policy</a>
+          <span class="footer-legal-sep">•</span>
+          <a href="javascript:void(0)" onclick="openLegalModal('terms')" class="footer-legal-link">Terms & Conditions</a>
+        </span>
+        <span class="footer-bottom-loc">Coimbatore & Pollachi, Tamil Nadu</span>
       </div>
     </div>
   </footer>

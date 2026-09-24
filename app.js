@@ -28,19 +28,21 @@ function generateFull228PlotDataset() {
     { cents: '4.13 Cents', size: '1,800 Sq.Ft', dim: '40\' × 45\'', price: '₹ 45.00 Lakhs' }
   ];
 
-  // 8 Grid Sub-Blocks in SVG Canvas (1080x720)
+  // Sectorized Sub-Blocks (A, B, C, D, E, F) - Strictly x=30..710 (Zero overlap with Park zones x=760..955)
   const blocks = [
-    // North Blocks (y: 35..325)
-    { xStart: 30,  yStart: 35,  cols: 6, rows: 5, colGap: 34, rowGap: 56, width: 28, height: 48 },
-    { xStart: 285, yStart: 35,  cols: 5, rows: 5, colGap: 36, rowGap: 56, width: 28, height: 48 },
-    { xStart: 525, yStart: 35,  cols: 5, rows: 5, colGap: 36, rowGap: 56, width: 28, height: 48 },
-    { xStart: 765, yStart: 35,  cols: 5, rows: 5, colGap: 36, rowGap: 56, width: 28, height: 48 },
+    // Sector A (North West 1): x=30..220, y=35..325
+    { sector: 'A', xStart: 30,  yStart: 35,  cols: 5, rows: 4, colGap: 36, rowGap: 68, width: 30, height: 52 },
+    // Sector B (North Center 2): x=285..475, y=35..325
+    { sector: 'B', xStart: 285, yStart: 35,  cols: 5, rows: 4, colGap: 36, rowGap: 68, width: 30, height: 52 },
+    // Sector C (North East 3): x=530..710, y=35..325
+    { sector: 'C', xStart: 530, yStart: 35,  cols: 5, rows: 4, colGap: 36, rowGap: 68, width: 30, height: 52 },
 
-    // South Blocks (y: 405..695)
-    { xStart: 30,  yStart: 405, cols: 6, rows: 5, colGap: 34, rowGap: 56, width: 28, height: 48 },
-    { xStart: 285, yStart: 405, cols: 5, rows: 5, colGap: 36, rowGap: 56, width: 28, height: 48 },
-    { xStart: 525, yStart: 405, cols: 5, rows: 5, colGap: 36, rowGap: 56, width: 28, height: 48 },
-    { xStart: 765, yStart: 405, cols: 5, rows: 5, colGap: 36, rowGap: 56, width: 28, height: 48 }
+    // Sector D (South West 1): x=30..220, y=405..695
+    { sector: 'D', xStart: 30,  yStart: 405, cols: 5, rows: 4, colGap: 36, rowGap: 68, width: 30, height: 52 },
+    // Sector E (South Center 2): x=285..475, y=405..695
+    { sector: 'E', xStart: 285, yStart: 405, cols: 5, rows: 4, colGap: 36, rowGap: 68, width: 30, height: 52 },
+    // Sector F (South East 3): x=530..710, y=405..695
+    { sector: 'F', xStart: 530, yStart: 405, cols: 5, rows: 4, colGap: 36, rowGap: 68, width: 30, height: 52 }
   ];
 
   const plots = [];
@@ -48,22 +50,25 @@ function generateFull228PlotDataset() {
 
   for (let b = 0; b < blocks.length; b++) {
     const blk = blocks[b];
+    let sectorPlotNum = 1;
     for (let r = 0; r < blk.rows; r++) {
       for (let c = 0; c < blk.cols; c++) {
         if (plotCounter >= totalPlots) break;
 
-        const num = 101 + plotCounter;
+        const plotNum = plotCounter + 1;
         const x = blk.xStart + c * blk.colGap;
         const y = blk.yStart + r * blk.rowGap;
 
         const spec = centsList[plotCounter % centsList.length];
         const facing = (c === 0 || c === blk.cols - 1 || r === 0) ? 'Corner Facing' : facings[plotCounter % (facings.length - 1)];
         const road = roadNames[b % roadNames.length];
-        const status = statusList[plotCounter];
+        const status = statusList[plotCounter % statusList.length];
 
         plots.push({
-          id: `PLOT-${num}`,
-          number: `${num}`,
+          id: `PLOT-${plotNum}`,
+          number: plotNum,
+          sector: blk.sector,
+          sectorPlot: `${blk.sector}${sectorPlotNum}`,
           cents: spec.cents,
           size: spec.size,
           dim: spec.dim,
@@ -78,6 +83,7 @@ function generateFull228PlotDataset() {
         });
 
         plotCounter++;
+        sectorPlotNum++;
       }
     }
   }
@@ -121,6 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('admin-enquiry-table-body')) {
     renderAdminEnquiries();
   }
+  if (document.getElementById('admin-customer-registry-tbody')) {
+    renderCustomerDirectoryTable();
+  }
 
   initReplayButton();
   initSelectedPlotUrlParams();
@@ -128,6 +137,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initGalleryFilter();
   if (document.getElementById('customer-reviews-section')) {
     initCustomerReviewsSlider();
+  }
+  initTextured3DBackground();
+  initHeroStatCounters();
+  if (document.getElementById('admin-main-dashboard')) {
+    checkAdminAuth();
   }
 });
 
@@ -145,8 +159,16 @@ function checkAdminAuth() {
     loginGateway.style.display = 'none';
     mainDashboard.style.display = 'block';
     if (logoutBtn) logoutBtn.style.display = 'inline-flex';
+
+    if (typeof renderAdminTable === 'function') {
+      renderAdminTable();
+      updateAdminMetrics();
+    }
     if (typeof renderAdminEnquiries === 'function') {
       renderAdminEnquiries();
+    }
+    if (typeof renderCustomerDirectoryTable === 'function') {
+      renderCustomerDirectoryTable();
     }
   } else {
     loginGateway.style.display = 'flex';
@@ -160,21 +182,19 @@ function handleAdminLogin(event) {
 
   const userInput = document.getElementById('admin-username')?.value.trim();
   const passInput = document.getElementById('admin-password')?.value.trim();
-  const authFactorInput = document.getElementById('admin-auth-factor')?.value.trim();
   const errorEl = document.getElementById('admin-login-error');
 
   const validUsername = 'admin';
-  const isValidPassword = passInput === 'VelsAdmin@2026!' || passInput === 'admin123';
-  const validAuthFactor = 'VELS-2026-SECURE';
+  const isValidPassword = passInput === 'Admin123' || passInput === 'admin123' || passInput === 'VelsAdmin@2026!';
 
-  if (userInput === validUsername && isValidPassword && authFactorInput === validAuthFactor) {
+  if (userInput === validUsername && isValidPassword) {
     sessionStorage.setItem('vels_admin_authenticated', 'true');
     if (errorEl) errorEl.style.display = 'none';
     checkAdminAuth();
   } else {
     if (errorEl) {
       errorEl.style.display = 'block';
-      errorEl.textContent = 'Invalid credentials or authentication factor string. Please try again.';
+      errorEl.textContent = 'Invalid admin credentials. Access denied.';
     }
   }
 }
@@ -380,8 +400,9 @@ function renderMasterPlanSvg() {
 
     const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     g.setAttribute('class', 'plot-node');
+    g.setAttribute('style', 'cursor: pointer; transition: transform 0.2s ease;');
     if (isFilteredOut) {
-      g.setAttribute('opacity', '0.2');
+      g.setAttribute('opacity', '0.15');
     }
 
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
@@ -391,19 +412,66 @@ function renderMasterPlanSvg() {
     rect.setAttribute('height', plot.h);
     rect.setAttribute('rx', '3');
     rect.setAttribute('class', `plot-rect ${statusClass} ${isSelected ? 'selected' : ''}`);
+    
+    // Realistic 3D Plot Status & Lawn Grass Fill Styling
+    if (plot.status === 'AVAILABLE') {
+      rect.setAttribute('fill', 'url(#plot-grass-pattern)');
+      rect.setAttribute('stroke', '#33691e');
+      rect.setAttribute('stroke-width', '1.4');
+    } else if (plot.status === 'PRE-BOOKED') {
+      rect.setAttribute('fill', 'url(#plot-gold-grad)');
+      rect.setAttribute('stroke', '#f57f17');
+      rect.setAttribute('stroke-width', '1.4');
+    } else if (plot.status === 'SOLD') {
+      rect.setAttribute('fill', 'url(#plot-terracotta-grad)');
+      rect.setAttribute('stroke', '#bf360c');
+      rect.setAttribute('stroke-width', '1.4');
+    }
+
+    if (isSelected) {
+      rect.setAttribute('stroke', '#ffffff');
+      rect.setAttribute('stroke-width', '3');
+      rect.setAttribute('filter', 'drop-shadow(0 0 12px #ffffff)');
+    }
 
     rect.addEventListener('click', () => {
       selectPlot(plot.id);
     });
 
+    // Plot Number Circle Badge Background for Maximum Legibility Over Grass
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', plot.x + plot.w / 2);
+    circle.setAttribute('cy', plot.y + plot.h / 2);
+    circle.setAttribute('r', '8.5');
+    if (plot.status === 'AVAILABLE') {
+      circle.setAttribute('fill', '#1b2416');
+      circle.setAttribute('stroke', '#c6a15b');
+      circle.setAttribute('stroke-width', '1');
+    } else if (plot.status === 'PRE-BOOKED') {
+      circle.setAttribute('fill', '#37474f');
+      circle.setAttribute('stroke', '#ffffff');
+      circle.setAttribute('stroke-width', '1');
+    } else {
+      circle.setAttribute('fill', '#260e04');
+      circle.setAttribute('stroke', '#ff8a65');
+      circle.setAttribute('stroke-width', '1');
+    }
+    circle.setAttribute('style', 'pointer-events: none;');
+
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     text.setAttribute('x', plot.x + plot.w / 2);
-    text.setAttribute('y', plot.y + plot.h / 2 + 3);
+    text.setAttribute('y', plot.y + plot.h / 2 + 3.5);
     text.setAttribute('class', `plot-text ${plot.status === 'PRE-BOOKED' ? 'text-dark' : ''}`);
+    text.setAttribute('font-family', 'sans-serif');
+    text.setAttribute('font-size', '9');
+    text.setAttribute('font-weight', '900');
+    text.setAttribute('fill', '#ffffff');
     text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('style', 'pointer-events: none;');
     text.textContent = `${plot.number}`;
 
     g.appendChild(rect);
+    g.appendChild(circle);
     g.appendChild(text);
     svgGroup.appendChild(g);
   });
@@ -458,6 +526,19 @@ function selectPlot(plotId) {
   const plotPriceEl = document.getElementById('drawer-plot-price');
   if (plotPriceEl) plotPriceEl.textContent = plot.price;
 
+  // Populate Edit Form Inputs
+  const editStatusEl = document.getElementById('edit-plot-status');
+  if (editStatusEl) editStatusEl.value = plot.status;
+
+  const editFacingEl = document.getElementById('edit-plot-facing');
+  if (editFacingEl) editFacingEl.value = plot.facing;
+
+  const editDimEl = document.getElementById('edit-plot-dim');
+  if (editDimEl) editDimEl.value = plot.dim;
+
+  const editPriceEl = document.getElementById('edit-plot-price');
+  if (editPriceEl) editPriceEl.value = plot.price;
+
   const enquireBtn = document.getElementById('enquire-plot-btn');
   if (enquireBtn) {
     enquireBtn.onclick = () => {
@@ -467,6 +548,86 @@ function selectPlot(plotId) {
 
   openDrawer();
 }
+
+function togglePlotEditForm() {
+  const form = document.getElementById('drawer-plot-edit-form');
+  if (!form) return;
+  if (form.style.display === 'none' || !form.style.display) {
+    form.style.display = 'block';
+  } else {
+    form.style.display = 'none';
+  }
+}
+
+function handleSavePlotEdit(event) {
+  if (event) event.preventDefault();
+  if (!selectedPlotId) return;
+
+  const plot = plotDataset.find(p => p.id === selectedPlotId);
+  if (!plot) return;
+
+  const newStatus = document.getElementById('edit-plot-status')?.value;
+  const newFacing = document.getElementById('edit-plot-facing')?.value;
+  const newDim = document.getElementById('edit-plot-dim')?.value.trim();
+  const newPrice = document.getElementById('edit-plot-price')?.value.trim();
+
+  if (newStatus) plot.status = newStatus;
+  if (newFacing) plot.facing = newFacing;
+  if (newDim) plot.dim = newDim;
+  if (newPrice) plot.price = newPrice;
+
+  savePlotState();
+  selectPlot(selectedPlotId);
+  updateAvailabilityCounts();
+
+  const form = document.getElementById('drawer-plot-edit-form');
+  if (form) form.style.display = 'none';
+}
+
+function savePlotState() {
+  try {
+    localStorage.setItem('vels_saved_plot_dataset', JSON.stringify(plotDataset));
+  } catch (e) {
+    console.error('Error saving plot dataset:', e);
+  }
+}
+
+function loadSavedPlotState() {
+  try {
+    const saved = localStorage.getItem('vels_saved_plot_dataset');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        parsed.forEach(savedPlot => {
+          const item = plotDataset.find(p => p.id === savedPlot.id);
+          if (item) {
+            item.status = savedPlot.status;
+            if (savedPlot.facing) item.facing = savedPlot.facing;
+            if (savedPlot.dim) item.dim = savedPlot.dim;
+            if (savedPlot.price) item.price = savedPlot.price;
+          }
+        });
+      }
+    }
+  } catch (e) {
+    console.error('Error loading plot dataset:', e);
+  }
+}
+
+// REAL-TIME CROSS-TAB SYNC BETWEEN ADMIN & PLOTS MAP
+window.addEventListener('storage', (e) => {
+  if (e.key === 'vels_saved_plot_dataset') {
+    loadSavedPlotState();
+    if (document.getElementById('plot-masterplan-svg')) {
+      renderMasterPlanSvg();
+      updateAvailabilityCounts();
+    }
+    if (document.getElementById('admin-plot-table-body')) {
+      renderAdminTable();
+      updateAdminMetrics();
+    }
+  }
+});
 
 function openDrawer() {
   const drawer = document.getElementById('plot-drawer');
@@ -502,26 +663,157 @@ function updateAvailabilityCounts() {
 
   const cSold = document.getElementById('count-sold');
   if (cSold) cSold.textContent = String(soldCount);
+
+  renderPublicPlotsTable();
 }
 
-function loadSavedPlotState() {
-  const saved = localStorage.getItem('vels_plot_state');
-  if (saved) {
-    try {
-      const parsed = JSON.parse(saved);
-      parsed.forEach(savedPlot => {
-        const item = plotDataset.find(p => p.id === savedPlot.id);
-        if (item) item.status = savedPlot.status;
-      });
-    } catch (e) {
-      console.error('Failed to parse saved state', e);
+// PUBLIC PLOTS DIRECTORY TABLE FILTERING & PAGINATION
+let publicPlotsCurrentPage = 1;
+const publicPlotsPageSize = 25;
+let publicPlotsSearchQuery = '';
+let publicPlotsStatusFilter = 'ALL';
+
+function handlePublicPlotSearch(query) {
+  publicPlotsSearchQuery = (query || '').trim().replace(/^#/, '').toLowerCase();
+  publicPlotsCurrentPage = 1;
+  renderPublicPlotsTable();
+}
+
+function filterPublicPlotsTable(status) {
+  publicPlotsStatusFilter = status;
+  publicPlotsCurrentPage = 1;
+
+  document.querySelectorAll('.public-table-chip').forEach(chip => {
+    if (chip.getAttribute('data-table-filter') === status) {
+      chip.classList.add('active');
+    } else {
+      chip.classList.remove('active');
+    }
+  });
+
+  renderPublicPlotsTable();
+}
+
+function goToPublicPlotsPage(page) {
+  publicPlotsCurrentPage = page;
+  renderPublicPlotsTable();
+}
+
+function renderPublicPlotsTable() {
+  const tbody = document.getElementById('public-plots-tbody');
+  if (!tbody) return;
+
+  const countAll = plotDataset.length;
+  const countAvail = plotDataset.filter(p => p.status === 'AVAILABLE').length;
+  const countBooked = plotDataset.filter(p => p.status === 'PRE-BOOKED').length;
+  const countSold = plotDataset.filter(p => p.status === 'SOLD').length;
+
+  const elAll = document.getElementById('pub-count-all');
+  if (elAll) elAll.textContent = `(${countAll})`;
+  const elAvail = document.getElementById('pub-count-available');
+  if (elAvail) elAvail.textContent = `(${countAvail})`;
+  const elBooked = document.getElementById('pub-count-prebooked');
+  if (elBooked) elBooked.textContent = `(${countBooked})`;
+  const elSold = document.getElementById('pub-count-sold');
+  if (elSold) elSold.textContent = `(${countSold})`;
+
+  let filteredPlots = plotDataset.filter(plot => {
+    const matchSearch = !publicPlotsSearchQuery || String(plot.number).toLowerCase().includes(publicPlotsSearchQuery) || plot.facing.toLowerCase().includes(publicPlotsSearchQuery);
+    const matchStatus = publicPlotsStatusFilter === 'ALL' || plot.status === publicPlotsStatusFilter;
+    return matchSearch && matchStatus;
+  });
+
+  const totalRecords = filteredPlots.length;
+  const totalPages = Math.max(1, Math.ceil(totalRecords / publicPlotsPageSize));
+  if (publicPlotsCurrentPage > totalPages) publicPlotsCurrentPage = totalPages;
+  if (publicPlotsCurrentPage < 1) publicPlotsCurrentPage = 1;
+
+  const startIndex = (publicPlotsCurrentPage - 1) * publicPlotsPageSize;
+  const endIndex = Math.min(startIndex + publicPlotsPageSize, totalRecords);
+  const pagePlots = filteredPlots.slice(startIndex, endIndex);
+
+  const showingEl = document.getElementById('public-plot-showing-count');
+  if (showingEl) {
+    showingEl.textContent = totalRecords > 0 
+      ? `Showing ${startIndex + 1} - ${endIndex} of ${totalRecords} plots`
+      : `No plots match the selected filter`;
+  }
+
+  tbody.innerHTML = '';
+
+  if (pagePlots.length === 0) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td colspan="8" style="text-align: center; padding: 25px; color: var(--text-muted); font-style: italic;">No plots match the selected category filter.</td>`;
+    tbody.appendChild(tr);
+  } else {
+    pagePlots.forEach(plot => {
+      const tr = document.createElement('tr');
+      tr.style.cursor = 'pointer';
+      tr.onclick = (e) => {
+        if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'A') {
+          selectPlot(plot.id);
+          document.getElementById('plot-map-wrapper')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      };
+
+      let badgeStyle = 'background: rgba(57, 69, 47, 0.12); color: #2e382b; border: 1px solid rgba(57, 69, 47, 0.3);';
+      if (plot.status === 'PRE-BOOKED') {
+        badgeStyle = 'background: rgba(198, 161, 91, 0.18); color: #7a5b15; border: 1px solid rgba(198, 161, 91, 0.4);';
+      } else if (plot.status === 'SOLD') {
+        badgeStyle = 'background: rgba(191, 54, 12, 0.12); color: #bf360c; border: 1px solid rgba(191, 54, 12, 0.3);';
+      }
+
+      tr.innerHTML = `
+        <td><strong style="color: var(--olive-deep);">Plot #${plot.number}</strong></td>
+        <td><strong>${plot.dim}</strong></td>
+        <td>${plot.cents} (${plot.size})</td>
+        <td>${plot.facing}</td>
+        <td><span style="font-size: 0.85rem; color: var(--text-secondary);">${plot.road}</span></td>
+        <td><strong class="text-gold-antique">${plot.price}</strong></td>
+        <td><span style="${badgeStyle} padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">${plot.status}</span></td>
+        <td>
+          <button class="btn btn-sm btn-outline-gold" onclick="selectPlot('${plot.id}'); event.stopPropagation();" style="padding: 4px 10px; font-size: 0.78rem;">
+            INSPECT
+          </button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  renderPublicPlotsPagination(totalPages);
+}
+
+function renderPublicPlotsPagination(totalPages) {
+  const container = document.getElementById('public-plots-pagination');
+  if (!container) return;
+
+  if (totalPages <= 1) {
+    container.innerHTML = '';
+    return;
+  }
+
+  let html = `<div style="display: flex; gap: 6px; align-items: center; justify-content: center; flex-wrap: wrap;">`;
+
+  html += `<button class="pagination-btn ${publicPlotsCurrentPage === 1 ? 'disabled' : ''}" 
+            ${publicPlotsCurrentPage === 1 ? 'disabled' : ''} 
+            onclick="goToPublicPlotsPage(${publicPlotsCurrentPage - 1})">Prev</button>`;
+
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || (i >= publicPlotsCurrentPage - 1 && i <= publicPlotsCurrentPage + 1)) {
+      html += `<button class="pagination-btn ${i === publicPlotsCurrentPage ? 'active' : ''}" 
+                onclick="goToPublicPlotsPage(${i})">${i}</button>`;
+    } else if (i === publicPlotsCurrentPage - 2 || i === publicPlotsCurrentPage + 2) {
+      html += `<span class="pagination-ellipsis">...</span>`;
     }
   }
-}
 
-function savePlotState() {
-  const stateToSave = plotDataset.map(p => ({ id: p.id, status: p.status }));
-  localStorage.setItem('vels_plot_state', JSON.stringify(stateToSave));
+  html += `<button class="pagination-btn ${publicPlotsCurrentPage === totalPages ? 'disabled' : ''}" 
+            ${publicPlotsCurrentPage === totalPages ? 'disabled' : ''} 
+            onclick="goToPublicPlotsPage(${publicPlotsCurrentPage + 1})">Next</button>`;
+
+  html += `</div>`;
+  container.innerHTML = html;
 }
 
 // ADMIN PORTAL - PLOT TABLE PAGINATION & FILTER STATE
@@ -531,7 +823,7 @@ let adminSearchQuery = '';
 let adminStatusFilter = 'ALL';
 
 function handleAdminPlotSearch(query) {
-  adminSearchQuery = (query || '').trim().replace(/^#/, '').toLowerCase();
+  adminSearchQuery = (query || '').trim().toLowerCase();
   adminCurrentPage = 1;
   renderAdminTable();
 }
@@ -551,9 +843,21 @@ function renderAdminTable() {
   const tbody = document.getElementById('admin-plot-table-body');
   if (!tbody) return;
 
+  const cleanQuery = adminSearchQuery.replace(/^(plot|plot\s*#?)\s*/i, '').trim();
+
   // Filter dataset by search query and status
   let filteredPlots = plotDataset.filter(plot => {
-    const matchSearch = !adminSearchQuery || String(plot.number).toLowerCase().includes(adminSearchQuery);
+    const numStr = String(plot.number).toLowerCase();
+    const idStr = String(plot.id).toLowerCase();
+    const secStr = plot.sectorPlot ? String(plot.sectorPlot).toLowerCase() : '';
+    
+    const matchSearch = !adminSearchQuery || 
+                        numStr === cleanQuery || 
+                        numStr.includes(adminSearchQuery) || 
+                        numStr.includes(cleanQuery) || 
+                        idStr.includes(adminSearchQuery) || 
+                        secStr.includes(adminSearchQuery);
+
     const matchStatus = adminStatusFilter === 'ALL' || plot.status === adminStatusFilter;
     return matchSearch && matchStatus;
   });
@@ -571,25 +875,26 @@ function renderAdminTable() {
 
   if (pagePlots.length === 0) {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td colspan="6" style="text-align: center; padding: 24px; color: var(--text-secondary);">No plots found matching current search or filter criteria.</td>`;
+    tr.innerHTML = `<td colspan="6" style="text-align: center; padding: 24px; color: var(--text-secondary); font-weight: 600;">No plots found matching current search or filter criteria.</td>`;
     tbody.appendChild(tr);
   } else {
     pagePlots.forEach((plot, index) => {
       const tr = document.createElement('tr');
       tr.style.animationDelay = `${index * 35}ms`;
+      tr.style.borderBottom = '1px solid rgba(198, 161, 91, 0.2)';
 
       let badgeClass = 'badge-available';
       if (plot.status === 'PRE-BOOKED') badgeClass = 'badge-prebooked';
       if (plot.status === 'SOLD') badgeClass = 'badge-sold';
 
       tr.innerHTML = `
-        <td><strong>PLOT ${plot.number}</strong></td>
-        <td>${plot.size}</td>
-        <td>${plot.facing}</td>
-        <td>${plot.price}</td>
-        <td><span class="badge-status ${badgeClass}">${plot.status}</span></td>
-        <td>
-          <select onchange="updatePlotStatus('${plot.id}', this.value)" style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--gold-border); font-family: var(--font-body); font-weight: 600; background: var(--bg-cream); color: var(--olive-deep);">
+        <td style="padding: 14px 12px; text-align: center;"><strong style="font-size: 0.95rem; font-weight: 800; color: #1E2719;">PLOT ${plot.number}</strong></td>
+        <td style="padding: 14px 12px; color: #2D3748; font-weight: 600; font-size: 0.88rem;">${plot.size} (${plot.cents})</td>
+        <td style="padding: 14px 10px; color: #2D3748; font-weight: 600; font-size: 0.88rem;">${plot.facing}</td>
+        <td style="padding: 14px 12px; color: #0A5C36; font-weight: 800; font-size: 0.92rem;">${plot.price}</td>
+        <td style="padding: 14px 10px; text-align: center;"><span class="badge-status ${badgeClass}" style="font-size: 0.76rem; font-weight: 800; padding: 4px 10px; display: inline-block;">${plot.status}</span></td>
+        <td style="padding: 14px 10px; text-align: center;">
+          <select onchange="updatePlotStatus('${plot.id}', this.value)" style="padding: 6px 10px; border-radius: 4px; border: 1.5px solid var(--gold-border); font-family: var(--font-body); font-size: 0.82rem; font-weight: 700; background: var(--bg-cream); color: var(--olive-deep); cursor: pointer;">
             <option value="AVAILABLE" ${plot.status === 'AVAILABLE' ? 'selected' : ''}>AVAILABLE</option>
             <option value="PRE-BOOKED" ${plot.status === 'PRE-BOOKED' ? 'selected' : ''}>PRE-BOOKED</option>
             <option value="SOLD" ${plot.status === 'SOLD' ? 'selected' : ''}>SOLD</option>
@@ -1159,12 +1464,106 @@ async function markEnquiryAsRead(id, newStatus = 'READ') {
   renderAdminEnquiries();
 }
 
+// --- 5 STAFF / AGENT ROSTER MANAGEMENT ENGINE ---
+const DEFAULT_STAFF_ROSTER = [
+  'Ramesh Kumar (Senior Sales Lead)',
+  'Priya Sharma (Client Advisor)',
+  'Karthik V (Site Manager)',
+  'Anitha Raj (Relationship Manager)',
+  'Suresh Babu (Executive Officer)'
+];
+
+function getStaffRoster() {
+  try {
+    const saved = localStorage.getItem('vels_staff_roster');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length === 5) return parsed;
+    }
+  } catch (e) {}
+  return DEFAULT_STAFF_ROSTER;
+}
+
+function toggleStaffManagerModal() {
+  const modal = document.getElementById('staff-manager-modal');
+  if (!modal) return;
+  
+  if (modal.style.display === 'none' || !modal.style.display) {
+    const currentStaff = getStaffRoster();
+    const container = document.getElementById('staff-inputs-container');
+    if (container) {
+      container.innerHTML = currentStaff.map((staff, idx) => `
+        <div>
+          <label style="display: block; font-size: 0.72rem; font-weight: 700; color: var(--olive-deep); margin-bottom: 3px;">STAFF MEMBER #${idx + 1}</label>
+          <input type="text" class="form-input staff-roster-input" value="${staff}" placeholder="Staff Name ${idx + 1}" required style="padding: 8px 12px; font-size: 0.88rem;" />
+        </div>
+      `).join('');
+    }
+    modal.style.display = 'flex';
+  } else {
+    modal.style.display = 'none';
+  }
+}
+
+function saveStaffRoster() {
+  const inputs = document.querySelectorAll('.staff-roster-input');
+  const newRoster = [];
+  inputs.forEach(input => {
+    const val = input.value.trim();
+    if (val) newRoster.push(val);
+  });
+
+  if (newRoster.length === 5) {
+    localStorage.setItem('vels_staff_roster', JSON.stringify(newRoster));
+    toggleStaffManagerModal();
+    if (typeof renderAdminEnquiries === 'function') {
+      renderAdminEnquiries();
+    }
+    alert('Staff Roster updated successfully! Dropdowns on all client enquiries have been refreshed.');
+  } else {
+    alert('Please enter names for all 5 staff members.');
+  }
+}
+
+function updateEnquiryStaff(enquiryId, selectedStaff) {
+  const cleanId = (enquiryId || '').toString().trim();
+  
+  try {
+    const list = getStoredEnquiries();
+    list.forEach(e => {
+      const eId = (e.id || '').toString().trim();
+      const ePhone = (e.phone || '').replace(/[^0-9]/g, '').slice(-10);
+      const cPhone = cleanId.replace(/[^0-9]/g, '').slice(-10);
+      if (eId === cleanId || (cPhone && cPhone.length >= 7 && ePhone === cPhone)) {
+        e.assignedStaff = selectedStaff;
+      }
+    });
+    localStorage.setItem('vels_enquiries', JSON.stringify(list));
+  } catch (e) {}
+
+  try {
+    const staffMap = JSON.parse(localStorage.getItem('vels_staff_assignment_map') || '{}');
+    staffMap[cleanId] = selectedStaff;
+    localStorage.setItem('vels_staff_assignment_map', JSON.stringify(staffMap));
+  } catch (e) {}
+
+  fetch(`/api/admin/enquiries/${encodeURIComponent(cleanId)}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ assignedStaff: selectedStaff })
+  }).catch(() => {});
+
+  renderAdminEnquiries();
+}
+
 async function renderAdminEnquiries(filterCat = activeEnquiryFilter) {
   const tbody = document.getElementById('admin-enquiry-table-body');
   if (!tbody) return;
 
   let enquiries = [];
   const readMap = JSON.parse(localStorage.getItem('vels_read_status_map') || '{}');
+  const staffMap = JSON.parse(localStorage.getItem('vels_staff_assignment_map') || '{}');
+  const currentStaffRoster = getStaffRoster();
 
   // 1. Fetch Backend Database Enquiries (Primary Source of Truth)
   try {
@@ -1199,6 +1598,7 @@ async function renderAdminEnquiries(filterCat = activeEnquiryFilter) {
           recommendedAction: lead.recommendedAction || lead.recommendation || '',
           status: savedStatus,
           isNew: isNewFlag,
+          assignedStaff: lead.assignedStaff || staffMap[leadId] || 'Unassigned',
           date: lead.createdAt ? new Date(lead.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Today'
         };
       });
@@ -1515,6 +1915,20 @@ function formatPointwiseRecommendation(rawText) {
         </td>
 
         <td style="padding: 16px 12px; vertical-align: top;">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="display: block; font-size: 0.7rem; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.5px;">Assigned Agent</span>
+            <select onchange="updateEnquiryStaff('${enq.id}', this.value)" style="padding: 6px 8px; border-radius: 4px; border: 1.5px solid var(--gold-border); font-family: var(--font-body); font-size: 0.78rem; font-weight: 700; background: var(--bg-cream); color: var(--olive-deep); cursor: pointer; width: 100%;">
+              <option value="Unassigned" ${!enq.assignedStaff || enq.assignedStaff === 'Unassigned' ? 'selected' : ''}>-- Select Staff --</option>
+              ${currentStaffRoster.map(s => `<option value="${s}" ${enq.assignedStaff === s ? 'selected' : ''}>${s}</option>`).join('')}
+            </select>
+            ${enq.assignedStaff && enq.assignedStaff !== 'Unassigned' 
+              ? `<span style="font-size: 0.72rem; font-weight: 700; color: #0A5C36; margin-top: 2px; display: inline-flex; align-items: center; gap: 4px;">✓ Handled by ${enq.assignedStaff.split(' ')[0]}</span>`
+              : `<span style="font-size: 0.72rem; color: #A8664B; font-weight: 600; margin-top: 2px; display: inline-block;">Pending Staff</span>`
+            }
+          </div>
+        </td>
+
+        <td style="padding: 16px 12px; vertical-align: top;">
           <div class="ai-recommendation-box">
             ${formatPointwiseRecommendation(recommendationText)}
           </div>
@@ -1542,6 +1956,10 @@ function formatPointwiseRecommendation(rawText) {
       </tr>
     `;
   }).join('');
+
+  if (typeof renderCustomerDirectoryTable === 'function') {
+    renderCustomerDirectoryTable();
+  }
 }
 
 // --- GALLERY PROJECT DETAIL DATA & MODAL HANDLER ---
@@ -1983,6 +2401,99 @@ function closeLocationMasterplanModal() {
   }
 }
 
+// --- FOOTER PRIVACY POLICY & TERMS MODAL HANDLER ---
+function openLegalModal(type) {
+  let modal = document.getElementById('legal-modal-overlay');
+  
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'legal-modal-overlay';
+    modal.className = 'legal-modal-overlay';
+    modal.innerHTML = `
+      <div class="legal-modal-card">
+        <div class="legal-modal-header">
+          <div class="legal-modal-title-wrap">
+            <svg class="legal-modal-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <h3 id="legal-modal-title" class="legal-modal-title">PRIVACY POLICY</h3>
+          </div>
+          <button type="button" class="legal-modal-close-x" onclick="closeLegalModal()" title="Close Modal" aria-label="Close">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <div id="legal-modal-body" class="legal-modal-body"></div>
+        <div class="legal-modal-footer">
+          <button type="button" class="legal-modal-close-btn" onclick="closeLegalModal()">
+            <span>READ & CLOSE</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeLegalModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) closeLegalModal();
+    });
+  }
+
+  const titleEl = document.getElementById('legal-modal-title');
+  const bodyEl = document.getElementById('legal-modal-body');
+
+  if (type === 'privacy') {
+    titleEl.textContent = 'PRIVACY POLICY';
+    bodyEl.innerHTML = `
+      <h4>1. Information Collection</h4>
+      <p>VELS — Sakthivel Groups collects personal information (such as name, phone number, email address, and site preferences) when you submit an enquiry, request plot layouts, or schedule a site visit.</p>
+
+      <h4>2. Purpose & Use of Data</h4>
+      <p>Your details are strictly used to share verified DTCP/RERA plot masterplans, process site visit requests, provide pricing updates, and assist with bank loan approvals for plots in Coimbatore & Pollachi.</p>
+
+      <h4>3. Privacy Protection & Third Parties</h4>
+      <p>We strictly respect your privacy. VELS never sells, rents, trades, or shares your personal contact information with unauthorized third parties or marketing agencies.</p>
+
+      <h4>4. Direct Communication Consent</h4>
+      <p>By submitting an enquiry form, you consent to receive direct communications, layout blueprints via WhatsApp, or phone calls from our authorized project engineers.</p>
+
+      <h4>5. Contact Us</h4>
+      <p>For any privacy queries, contact our main office at <strong>+91 98422 12345</strong> or visit Peelamedu (Coimbatore) / Mahalingapuram (Pollachi).</p>
+    `;
+  } else {
+    titleEl.textContent = 'TERMS & CONDITIONS';
+    bodyEl.innerHTML = `
+      <h4>1. DTCP & RERA Approvals</h4>
+      <p>All residential, commercial, and farm plot layouts developed by VELS — Sakthivel Groups comply with DTCP / RERA and government planning norms with 40ft & 30ft heavy tar roads.</p>
+
+      <h4>2. Pricing & Availability</h4>
+      <p>Plot prices, unit counts, and layout maps shown on this portal are subject to live availability and final booking agreements. Prices exclude statutory registration fees and taxes.</p>
+
+      <h4>3. Complimentary Site Visits</h4>
+      <p>Scheduled site visits are complimentary. Our field team provides guided on-site inspections, parent document audits, and Encumbrance Certificates (EC) upon request.</p>
+
+      <h4>4. Intellectual Property Rights</h4>
+      <p>All blueprints, site renderings, photos, video walkthroughs, and brand assets on this site are the exclusive property of VELS — Sakthivel Groups. Unauthorized reproduction is prohibited.</p>
+
+      <h4>5. Governing Jurisdiction</h4>
+      <p>All transaction enclaves and agreements are governed by the laws of Tamil Nadu, subject to exclusive court jurisdiction in Coimbatore & Pollachi.</p>
+    `;
+  }
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLegalModal() {
+  const modal = document.getElementById('legal-modal-overlay');
+  if (modal) {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
 /* ==========================================================================
    CUSTOMER REVIEWS & TESTIMONIALS SLIDER CONTROLLER
    ========================================================================== */
@@ -2150,5 +2661,722 @@ function initCustomerReviewsSlider() {
   updateSlider();
   startTimer();
 }
+
+// --- TEXTURED 3D BACKGROUND ANIMATION ENGINE ---
+function initTextured3DBackground() {
+  if (!document.getElementById('sandal-gradient-bg')) {
+    const sandalBg = document.createElement('div');
+    sandalBg.id = 'sandal-gradient-bg';
+    document.body.prepend(sandalBg);
+  }
+
+  if (document.getElementById('bg-3d-canvas')) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.id = 'bg-3d-canvas';
+  document.body.prepend(canvas);
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  let width = 0;
+  let height = 0;
+  let dpr = window.devicePixelRatio || 1;
+
+  // Mouse & Scroll tracking with smooth LERP
+  let mouseX = 0, mouseY = 0;
+  let targetMouseX = 0, targetMouseY = 0;
+  let scrollY = window.scrollY || 0;
+
+  window.addEventListener('mousemove', (e) => {
+    targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  }, { passive: true });
+
+  window.addEventListener('scroll', () => {
+    scrollY = window.scrollY || 0;
+  }, { passive: true });
+
+  function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.scale(dpr, dpr);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  // Create static texture noise canvas buffer for luxury tactile paper grain feel
+  const noiseCanvas = document.createElement('canvas');
+  noiseCanvas.width = 256;
+  noiseCanvas.height = 256;
+  const nCtx = noiseCanvas.getContext('2d');
+  if (nCtx) {
+    const nData = nCtx.createImageData(256, 256);
+    const buf = new Uint32Array(nData.data.buffer);
+    for (let i = 0; i < buf.length; i++) {
+      const val = Math.floor(Math.random() * 22);
+      // Gold & Olive tinted noise grain (RGBA: Little endian)
+      buf[i] = (val << 24) | ((val + 10) << 16) | ((val + 18) << 8) | (val + 5);
+    }
+    nCtx.putImageData(nData, 0, 0);
+  }
+  let noisePattern = null;
+  try {
+    noisePattern = ctx.createPattern(noiseCanvas, 'repeat');
+  } catch (e) {}
+
+  // 3D Grid Parameters
+  const isMobile = width < 768;
+  const cols = isMobile ? 22 : 36;
+  const rows = isMobile ? 18 : 28;
+  const spacing = isMobile ? 45 : 55;
+
+  // 3D Floating Polyhedra (Architectural layout modules)
+  const polyhedra = [];
+  const polyCount = isMobile ? 4 : 8;
+  for (let p = 0; p < polyCount; p++) {
+    polyhedra.push({
+      x: (Math.random() - 0.5) * width * 1.2,
+      y: (Math.random() - 0.5) * height * 1.5,
+      z: Math.random() * 400 - 200,
+      size: Math.random() * 28 + 22,
+      rotX: Math.random() * Math.PI,
+      rotY: Math.random() * Math.PI,
+      rotSpeedX: (Math.random() - 0.5) * 0.012,
+      rotSpeedY: (Math.random() - 0.5) * 0.012,
+      type: p % 2 === 0 ? 'cube' : 'prism'
+    });
+  }
+
+  let time = 0;
+
+  function render() {
+    time += 0.012;
+
+    // Smooth LERP mouse position
+    mouseX += (targetMouseX - mouseX) * 0.05;
+    mouseY += (targetMouseY - mouseY) * 0.05;
+
+    ctx.clearRect(0, 0, width, height);
+
+    // 1. Ambient luxury background gradient (Gold & Deep Olive glow)
+    const bgGrad = ctx.createRadialGradient(
+      width * 0.5 + mouseX * 80, height * 0.3 + mouseY * 80, 50,
+      width * 0.5, height * 0.5, Math.max(width, height) * 0.8
+    );
+    bgGrad.addColorStop(0, 'rgba(229, 210, 166, 0.18)'); // Light gold glow
+    bgGrad.addColorStop(0.5, 'rgba(198, 161, 91, 0.08)'); // Gold primary
+    bgGrad.addColorStop(1, 'rgba(57, 69, 47, 0.04)');    // Deep olive edge
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, width, height);
+
+    // 2. 3D Camera transformation parameters
+    const perspective = 500;
+    const camAngleX = 0.55 + mouseY * 0.15 + (scrollY * 0.0003);
+    const camAngleY = mouseX * 0.2;
+    const cosX = Math.cos(camAngleX), sinX = Math.sin(camAngleX);
+    const cosY = Math.cos(camAngleY), sinY = Math.sin(camAngleY);
+
+    const centerX = width / 2;
+    const centerY = height * 0.55;
+
+    // Calculate Projected 3D Grid Vertices
+    const grid2D = [];
+    const gridWidth = (cols - 1) * spacing;
+    const gridHeight = (rows - 1) * spacing;
+
+    for (let r = 0; r < rows; r++) {
+      grid2D[r] = [];
+      for (let c = 0; c < cols; c++) {
+        // World coordinates centered around grid origin
+        let wx = c * spacing - gridWidth / 2;
+        let wy = r * spacing - gridHeight / 2;
+
+        // Dynamic 3D elevation (wave math)
+        const distFromCenter = Math.sqrt(wx * wx + wy * wy) * 0.005;
+        let wz = Math.sin(wx * 0.012 + time + distFromCenter) * Math.cos(wy * 0.012 + time * 0.8) * 32
+               + Math.sin(wx * 0.025 - time * 1.4) * 12;
+
+        // Apply 3D Rotation around X and Y
+        let rx = wx * cosY + wz * sinY;
+        let ry1 = wy;
+        let rz1 = -wx * sinY + wz * cosY;
+
+        let ry = ry1 * cosX - rz1 * sinX;
+        let rz = ry1 * sinX + rz1 * cosX + 350;
+
+        // 3D Perspective Projection
+        const scale = perspective / (perspective + rz);
+        const sx = centerX + rx * scale;
+        const sy = centerY + ry * scale;
+
+        grid2D[r][c] = { sx, sy, scale, rz, wz };
+      }
+    }
+
+    // Draw 3D Landscape Wireframe Mesh (Gold & Deep Olive)
+    ctx.lineWidth = 1;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const pt = grid2D[r][c];
+
+        // Draw horizontal line
+        if (c < cols - 1) {
+          const nextC = grid2D[r][c + 1];
+          const alpha = Math.max(0, Math.min(0.35, (1 - pt.rz / 900) * 0.35));
+          ctx.strokeStyle = pt.wz > 15 
+            ? `rgba(198, 161, 91, ${alpha * 1.3})` // Gold on crests
+            : `rgba(57, 69, 47, ${alpha})`;        // Deep olive in valleys
+          
+          ctx.beginPath();
+          ctx.moveTo(pt.sx, pt.sy);
+          ctx.lineTo(nextC.sx, nextC.sy);
+          ctx.stroke();
+        }
+
+        // Draw vertical line
+        if (r < rows - 1) {
+          const nextR = grid2D[r + 1][c];
+          const alpha = Math.max(0, Math.min(0.35, (1 - pt.rz / 900) * 0.35));
+          ctx.strokeStyle = pt.wz > 15 
+            ? `rgba(198, 161, 91, ${alpha * 1.3})` 
+            : `rgba(57, 69, 47, ${alpha})`;
+
+          ctx.beginPath();
+          ctx.moveTo(pt.sx, pt.sy);
+          ctx.lineTo(nextR.sx, nextR.sy);
+          ctx.stroke();
+        }
+
+        // Draw glowing gold vertex dots on crests
+        if (pt.wz > 18 && (r + c) % 2 === 0) {
+          ctx.fillStyle = `rgba(198, 161, 91, ${Math.min(0.6, (pt.wz - 18) * 0.03)})`;
+          ctx.beginPath();
+          ctx.arc(pt.sx, pt.sy, pt.scale * 2.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+
+    // 3. Render Floating 3D Architectural Polyhedra
+    polyhedra.forEach((poly) => {
+      poly.rotX += poly.rotSpeedX;
+      poly.rotY += poly.rotSpeedY;
+
+      // Polyhedron vertices relative to center
+      const s = poly.size;
+      const vertices = poly.type === 'cube' ? [
+        [-s, -s, -s], [s, -s, -s], [s, s, -s], [-s, s, -s],
+        [-s, -s, s],  [s, -s, s],  [s, s, s],  [-s, s, s]
+      ] : [
+        [0, -s * 1.3, 0], [s, 0, -s], [s, 0, s], [-s, 0, s], [-s, 0, -s], [0, s * 1.3, 0]
+      ];
+
+      const edges = poly.type === 'cube' ? [
+        [0,1],[1,2],[2,3],[3,0],
+        [4,5],[5,6],[6,7],[7,4],
+        [0,4],[1,5],[2,6],[3,7]
+      ] : [
+        [0,1],[0,2],[0,3],[0,4],
+        [1,2],[2,3],[3,4],[4,1],
+        [5,1],[5,2],[5,3],[5,4]
+      ];
+
+      const pCosX = Math.cos(poly.rotX), pSinX = Math.sin(poly.rotX);
+      const pCosY = Math.cos(poly.rotY), pSinY = Math.sin(poly.rotY);
+
+      const projVerts = vertices.map(([vx, vy, vz]) => {
+        // Rotate polyhedron local
+        let rx = vx * pCosY + vz * pSinY;
+        let ry = vy * pCosX - (-vx * pSinY + vz * pCosY) * pSinX;
+        let rz = vy * pSinX + (-vx * pSinY + vz * pCosY) * pCosX;
+
+        // Translate to world position
+        let wx = poly.x + rx;
+        let wy = poly.y + ry + Math.sin(time + poly.z) * 15;
+        let wz = poly.z + rz + 400;
+
+        // Apply camera rotation
+        let crx = wx * cosY + wz * sinY;
+        let cry = wy * cosX - (-wx * sinY + wz * cosY) * sinX;
+        let crz = wy * sinX + (-wx * sinY + wz * cosY) * cosX;
+
+        const scale = perspective / (perspective + crz);
+        return {
+          sx: centerX + crx * scale,
+          sy: centerY + cry * scale,
+          scale
+        };
+      });
+
+      // Draw Polyhedron Wireframe Edges
+      ctx.strokeStyle = 'rgba(198, 161, 91, 0.28)';
+      ctx.lineWidth = 1.2;
+      edges.forEach(([i, j]) => {
+        const v1 = projVerts[i];
+        const v2 = projVerts[j];
+        if (v1 && v2) {
+          ctx.beginPath();
+          ctx.moveTo(v1.sx, v1.sy);
+          ctx.lineTo(v2.sx, v2.sy);
+          ctx.stroke();
+        }
+      });
+
+      // Draw Polyhedron Gold Vertices
+      projVerts.forEach((v) => {
+        ctx.fillStyle = 'rgba(169, 130, 58, 0.5)';
+        ctx.beginPath();
+        ctx.arc(v.sx, v.sy, v.scale * 2, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    });
+
+    // 4. Textured Grain & Paper Overlay Pass
+    if (noisePattern) {
+      ctx.fillStyle = noisePattern;
+      ctx.globalAlpha = 0.08;
+      ctx.fillRect(0, 0, width, height);
+      ctx.globalAlpha = 1.0;
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  requestAnimationFrame(render);
+}
+
+// --- HERO STAT CARDS ANIMATED COUNTER ENGINE ---
+function initHeroStatCounters() {
+  const statCards = document.querySelectorAll('.hero-stats-banner .stat-card');
+  if (!statCards.length) return;
+
+  statCards.forEach((card, idx) => {
+    const numEl = card.querySelector('.stat-number');
+    if (!numEl) return;
+    const targetText = numEl.textContent.trim();
+
+    const match = targetText.match(/^(\d+)(\+?)$/);
+    if (match) {
+      const targetVal = parseInt(match[1], 10);
+      const suffix = match[2] || '';
+      numEl.textContent = `0${suffix}`;
+
+      setTimeout(() => {
+        const duration = 1400;
+        const startTime = performance.now();
+
+        function updateCounter(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const easeProgress = 1 - (1 - progress) * (1 - progress);
+          const currentVal = Math.floor(easeProgress * targetVal);
+          numEl.textContent = `${currentVal}${suffix}`;
+
+          if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+          } else {
+            numEl.textContent = targetText;
+          }
+        }
+        requestAnimationFrame(updateCounter);
+      }, idx * 150 + 200);
+    }
+  });
+}
+
+// --- CENTRALIZED CUSTOMER DIRECTORY & 3-STAGE TRACKER ENGINE ---
+let activeCustomerFilter = 'ALL';
+let customerSearchQuery = '';
+
+function scrollToDirectCustomerTable() {
+  const target = document.getElementById('direct-customer-registry-section');
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function getManualCustomers() {
+  try {
+    const saved = localStorage.getItem('vels_manual_customers');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch (e) {}
+  return [];
+}
+
+function saveManualCustomers(list) {
+  try {
+    localStorage.setItem('vels_manual_customers', JSON.stringify(list));
+  } catch (e) {}
+}
+
+function toggleAddCustomerModal(editId = null) {
+  const modal = document.getElementById('add-customer-modal');
+  if (!modal) return;
+
+  if (modal.style.display === 'none' || !modal.style.display) {
+    const staffSelect = document.getElementById('cust-staff');
+    const roster = getStaffRoster();
+    if (staffSelect) {
+      staffSelect.innerHTML = `<option value="Unassigned">-- Select Staff --</option>` + 
+        roster.map(s => `<option value="${s}">${s}</option>`).join('');
+    }
+
+    const titleEl = document.getElementById('modal-customer-title');
+    const editIdInput = document.getElementById('cust-edit-id');
+    const nameInput = document.getElementById('cust-name');
+    const phoneInput = document.getElementById('cust-phone');
+    const emailInput = document.getElementById('cust-email');
+    const reqInput = document.getElementById('cust-requirement');
+    const stageInput = document.getElementById('cust-stage');
+    const notesInput = document.getElementById('cust-notes');
+
+    if (editId) {
+      const manualList = getManualCustomers();
+      const rec = manualList.find(c => c.id === editId);
+      if (rec) {
+        if (titleEl) titleEl.textContent = 'Edit Customer Record';
+        if (editIdInput) editIdInput.value = rec.id;
+        if (nameInput) nameInput.value = rec.name || '';
+        if (phoneInput) phoneInput.value = rec.phone || '';
+        if (emailInput) emailInput.value = rec.email || '';
+        if (reqInput) reqInput.value = rec.requirement || '';
+        if (staffSelect) staffSelect.value = rec.assignedStaff || 'Unassigned';
+        if (stageInput) stageInput.value = rec.stage || 'INQUIRY';
+        if (notesInput) notesInput.value = rec.notes || '';
+      }
+    } else {
+      if (titleEl) titleEl.textContent = 'Add Walk-in / Direct Call Customer';
+      if (editIdInput) editIdInput.value = '';
+      const form = document.getElementById('add-customer-form');
+      if (form) form.reset();
+    }
+
+    modal.style.display = 'flex';
+  } else {
+    modal.style.display = 'none';
+  }
+}
+
+function saveCustomerRecord(event) {
+  if (event) event.preventDefault();
+
+  const editId = document.getElementById('cust-edit-id')?.value;
+  const name = document.getElementById('cust-name')?.value?.trim();
+  const phone = document.getElementById('cust-phone')?.value?.trim();
+  const email = document.getElementById('cust-email')?.value?.trim() || 'N/A';
+  const requirement = document.getElementById('cust-requirement')?.value?.trim() || 'General Layout Enquiry';
+  const assignedStaff = document.getElementById('cust-staff')?.value || 'Unassigned';
+  const stage = document.getElementById('cust-stage')?.value || 'INQUIRY';
+  const notes = document.getElementById('cust-notes')?.value?.trim() || '';
+
+  if (!name || !phone) {
+    alert('Customer name and phone number are required.');
+    return;
+  }
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' + now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+  const manualList = getManualCustomers();
+
+  if (editId) {
+    const idx = manualList.findIndex(c => c.id === editId);
+    if (idx !== -1) {
+      manualList[idx] = {
+        ...manualList[idx],
+        name,
+        phone,
+        email,
+        requirement,
+        assignedStaff,
+        stage,
+        notes,
+        updatedAt: dateStr
+      };
+    }
+  } else {
+    const newRecord = {
+      id: `CUST-MAN-${Math.floor(10000 + Math.random() * 90000)}`,
+      name,
+      phone,
+      email,
+      requirement,
+      assignedStaff,
+      stage,
+      notes,
+      source: 'MANUAL WALK-IN',
+      date: dateStr
+    };
+    manualList.unshift(newRecord);
+  }
+
+  saveManualCustomers(manualList);
+  toggleAddCustomerModal();
+  renderCustomerDirectoryTable();
+  alert(editId ? 'Customer record updated successfully!' : 'New walk-in customer added to directory!');
+}
+
+function deleteCustomerRecord(id) {
+  if (!confirm('Are you sure you want to delete this customer record?')) return;
+  let manualList = getManualCustomers();
+  manualList = manualList.filter(c => c.id !== id);
+  saveManualCustomers(manualList);
+  renderCustomerDirectoryTable();
+}
+
+function updateCustomerStageDirect(id, stage) {
+  const cleanId = (id || '').toString().trim();
+  
+  const manualList = getManualCustomers();
+  const manualRecord = manualList.find(c => c.id === cleanId);
+  if (manualRecord) {
+    manualRecord.stage = stage;
+    saveManualCustomers(manualList);
+  } else {
+    try {
+      const stageMap = JSON.parse(localStorage.getItem('vels_customer_stages_map') || '{}');
+      stageMap[cleanId] = stage;
+      localStorage.setItem('vels_customer_stages_map', JSON.stringify(stageMap));
+    } catch (e) {}
+
+    try {
+      const enqs = getStoredEnquiries();
+      enqs.forEach(e => {
+        if (e.id === cleanId) e.stage = stage;
+      });
+      localStorage.setItem('vels_enquiries', JSON.stringify(enqs));
+    } catch (e) {}
+  }
+
+  renderCustomerDirectoryTable();
+}
+
+function updateCustomerStaffDirect(id, staff) {
+  const cleanId = (id || '').toString().trim();
+
+  const manualList = getManualCustomers();
+  const manualRecord = manualList.find(c => c.id === cleanId);
+  if (manualRecord) {
+    manualRecord.assignedStaff = staff;
+    saveManualCustomers(manualList);
+  } else {
+    updateEnquiryStaff(cleanId, staff);
+  }
+
+  renderCustomerDirectoryTable();
+}
+
+function filterCustomerRegistryTable(filterKey) {
+  activeCustomerFilter = filterKey;
+  
+  const buttons = document.querySelectorAll('[data-cust-filter]');
+  buttons.forEach(btn => {
+    if (btn.getAttribute('data-cust-filter') === filterKey) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  renderCustomerDirectoryTable();
+}
+
+function handleCustomerRegistrySearch(query) {
+  customerSearchQuery = (query || '').trim().toLowerCase();
+  renderCustomerDirectoryTable();
+}
+
+function renderCustomerDirectoryTable() {
+  const tbody = document.getElementById('admin-customer-registry-tbody');
+  if (!tbody) return;
+
+  const currentStaffRoster = getStaffRoster();
+  const stageMap = JSON.parse(localStorage.getItem('vels_customer_stages_map') || '{}');
+
+  const manualRecords = getManualCustomers();
+
+  const webEnquiries = getStoredEnquiries().map(e => {
+    const eId = (e.id || '').toString().trim();
+    let assignedStage = stageMap[eId] || e.stage || 'INQUIRY';
+    if (assignedStage === 'STAGE_1') assignedStage = 'INQUIRY';
+    if (assignedStage === 'STAGE_2') assignedStage = 'TOKEN_PAID';
+    if (assignedStage === 'STAGE_3') assignedStage = 'BOUGHT';
+
+    return {
+      id: e.id,
+      name: e.name || e.customerName || 'Anonymous',
+      phone: e.phone || 'N/A',
+      email: e.email || 'N/A',
+      requirement: `${e.plot || e.plotNumber || 'General Layout'} (${e.location || e.project || ''})`,
+      assignedStaff: e.assignedStaff || 'Unassigned',
+      stage: assignedStage,
+      notes: e.message || 'Web Enquiry',
+      source: 'WEB ENQUIRY',
+      date: e.date || 'Recent'
+    };
+  });
+
+  const unified = [...manualRecords, ...webEnquiries].map(c => {
+    let st = c.stage || 'INQUIRY';
+    if (st === 'STAGE_1') st = 'INQUIRY';
+    if (st === 'STAGE_2') st = 'TOKEN_PAID';
+    if (st === 'STAGE_3') st = 'BOUGHT';
+    return { ...c, stage: st };
+  });
+
+  let countAll = unified.length;
+  let countInquiry = 0;
+  let countToken = 0;
+  let countBought = 0;
+  let countRejected = 0;
+
+  unified.forEach(c => {
+    if (c.stage === 'TOKEN_PAID') countToken++;
+    else if (c.stage === 'BOUGHT') countBought++;
+    else if (c.stage === 'REJECTED') countRejected++;
+    else countInquiry++;
+  });
+
+  const cAllEl = document.getElementById('cust-count-all');
+  const cInqEl = document.getElementById('cust-count-inquiry');
+  const cTokEl = document.getElementById('cust-count-token');
+  const cBouEl = document.getElementById('cust-count-bought');
+  const cRejEl = document.getElementById('cust-count-rejected');
+
+  if (cAllEl) cAllEl.textContent = `(${countAll})`;
+  if (cInqEl) cInqEl.textContent = `(${countInquiry})`;
+  if (cTokEl) cTokEl.textContent = `(${countToken})`;
+  if (cBouEl) cBouEl.textContent = `(${countBought})`;
+  if (cRejEl) cRejEl.textContent = `(${countRejected})`;
+
+  let filtered = unified;
+  if (activeCustomerFilter !== 'ALL') {
+    filtered = filtered.filter(c => c.stage === activeCustomerFilter);
+  }
+
+  if (customerSearchQuery) {
+    filtered = filtered.filter(c => 
+      (c.name || '').toLowerCase().includes(customerSearchQuery) ||
+      (c.phone || '').toLowerCase().includes(customerSearchQuery) ||
+      (c.requirement || '').toLowerCase().includes(customerSearchQuery) ||
+      (c.notes || '').toLowerCase().includes(customerSearchQuery)
+    );
+  }
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 30px; color: var(--text-secondary); font-weight: 600;">No customer records found matching current criteria.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(cust => {
+    const isManual = cust.source === 'MANUAL WALK-IN';
+    const cleanPhone = (cust.phone || '').replace(/[^0-9]/g, '');
+
+    let stageBadgeStyle = 'background: rgba(43, 67, 96, 0.12); color: #2B4360; border: 1px solid #2B4360;';
+    let stageLabel = 'INQUIRY';
+    
+    if (cust.stage === 'TOKEN_PAID') {
+      stageBadgeStyle = 'background: rgba(198, 161, 91, 0.18); color: #8C6B28; border: 1px solid #C6A15B;';
+      stageLabel = 'TOKEN PAID';
+    } else if (cust.stage === 'BOUGHT') {
+      stageBadgeStyle = 'background: rgba(40, 167, 69, 0.18); color: #1e7e34; border: 1px solid #28a745;';
+      stageLabel = 'BOUGHT';
+    } else if (cust.stage === 'REJECTED') {
+      stageBadgeStyle = 'background: rgba(217, 83, 79, 0.15); color: #d9534f; border: 1px solid #d9534f;';
+      stageLabel = 'REJECTED';
+    }
+
+    return `
+      <tr style="border-bottom: 1px solid rgba(198, 161, 91, 0.2); transition: background 0.2s ease;">
+        <td style="padding: 14px 12px; vertical-align: top;">
+          <div style="font-size: 0.82rem; font-weight: 800; color: #1E2719; margin-bottom: 4px;">${cust.date}</div>
+          <span style="font-size: 0.7rem; font-weight: 700; font-family: var(--font-mono); padding: 2px 7px; background: rgba(198, 161, 91, 0.15); border: 1px solid var(--gold-border); color: #8C6B28; border-radius: 4px; display: inline-block;">${cust.id}</span>
+        </td>
+
+        <td style="padding: 14px 12px; vertical-align: top;">
+          <div style="font-weight: 800; color: #0D2818; font-size: 0.95rem; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C6A15B" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>${cust.name}</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.82rem;">
+            <div style="color: #0A5C36; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <a href="tel:${cust.phone}" style="color: #0A5C36; text-decoration: none;">${cust.phone}</a>
+            </div>
+            ${cust.email && cust.email !== 'N/A' ? `
+              <div style="color: #4A5568; font-weight: 500; font-size: 0.78rem; display: flex; align-items: center; gap: 6px; word-break: break-all;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#718096" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span>${cust.email}</span>
+              </div>
+            ` : ''}
+          </div>
+        </td>
+
+        <td style="padding: 14px 12px; vertical-align: top;">
+          <div style="font-weight: 700; color: #1E2719; font-size: 0.86rem; margin-bottom: 6px; display: inline-block; padding: 4px 10px; background: rgba(198, 161, 91, 0.15); border: 1px solid #C6A15B; border-radius: 4px;">
+            ${cust.requirement}
+          </div>
+          ${cust.notes ? `<div style="font-size: 0.78rem; color: #4A5568; line-height: 1.45; font-style: italic; background: rgba(0,0,0,0.03); padding: 6px 10px; border-radius: 4px; border-left: 3px solid var(--gold-primary); margin-top: 4px;">"${cust.notes}"</div>` : ''}
+        </td>
+
+        <td style="padding: 14px 12px; vertical-align: top;">
+          <select onchange="updateCustomerStaffDirect('${cust.id}', this.value)" style="padding: 6px 10px; border-radius: 4px; border: 1.5px solid var(--gold-border); font-size: 0.8rem; font-weight: 700; background: var(--bg-cream); color: var(--olive-deep); width: 100%; cursor: pointer;">
+            <option value="Unassigned" ${!cust.assignedStaff || cust.assignedStaff === 'Unassigned' ? 'selected' : ''}>-- Select Staff --</option>
+            ${currentStaffRoster.map(s => `<option value="${s}" ${cust.assignedStaff === s ? 'selected' : ''}>${s}</option>`).join('')}
+          </select>
+          ${cust.assignedStaff && cust.assignedStaff !== 'Unassigned' 
+            ? `<div style="font-size: 0.72rem; font-weight: 700; color: #0A5C36; margin-top: 4px; display: flex; align-items: center; gap: 4px;">✓ ${cust.assignedStaff.split(' ')[0]}</div>`
+            : `<div style="font-size: 0.72rem; font-weight: 600; color: #A8664B; margin-top: 4px;">Pending Staff</div>`
+          }
+        </td>
+
+        <td style="padding: 14px 12px; vertical-align: top;">
+          <select onchange="updateCustomerStageDirect('${cust.id}', this.value)" style="padding: 6px 10px; border-radius: 4px; border: 1.5px solid var(--gold-border); font-size: 0.8rem; font-weight: 800; background: var(--bg-cream); color: var(--olive-deep); width: 100%; margin-bottom: 6px; cursor: pointer;">
+            <option value="INQUIRY" ${cust.stage === 'INQUIRY' || !cust.stage ? 'selected' : ''}>INQUIRY</option>
+            <option value="TOKEN_PAID" ${cust.stage === 'TOKEN_PAID' ? 'selected' : ''}>TOKEN PAID</option>
+            <option value="BOUGHT" ${cust.stage === 'BOUGHT' ? 'selected' : ''}>BOUGHT</option>
+            <option value="REJECTED" ${cust.stage === 'REJECTED' ? 'selected' : ''}>REJECTED</option>
+          </select>
+          <span style="${stageBadgeStyle} font-size: 0.7rem; font-weight: 800; padding: 4px 10px; border-radius: 4px; display: inline-block; width: 100%; text-align: center; box-sizing: border-box;">
+            ${stageLabel}
+          </span>
+        </td>
+
+        <td style="padding: 14px 8px; vertical-align: top; text-align: center;">
+          <span style="font-size: 0.68rem; font-weight: 800; padding: 4px 8px; border-radius: 12px; ${isManual ? 'background: rgba(198, 161, 91, 0.2); color: #8C6B28; border: 1px solid #C6A15B;' : 'background: rgba(43, 67, 96, 0.12); color: #2B4360; border: 1px solid #2B4360;'} display: inline-block;">
+            ${cust.source}
+          </span>
+        </td>
+
+        <td style="padding: 14px 8px; vertical-align: top; text-align: center;">
+          <div style="display: flex; flex-direction: column; gap: 6px; align-items: center;">
+            ${isManual ? `
+              <button onclick="toggleAddCustomerModal('${cust.id}')" class="btn btn-outline-gold" style="font-size: 0.7rem; padding: 5px 10px; width: 100%; font-weight: 700;">
+                EDIT
+              </button>
+              <button onclick="deleteCustomerRecord('${cust.id}')" style="font-size: 0.7rem; padding: 5px 10px; background: rgba(217, 83, 79, 0.1); color: #d9534f; border: 1px solid #d9534f; border-radius: 4px; cursor: pointer; width: 100%; font-weight: 700;">
+                DELETE
+              </button>
+            ` : `
+              <a href="https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}" target="_blank" class="btn btn-gold" style="font-size: 0.7rem; padding: 6px 10px; text-decoration: none; width: 100%; text-align: center; font-weight: 800; display: block; box-sizing: border-box;">
+                CHAT
+              </a>
+            `}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+
 
 
