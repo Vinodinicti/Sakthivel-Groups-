@@ -8065,6 +8065,181 @@ html, body {
   }
 }
 
+/* ==========================================================================
+   COMPREHENSIVE MOBILE RESPONSIVENESS (HOME, ADMIN, PLOTS & INNER PAGES)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Containers & Padding */
+  .container {
+    padding: 0 16px !important;
+  }
+
+  section,
+  .py-section,
+  .marquee-section {
+    padding-top: 1.8rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  /* Navigation Drawer Overlay Mobile Sizing */
+  .nav-overlay {
+    width: 85vw !important;
+    max-width: 320px !important;
+    padding: 22px 18px !important;
+  }
+
+  .overlay-link {
+    font-size: 1.05rem !important;
+    padding: 8px 12px !important;
+  }
+
+  /* Mobile Hero Section & Text Overlays */
+  .hero-100vh-section,
+  .admin-hero-section,
+  .plots-hero-section,
+  .gallery-hero-section {
+    min-height: auto !important;
+    height: auto !important;
+    padding-top: 78px !important;
+    padding-bottom: 30px !important;
+  }
+
+  .hero-headline {
+    font-size: clamp(1.4rem, 5.5vw, 1.9rem) !important;
+    line-height: 1.2 !important;
+  }
+
+  .hero-fit-content,
+  .admin-hero-content,
+  .gallery-hero-content {
+    max-width: 100% !important;
+  }
+
+  .hero-text-blend-overlay,
+  .admin-hero-overlay,
+  .gallery-hero-overlay {
+    width: 100% !important;
+    background: linear-gradient(180deg, 
+      rgba(20, 26, 17, 0.94) 0%, 
+      rgba(20, 26, 17, 0.82) 60%, 
+      rgba(20, 26, 17, 0.35) 100%
+    ) !important;
+  }
+
+  /* Home Page Quick Enquiry Form */
+  .quick-enquiry-form {
+    grid-template-columns: 1fr !important;
+    padding: 16px !important;
+    gap: 12px !important;
+  }
+
+  .quick-enquiry-btn {
+    width: 100% !important;
+    height: 46px !important;
+  }
+
+  /* All Forms & Inputs (Prevents iOS auto-zoom on input focus) */
+  input, select, textarea, .form-input, .quick-enquiry-input {
+    font-size: 16px !important;
+    padding: 10px 12px !important;
+  }
+
+  /* 2-Column Grids convert to 1-Column on Mobile */
+  .grid-2col,
+  .service-row,
+  .footer-grid,
+  .location-cards-grid,
+  .value-cards-grid,
+  .workflow-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  /* Project Cards & Showcase */
+  .project-card {
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+
+  .project-img-wrapper,
+  .project-card-image-wrap {
+    height: 180px !important;
+  }
+
+  /* Admin Portal Responsive Alignment */
+  #admin-main-dashboard .admin-table {
+    min-width: 680px !important;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 10px 8px !important;
+    font-size: 0.78rem !important;
+  }
+
+  #direct-customer-registry-section,
+  #admin-inventory-editor {
+    padding: 16px !important;
+    margin-top: 20px !important;
+  }
+
+  .lead-summary-card {
+    padding: 14px !important;
+  }
+
+  /* Plots Page Interactive Map Touch Pan/Zoom */
+  #plot-masterplan-svg {
+    min-width: 650px !important;
+  }
+
+  .plot-drawer {
+    max-width: 100% !important;
+    border-top-left-radius: 16px !important;
+    border-top-right-radius: 16px !important;
+    padding: 20px 18px !important;
+  }
+
+  /* Floating Action Buttons */
+  .floating-action-stack {
+    bottom: 14px !important;
+    right: 12px !important;
+    gap: 8px !important;
+  }
+
+  .floating-action-btn {
+    width: 44px !important;
+    height: 44px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra Small Devices */
+  .hero-headline {
+    font-size: 1.35rem !important;
+  }
+
+  .gold-hero-badge {
+    font-size: 1.15rem !important;
+  }
+
+  .btn {
+    padding: 10px 18px !important;
+    font-size: 0.74rem !important;
+  }
+
+  .public-table-chip,
+  .filter-chip {
+    font-size: 0.72rem !important;
+    padding: 5px 8px !important;
+  }
+
+  .footer-bottom {
+    flex-direction: column !important;
+    gap: 8px !important;
+    text-align: center !important;
+  }
+}
+
 
 
 
