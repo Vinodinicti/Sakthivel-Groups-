@@ -8069,7 +8069,7 @@ html, body {
    COMPREHENSIVE MOBILE RESPONSIVENESS (HOME, ADMIN, PLOTS & INNER PAGES)
    ========================================================================== */
 @media (max-width: 768px) {
-  /* Containers & Padding */
+  /* Containers & Section Padding */
   .container {
     padding: 0 16px !important;
   }
@@ -8148,25 +8148,112 @@ html, body {
   .grid-2col,
   .service-row,
   .footer-grid,
-  .location-cards-grid,
   .value-cards-grid,
   .workflow-grid {
     grid-template-columns: 1fr !important;
     gap: 20px !important;
   }
 
-  /* Project Cards & Showcase */
-  .project-card {
+  /* Location Cards Grid (Mobile 1-Column Fit) */
+  .location-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    max-width: 100% !important;
+  }
+
+  .location-card {
+    height: auto !important;
     width: 100% !important;
-    min-width: 100% !important;
+  }
+
+  .location-card-img-wrap {
+    height: 160px !important;
+    min-height: 160px !important;
+    max-height: 170px !important;
+  }
+
+  .location-card-body {
+    padding: 14px 16px !important;
+  }
+
+  .location-card-title {
+    font-size: 1.1rem !important;
+    color: #1E2719 !important;
+    margin-top: 2px !important;
+  }
+
+  .location-card-desc {
+    font-size: 0.82rem !important;
+    color: #4A5568 !important;
+  }
+
+  /* FIX FOR MOBILE PROJECT SHOWCASE CARDS (UPCOMING & CONSTRUCTION SECTIONS) */
+  .project-scroll-track {
+    align-items: flex-start !important; /* Prevents vertical stretching */
+    gap: 16px !important;
+  }
+
+  .project-card,
+  .project-card-compact {
+    width: 82vw !important;
+    min-width: 270px !important;
+    max-width: 320px !important;
+    height: auto !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+    background: rgba(255, 253, 247, 0.98) !important;
   }
 
   .project-img-wrapper,
   .project-card-image-wrap {
-    height: 180px !important;
+    height: 160px !important;
+    min-height: 160px !important;
+    max-height: 170px !important;
   }
 
-  /* Admin Portal Responsive Alignment */
+  .project-card-body {
+    padding: 14px 16px !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .project-card-body h3 {
+    font-size: 1.05rem !important;
+    color: #1E2719 !important;
+    margin: 4px 0 !important;
+  }
+
+  .project-card-body p {
+    font-size: 0.8rem !important;
+    color: #4A5568 !important;
+    line-height: 1.4 !important;
+    margin-bottom: 8px !important;
+    display: block !important;
+    -webkit-line-clamp: unset !important;
+  }
+
+  .project-card-meta {
+    margin-bottom: 6px !important;
+  }
+
+  .project-city, .project-tag {
+    font-size: 0.65rem !important;
+  }
+
+  /* Customer Reviews Slider Cards Mobile Sizing */
+  .review-card-item {
+    flex: 0 0 85vw !important;
+    max-width: 320px !important;
+  }
+
+  .review-card {
+    padding: 16px !important;
+    min-height: auto !important;
+    height: auto !important;
+  }
+
+  /* Admin Portal Responsive Metric Cards & Tables */
   #admin-main-dashboard .admin-table {
     min-width: 680px !important;
   }
@@ -8185,6 +8272,7 @@ html, body {
 
   .lead-summary-card {
     padding: 14px !important;
+    height: auto !important;
   }
 
   /* Plots Page Interactive Map Touch Pan/Zoom */
