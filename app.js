@@ -1935,22 +1935,28 @@ function formatPointwiseRecommendation(rawText) {
         </td>
 
         <td style="padding: 16px 12px; vertical-align: top; text-align: center;">
-          <div style="display: flex; flex-direction: column; gap: 7px; min-width: 110px;">
+          <div style="display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center; min-width: 110px;">
             ${isUnread ? `
-              <button onclick="markEnquiryAsRead('${enq.id}', 'READ')" class="btn" style="font-size: 0.68rem; padding: 7px 6px; background: linear-gradient(135deg, #D9534F 0%, #B52B27 100%); color: #FFFFFF; border: none; border-radius: 4px; font-weight: 800; cursor: pointer; letter-spacing: 0.5px; box-shadow: 0 2px 6px rgba(217, 83, 79, 0.3); width: 100%;">
+              <button onclick="markEnquiryAsRead('${enq.id}', 'READ')" class="btn" style="font-size: 0.66rem; padding: 6px 8px; background: linear-gradient(135deg, #D9534F 0%, #B52B27 100%); color: #FFFFFF; border: none; border-radius: 4px; font-weight: 800; cursor: pointer; letter-spacing: 0.5px; box-shadow: 0 2px 6px rgba(217, 83, 79, 0.3); width: 100%;">
                 MARK AS READ ✓
               </button>
             ` : `
-              <span style="font-size: 0.66rem; font-weight: 700; color: #0A5C36; padding: 5px 4px; background: rgba(10,92,54,0.08); border: 1px solid rgba(10,92,54,0.2); border-radius: 4px; text-align: center; display: block; width: 100%;">
+              <span style="font-size: 0.64rem; font-weight: 700; color: #0A5C36; padding: 4px 6px; background: rgba(10,92,54,0.08); border: 1px solid rgba(10,92,54,0.2); border-radius: 4px; text-align: center; display: block; width: 100%;">
                 ✓ READ / OPENED
               </span>
             `}
-            <a href="https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}?text=${waText}" onclick="markEnquiryAsRead('${enq.id}', 'CONTACTED')" target="_blank" rel="noopener" class="btn" style="font-size: 0.68rem; padding: 7px 6px; background: linear-gradient(135deg, #0A5C36 0%, #064E2E 100%); border: 1px solid #0A5C36; color: #FFFDF8; text-align: center; text-decoration: none; border-radius: 4px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 2px 6px rgba(10, 92, 54, 0.2); display: block; width: 100%;">
-              WHATSAPP LEAD
-            </a>
-            <a href="tel:${enq.phone}" onclick="markEnquiryAsRead('${enq.id}', 'CONTACTED')" class="btn" style="font-size: 0.68rem; padding: 7px 6px; background: transparent; border: 1px solid var(--gold-primary); color: var(--gold-antique); text-align: center; text-decoration: none; border-radius: 4px; font-weight: 700; letter-spacing: 0.5px; display: block; width: 100%;">
-              CALL FIRST
-            </a>
+            
+            <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 2px;">
+              <!-- CALL ICON BUTTON -->
+              <a href="tel:${enq.phone}" onclick="markEnquiryAsRead('${enq.id}', 'CONTACTED')" class="admin-icon-btn btn-call-icon" title="Call Client (${enq.phone})" aria-label="Call Client" style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #1E2719 0%, #0D2818 100%); border: 1.5px solid var(--gold-primary); color: #FFFDF8; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.25);">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#C6A15B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </a>
+
+              <!-- WHATSAPP ICON BUTTON -->
+              <a href="https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}?text=${waText}" onclick="markEnquiryAsRead('${enq.id}', 'CONTACTED')" target="_blank" rel="noopener" class="admin-icon-btn btn-wa-icon" title="Chat on WhatsApp (+91 ${cleanPhone})" aria-label="Chat on WhatsApp" style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); border: 1.5px solid #25D366; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(37, 211, 102, 0.35);">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 0C5.385 0 0 5.386 0 12.031c0 2.124.553 4.197 1.604 6.02L0 24l6.155-1.614A11.968 11.968 0 0 0 12.03 24c6.645 0 12.03-5.385 12.03-12.031C24.06 5.386 18.675 0 12.031 0zm.012 22.012c-1.808 0-3.585-.486-5.143-1.408l-.369-.219-3.817 1.001 1.019-3.721-.241-.383A9.99 9.99 0 0 1 2.012 12.03c0-5.524 4.496-10.02 10.031-10.02 5.524 0 10.02 4.496 10.02 10.02 0 5.536-4.496 10.012-10.02 10.012zm5.503-7.519c-.302-.152-1.785-.881-2.062-.981-.277-.101-.479-.152-.68.152-.202.302-.782.981-.959 1.183-.176.201-.353.226-.655.075-1.745-.875-2.894-1.559-4.04-3.535-.302-.52.302-.482.864-1.608.101-.201.05-.378-.025-.529-.075-.152-.68-1.636-.932-2.24-.244-.588-.493-.508-.68-.518-.176-.009-.378-.009-.58-.009-.201 0-.528.075-.804.378-.277.302-1.057 1.032-1.057 2.518 0 1.486 1.082 2.92 1.233 3.122.151.201 2.128 3.25 5.156 4.558 2.164.935 2.809.845 3.791.7.636-.094 1.785-.73 2.037-1.435.252-.705.252-1.309.176-1.435-.076-.125-.278-.201-.58-.352z"/></svg>
+              </a>
+            </div>
           </div>
         </td>
       </tr>
@@ -3357,19 +3363,29 @@ function renderCustomerDirectoryTable() {
         </td>
 
         <td style="padding: 14px 8px; vertical-align: top; text-align: center;">
-          <div style="display: flex; flex-direction: column; gap: 6px; align-items: center;">
-            ${isManual ? `
-              <button onclick="toggleAddCustomerModal('${cust.id}')" class="btn btn-outline-gold" style="font-size: 0.7rem; padding: 5px 10px; width: 100%; font-weight: 700;">
-                EDIT
-              </button>
-              <button onclick="deleteCustomerRecord('${cust.id}')" style="font-size: 0.7rem; padding: 5px 10px; background: rgba(217, 83, 79, 0.1); color: #d9534f; border: 1px solid #d9534f; border-radius: 4px; cursor: pointer; width: 100%; font-weight: 700;">
-                DELETE
-              </button>
-            ` : `
-              <a href="https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}" target="_blank" class="btn btn-gold" style="font-size: 0.7rem; padding: 6px 10px; text-decoration: none; width: 100%; text-align: center; font-weight: 800; display: block; box-sizing: border-box;">
-                CHAT
+          <div style="display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+              <!-- CALL ICON BUTTON -->
+              <a href="tel:${cust.phone}" class="admin-icon-btn btn-call-icon" title="Call ${cust.name} (${cust.phone})" aria-label="Call Customer" style="width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #1E2719 0%, #0D2818 100%); border: 1.5px solid var(--gold-primary); color: #FFFDF8; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.25);">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C6A15B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
               </a>
-            `}
+
+              <!-- WHATSAPP ICON BUTTON -->
+              <a href="https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}" target="_blank" rel="noopener" class="admin-icon-btn btn-wa-icon" title="Chat on WhatsApp (+91 ${cleanPhone})" aria-label="Chat on WhatsApp" style="width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); border: 1.5px solid #25D366; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(37, 211, 102, 0.35);">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 0C5.385 0 0 5.386 0 12.031c0 2.124.553 4.197 1.604 6.02L0 24l6.155-1.614A11.968 11.968 0 0 0 12.03 24c6.645 0 12.03-5.385 12.03-12.031C24.06 5.386 18.675 0 12.031 0zm.012 22.012c-1.808 0-3.585-.486-5.143-1.408l-.369-.219-3.817 1.001 1.019-3.721-.241-.383A9.99 9.99 0 0 1 2.012 12.03c0-5.524 4.496-10.02 10.031-10.02 5.524 0 10.02 4.496 10.02 10.02 0 5.536-4.496 10.012-10.02 10.012zm5.503-7.519c-.302-.152-1.785-.881-2.062-.981-.277-.101-.479-.152-.68.152-.202.302-.782.981-.959 1.183-.176.201-.353.226-.655.075-1.745-.875-2.894-1.559-4.04-3.535-.302-.52.302-.482.864-1.608.101-.201.05-.378-.025-.529-.075-.152-.68-1.636-.932-2.24-.244-.588-.493-.508-.68-.518-.176-.009-.378-.009-.58-.009-.201 0-.528.075-.804.378-.277.302-1.057 1.032-1.057 2.518 0 1.486 1.082 2.92 1.233 3.122.151.201 2.128 3.25 5.156 4.558 2.164.935 2.809.845 3.791.7.636-.094 1.785-.73 2.037-1.435.252-.705.252-1.309.176-1.435-.076-.125-.278-.201-.58-.352z"/></svg>
+              </a>
+            </div>
+
+            ${isManual ? `
+              <div style="display: flex; gap: 4px; width: 100%;">
+                <button onclick="toggleAddCustomerModal('${cust.id}')" class="btn btn-outline-gold" style="font-size: 0.65rem; padding: 4px 6px; flex: 1; font-weight: 700;">
+                  EDIT
+                </button>
+                <button onclick="deleteCustomerRecord('${cust.id}')" style="font-size: 0.65rem; padding: 4px 6px; background: rgba(217, 83, 79, 0.1); color: #d9534f; border: 1px solid #d9534f; border-radius: 4px; cursor: pointer; flex: 1; font-weight: 700;">
+                  DEL
+                </button>
+              </div>
+            ` : ''}
           </div>
         </td>
       </tr>
