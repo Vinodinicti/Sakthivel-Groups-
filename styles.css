@@ -1232,7 +1232,8 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 
 /* ==========================================================================
-   UPCOMING PROJECTS & CONSTRUCTION DETAILS CAROUSEL SHOWCASES
+   DARK FOREST OLIVE GREEN BRAND THEME FOR SECTION HEADERS
+   (Construction Details, Upcoming Projects, Why Choose VELS, Reviews)
    ========================================================================== */
 .section-heading {
   text-align: center;
@@ -1240,21 +1241,34 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   margin: 0 auto 20px;
 }
 
-.section-heading h2 {
+.section-heading h2,
+.construction-showcase-section .section-heading h2,
+.upcoming-showcase-section .section-heading h2,
+.why-choose-title,
+.reviews-main-title,
+#why-choose-section h2,
+#customer-reviews-section h2,
+.reviews-header h2 {
   margin-top: 10px;
-  font-family: var(--font-heading);
+  font-family: var(--font-heading) !important;
   font-size: clamp(2rem, 3vw, 2.8rem);
   line-height: 1.2;
-  color: var(--olive-deep);
+  color: #1E2719 !important;
+  font-weight: 800 !important;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
-.section-heading-sub {
-  color: var(--text-secondary);
+.section-heading-sub,
+.construction-showcase-section .section-heading-sub,
+.upcoming-showcase-section .section-heading-sub,
+.reviews-sub-desc,
+#why-choose-section p {
+  color: #263321 !important;
   font-size: 0.88rem;
   line-height: 1.45;
   margin-top: 6px;
+  font-weight: 500 !important;
 }
 
 /* ==========================================================================
