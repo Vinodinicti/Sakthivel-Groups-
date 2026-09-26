@@ -170,6 +170,9 @@ function checkAdminAuth() {
     if (typeof renderCustomerDirectoryTable === 'function') {
       renderCustomerDirectoryTable();
     }
+    if (typeof initAdminTabs === 'function') {
+      initAdminTabs();
+    }
   } else {
     loginGateway.style.display = 'flex';
     mainDashboard.style.display = 'none';
@@ -2999,8 +3002,39 @@ function initHeroStatCounters() {
 let activeCustomerFilter = 'ALL';
 let customerSearchQuery = '';
 
+// --- ADMIN TAB SWITCHER LOGIC ---
+function switchAdminTab(tabId) {
+  const buttons = document.querySelectorAll('.admin-nav-tab-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+
+  const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+  if (activeBtn) activeBtn.classList.add('active');
+
+  const panels = document.querySelectorAll('.admin-panel-content');
+  panels.forEach(panel => {
+    panel.classList.remove('active');
+    panel.style.display = 'none';
+  });
+
+  const activePanel = document.getElementById(`panel-${tabId}`);
+  if (activePanel) {
+    activePanel.classList.add('active');
+    activePanel.style.display = 'block';
+  }
+
+  try {
+    localStorage.setItem('vels_admin_active_tab', tabId);
+  } catch (e) {}
+}
+
+function initAdminTabs() {
+  const savedTab = localStorage.getItem('vels_admin_active_tab') || 'ai-leads';
+  switchAdminTab(savedTab);
+}
+
 function scrollToDirectCustomerTable() {
-  const target = document.getElementById('direct-customer-registry-section');
+  switchAdminTab('customer-tracker');
+  const target = document.getElementById('panel-customer-tracker') || document.getElementById('direct-customer-registry-section');
   if (target) {
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -3380,6 +3414,316 @@ function renderCustomerDirectoryTable() {
       </tr>
     `;
   }).join('');
+}
+
+/* ==========================================================================
+   3D FLAT-FACING ORBIT CAROUSEL ENGINE (UPCOMING PROJECTS SECTION)
+   Cards ALWAYS face flat towards screen - 100% Legible Text & Image Showcase
+   ========================================================================== */
+let upcoming3DActiveIdx = 0;
+let upcoming3DTimer = null;
+
+function update3DFlatCarousel() {
+  const cards = document.querySelectorAll('.upcoming-3d-inner .project-card-3d');
+  if (!cards.length) return;
+
+  const totalCards = cards.length;
+  const isMobile = window.innerWidth <= 576;
+  const isTablet = window.innerWidth <= 992 && window.innerWidth > 576;
+
+  const radiusX = isMobile ? 120 : (isTablet ? 190 : 310);
+  const radiusZ = isMobile ? 70 : (isTablet ? 110 : 160);
+
+  cards.forEach((card) => {
+    const cardIdx = parseInt(card.getAttribute('data-index') || '0', 10);
+    let diff = (cardIdx - upcoming3DActiveIdx) % totalCards;
+    if (diff < 0) diff += totalCards;
+
+    const angle = (diff * (360 / totalCards)) * (Math.PI / 180);
+    const x = Math.sin(angle) * radiusX;
+    const z = Math.cos(angle) * radiusZ;
+
+    // Calculate normalized depth from 0 (back) to 1 (front)
+    const normalizedZ = (z + radiusZ) / (2 * radiusZ);
+
+    // Hide cards in the back half of orbit to eliminate ghosting
+    if (normalizedZ < 0.40) {
+      card.style.opacity = '0';
+      card.style.visibility = 'hidden';
+      card.style.pointerEvents = 'none';
+      card.classList.remove('active-front-card');
+    } else {
+      const scale = 0.84 + ((normalizedZ - 0.40) * 0.26); // 0.84 to 1.00 (compact crisp scale)
+      const zIndex = Math.round(normalizedZ * 100);
+
+      // translateX positioning preserves 100% pixel-sharp images & crisp text without GPU blur
+      card.style.transform = `translateX(${x.toFixed(1)}px) scale(${scale.toFixed(2)})`;
+      card.style.opacity = '1';
+      card.style.zIndex = zIndex;
+      card.style.visibility = 'visible';
+      card.style.pointerEvents = 'auto';
+
+      if (diff === 0) {
+        card.classList.add('active-front-card');
+      } else {
+        card.classList.remove('active-front-card');
+      }
+    }
+  });
+}
+
+// --- UPCOMING PROJECTS INTERACTIVE DETAIL MODAL ENGINE ---
+const upcomingProjectsData = [
+  {
+    title: "VELS Green Valley",
+    city: "Pollachi",
+    tag: "Farm Plots",
+    badge: "Ready to Launch",
+    area: "5.9 Acres",
+    road: "40 ft Wide Tar Roads",
+    image: "Images/Upcoming_Green_Valley.jpg",
+    desc: "101 premium gated agro-residency units with drip irrigation, solar avenue lights, and organic plantation layouts near Pollachi Highway.",
+    approval: "DTCP & RERA Approved Layout",
+    location: "Pollachi Highway Corridor",
+    features: [
+      "101 Exclusive Farm Plot Units",
+      "Individual Drip Irrigation Connections",
+      "Solar Powered Street Lighting",
+      "40 ft Wide Internal Tar Roads",
+      "24/7 Gated Security & Perimeter Wall",
+      "Abundant Water Source & Storage Tank"
+    ]
+  },
+  {
+    title: "VELS Heritage Hills",
+    city: "Coimbatore",
+    tag: "Residential",
+    badge: "Ready to Launch",
+    area: "8.3 Acres",
+    road: "60 ft Entry Boulevard",
+    image: "Images/Upcoming_Heritage_Hills.jpg",
+    desc: "High-growth residential pocket near IT corridor with DTCP approval, underground electrical utilities, and wide boulevard entry.",
+    approval: "DTCP & RERA Approved",
+    location: "Saravanampatti-IT Corridor Link",
+    features: [
+      "Underground Electrical & Drainage Cables",
+      "60 ft Wide Grand Entrance Avenue",
+      "Landscaped Children's Play Park",
+      "DTCP Approved & Clear Title",
+      "Immediate House Construction Ready",
+      "High Appreciation Capital Growth Zone"
+    ]
+  },
+  {
+    title: "VELS Emerald Palms",
+    city: "Kinathukadavu",
+    tag: "Eco Vistas",
+    badge: "Phase 1 Booking",
+    area: "12.5 Acres",
+    road: "33 ft Blacktop Roads",
+    image: "Images/Upcoming_Emerald_Palms.jpg",
+    desc: "Scenic eco-friendly plantation community surrounded by coconut groves with panoramic Western Ghats mountain views.",
+    approval: "DTCP Layout Approval in Progress",
+    location: "Kinathukadavu Green Belt",
+    features: [
+      "Panoramic Western Ghats Mountain Views",
+      "Gated Perimeter Security Fence",
+      "Blacktop Internal Tar Roads",
+      "Avenue Tree Plantation throughout",
+      "24/7 Overhead Water Tank Supply",
+      "Ideal for Weekend Villa Homesteads"
+    ]
+  },
+  {
+    title: "VELS Royal Enclave",
+    city: "Kovaipudur",
+    tag: "Villa Township",
+    badge: "Pre-Launch",
+    area: "15.0 Acres",
+    road: "50 ft Main Road",
+    image: "Images/Upcoming_Royal_Enclave.jpg",
+    desc: "Exclusive hillside villa plot layout offering cool year-round climate, panoramic valley views, and private community clubhouse.",
+    approval: "DTCP & RERA Registered",
+    location: "Kovaipudur Hillside Enclave",
+    features: [
+      "Pleasant Year-Round Cool Hill Climate",
+      "Private Gated Clubhouse & Community Park",
+      "50 ft Main Entrance Road with LED Lights",
+      "Storm Water Drainage Infrastructure",
+      "High-Security Gated Arch Entrance",
+      "Custom Architecture Villa Construction Support"
+    ]
+  },
+  {
+    title: "VELS Sunrise Avenue",
+    city: "Saravanampatti",
+    tag: "Gated Layout",
+    badge: "Upcoming",
+    area: "6.8 Acres",
+    road: "40 ft Internal Roads",
+    image: "Images/Upcoming_Green_Valley.jpg",
+    desc: "Prime investment plots adjacent to Saravanampatti IT Park SEZ with compound wall, avenue trees, and underground drainage.",
+    approval: "DTCP Approved Layout",
+    location: "Saravanampatti IT SEZ Hub",
+    features: [
+      "2 Minutes from IT SEZ Parks & Tech Companies",
+      "40 ft Blacktop Tar Roads",
+      "Gated Compound Wall",
+      "LED Streetlights & Underground Drainage",
+      "Walkable Distance to Top Schools & Hospitals",
+      "High Rental & Commercial Resale Demand"
+    ]
+  },
+  {
+    title: "VELS Signature Villas",
+    city: "Kovaipudur",
+    tag: "Luxury Villas",
+    badge: "VIP Allocation",
+    area: "10.2 Acres",
+    road: "50 ft Boulevard",
+    image: "Images/Upcoming_Heritage_Hills.jpg",
+    desc: "Ultra-luxury contemporary villas with private courtyard gardens, smart home automation, and 24/7 security patrol.",
+    approval: "DTCP Approved Luxury Villa Project",
+    location: "Kovaipudur Prime Boulevard",
+    features: [
+      "Smart Home Automation Systems Options",
+      "Private Landscaped Courtyard Gardens",
+      "50 ft Wide Tree-Lined Boulevard",
+      "Underground Electrical & Fiber Optics",
+      "24/7 Security Patrol & CCTV Surveillance",
+      "Turnkey Custom Villa Design & Build Services"
+    ]
+  }
+];
+
+let selectedUpcomingIndex = 0;
+
+function openUpcomingProjectModal(index) {
+  const proj = upcomingProjectsData[index];
+  if (!proj) return;
+  selectedUpcomingIndex = index;
+
+  const modal = document.getElementById('upcoming-project-modal');
+  if (!modal) return;
+
+  const imgEl = document.getElementById('upcoming-modal-img');
+  if (imgEl) {
+    imgEl.src = proj.image;
+    imgEl.alt = proj.title;
+  }
+  
+  const badgeEl = document.getElementById('upcoming-modal-badge');
+  if (badgeEl) badgeEl.textContent = proj.badge;
+
+  const cityEl = document.getElementById('upcoming-modal-city');
+  if (cityEl) cityEl.textContent = proj.city.toUpperCase();
+
+  const tagEl = document.getElementById('upcoming-modal-tag');
+  if (tagEl) tagEl.textContent = proj.tag.toUpperCase();
+
+  const titleEl = document.getElementById('upcoming-modal-title');
+  if (titleEl) titleEl.textContent = proj.title;
+
+  const descEl = document.getElementById('upcoming-modal-desc');
+  if (descEl) descEl.textContent = proj.desc;
+
+  const areaEl = document.getElementById('upcoming-modal-area');
+  if (areaEl) areaEl.textContent = proj.area;
+
+  const roadEl = document.getElementById('upcoming-modal-road');
+  if (roadEl) roadEl.textContent = proj.road;
+
+  const appEl = document.getElementById('upcoming-modal-approval');
+  if (appEl) appEl.textContent = proj.approval;
+
+  const locEl = document.getElementById('upcoming-modal-location');
+  if (locEl) locEl.textContent = proj.location;
+
+  const listEl = document.getElementById('upcoming-modal-features');
+  if (listEl) {
+    listEl.innerHTML = proj.features.map(f => `<li>${f}</li>`).join('');
+  }
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeUpcomingProjectModal() {
+  const modal = document.getElementById('upcoming-project-modal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+
+function closeUpcomingProjectModalOnBg(event) {
+  if (event.target && event.target.id === 'upcoming-project-modal') {
+    closeUpcomingProjectModal();
+  }
+}
+
+function enquireUpcomingProject() {
+  const proj = upcomingProjectsData[selectedUpcomingIndex];
+  closeUpcomingProjectModal();
+  if (proj) {
+    const text = encodeURIComponent(`Hello VELS Sakthivel Groups, I want to enquire about ${proj.title} (${proj.city} - ${proj.tag}). Please share details.`);
+    window.open(`https://wa.me/919842212345?text=${text}`, '_blank');
+  }
+}
+
+function select3DProjectCard(index) {
+  upcoming3DActiveIdx = index;
+  update3DFlatCarousel();
+
+  if (upcoming3DTimer) clearInterval(upcoming3DTimer);
+  upcoming3DTimer = setInterval(() => {
+    upcoming3DActiveIdx = (upcoming3DActiveIdx + 1) % 6;
+    update3DFlatCarousel();
+  }, 4000);
+}
+
+function handle3DCardClick(index) {
+  select3DProjectCard(index);
+  openUpcomingProjectModal(index);
+}
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+function init3DFlatCarousel() {
+  update3DFlatCarousel();
+  if (upcoming3DTimer) clearInterval(upcoming3DTimer);
+  upcoming3DTimer = setInterval(() => {
+    upcoming3DActiveIdx = (upcoming3DActiveIdx + 1) % 6;
+    update3DFlatCarousel();
+  }, 4000);
+
+  const wrapper = document.querySelector('.upcoming-3d-wrapper');
+  if (wrapper && !wrapper.dataset.swipeBound) {
+    wrapper.dataset.swipeBound = 'true';
+    wrapper.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    wrapper.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const swipeThreshold = 35;
+      if (touchEndX < touchStartX - swipeThreshold) {
+        select3DProjectCard((upcoming3DActiveIdx + 1) % 6);
+      } else if (touchEndX > touchStartX + swipeThreshold) {
+        select3DProjectCard((upcoming3DActiveIdx + 5) % 6);
+      }
+    }, { passive: true });
+  }
+
+  window.removeEventListener('resize', update3DFlatCarousel);
+  window.addEventListener('resize', update3DFlatCarousel);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init3DFlatCarousel);
+} else {
+  init3DFlatCarousel();
 }
 
 

@@ -15,11 +15,32 @@
 </head>
 <body class="bg-blueprint-grid">
 
-  <!-- 3-SECOND HIGH QUALITY LOGO LOADING SCREEN -->
+  <!-- 3-SECOND HIGH QUALITY 3D CUBE LOGO LOADING SCREEN -->
   <div id="loading-screen">
     <div class="loader-logo-frame">
-      <img src="Images/Vels_Logo_Premium.png" alt="VELS Plot Development & Construction Logo" class="loader-logo-img">
-      
+      <!-- 3D ROTATING GREEN & SANDAL LOGO CUBE LOADER -->
+      <div class="cube-loader-container">
+        <div class="cube-loader">
+          <div class="cube-top">
+            <img src="Images/Vels_Logo_Premium.png" alt="VELS Emblem" class="cube-top-logo">
+          </div>
+          <div class="cube-wrapper">
+            <div class="cube-span" style="--i:0">
+              <img src="Images/Vels_Logo_Premium.png" alt="VELS Logo" class="cube-face-logo">
+            </div>
+            <div class="cube-span" style="--i:1">
+              <img src="Images/Vels_Logo_Premium.png" alt="VELS Logo" class="cube-face-logo">
+            </div>
+            <div class="cube-span" style="--i:2">
+              <img src="Images/Vels_Logo_Premium.png" alt="VELS Logo" class="cube-face-logo">
+            </div>
+            <div class="cube-span" style="--i:3">
+              <img src="Images/Vels_Logo_Premium.png" alt="VELS Logo" class="cube-face-logo">
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="gold-sweep-line">
         <div class="gold-sweep-fill" id="loader-fill"></div>
       </div>
@@ -185,51 +206,116 @@
     <!-- QUICK PLOT & VILLA ENQUIRY SECTION (AFTER HERO SECTION) -->
     <section class="quick-enquiry-section">
       <div class="container">
-        <div class="quick-enquiry-header">
-          <span class="architectural-tag" style="color: var(--gold-light);">INSTANT LAYOUT & PLOT ENQUIRY</span>
-          <h2>Quick Plot & Villa Enquiry</h2>
-          <p>Submit your target area, plot number, and requirements for instant AI lead priority evaluation and project engineer callback.</p>
+        <div class="quick-enquiry-grid-card">
+          
+          <!-- LEFT COLUMN: ARCHITECTURAL SHOWCASE IMAGE & ANIMATED BADGES -->
+          <div class="quick-enquiry-image-col">
+            <div class="quick-enquiry-img-wrapper">
+              <img src="Images/Hero_Villa.jpg" alt="VELS Premium Layout & Villa Construction" class="quick-enquiry-showcase-img" />
+              <div class="quick-enquiry-img-overlay"></div>
+              
+              <!-- Shimmering Sheen Beam Light Pass -->
+              <div class="quick-enquiry-sheen-beam"></div>
+
+              <!-- Animated Floating Status Badges -->
+              <div class="enquiry-floating-badge badge-top-left">
+                <span class="badge-pulse-dot"></span>
+                <span>✨ AI LEAD EVALUATION ACTIVE</span>
+              </div>
+
+              <div class="enquiry-floating-badge badge-bottom-right">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>DTCP & RERA APPROVED</span>
+              </div>
+
+              <!-- Showcase Caption Card at Bottom of Image -->
+              <div class="quick-enquiry-img-caption">
+                <span class="caption-tag">FEATURED ENCLAVE</span>
+                <h4>SAKTHI PALM GROVE & VELS VISTAS</h4>
+                <p>Complimentary Site Visits &amp; Bank Loan Assistance</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: QUICK ENQUIRY FORM -->
+          <div class="quick-enquiry-form-col">
+            <div class="quick-enquiry-header">
+              <span class="architectural-tag" style="color: var(--gold-light);">INSTANT LAYOUT & PLOT ENQUIRY</span>
+              <h2>Quick Plot & Villa Enquiry</h2>
+              <p>Submit your target area, plot number, and requirements for instant AI lead priority evaluation and project engineer callback.</p>
+            </div>
+
+            <form id="quick-enquiry-form" class="quick-enquiry-form-vertical" onsubmit="handleQuickEnquirySubmit(event)">
+              <div class="quick-enquiry-form-row">
+                <div class="quick-enquiry-field">
+                  <label for="quick-name">FULL NAME *</label>
+                  <input type="text" id="quick-name" class="quick-enquiry-input" placeholder="e.g. Ramesh Kumar" required />
+                </div>
+
+                <div class="quick-enquiry-field">
+                  <label for="quick-mobile">MOBILE NO *</label>
+                  <input type="tel" id="quick-mobile" class="quick-enquiry-input" placeholder="e.g. 98422 10542" required />
+                </div>
+              </div>
+
+              <div class="quick-enquiry-form-row">
+                <div class="quick-enquiry-field">
+                  <label for="quick-area">AREA / LOCATION *</label>
+                  <input type="text" id="quick-area" class="quick-enquiry-input" placeholder="e.g. Pollachi, Kovaipudur" required />
+                </div>
+
+                <div class="quick-enquiry-field">
+                  <label for="quick-plot">PLOT NO</label>
+                  <input type="text" id="quick-plot" class="quick-enquiry-input" placeholder="e.g. Plot P-101 / Villa #14" />
+                </div>
+              </div>
+
+              <div class="quick-enquiry-field">
+                <label for="quick-desc">DESCRIPTION / NOTES</label>
+                <input type="text" id="quick-desc" class="quick-enquiry-input" placeholder="e.g. 40ft road, corner plot, immediate construction..." />
+              </div>
+
+              <div class="quick-enquiry-field" style="margin-top: 6px;">
+                <button type="submit" id="quick-submit-btn" class="btn btn-gold quick-enquiry-btn animated-submit-btn">
+                  <span>SUBMIT ENQUIRY</span>
+                  <svg class="btn-arrow-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </form>
+          </div>
+
         </div>
-
-        <form id="quick-enquiry-form" class="quick-enquiry-form" onsubmit="handleQuickEnquirySubmit(event)">
-          <div class="quick-enquiry-field">
-            <label for="quick-name">FULL NAME *</label>
-            <input type="text" id="quick-name" class="quick-enquiry-input" placeholder="e.g. Ramesh Kumar" required />
-          </div>
-
-          <div class="quick-enquiry-field">
-            <label for="quick-mobile">MOBILE NO *</label>
-            <input type="tel" id="quick-mobile" class="quick-enquiry-input" placeholder="e.g. 98422 10542" required />
-          </div>
-
-          <div class="quick-enquiry-field">
-            <label for="quick-area">AREA / LOCATION *</label>
-            <input type="text" id="quick-area" class="quick-enquiry-input" placeholder="e.g. Pollachi, Kovaipudur" required />
-          </div>
-
-          <div class="quick-enquiry-field">
-            <label for="quick-plot">PLOT NO</label>
-            <input type="text" id="quick-plot" class="quick-enquiry-input" placeholder="e.g. Plot P-101 / Villa #14" />
-          </div>
-
-          <div class="quick-enquiry-field">
-            <label for="quick-desc">DESCRIPTION / NOTES</label>
-            <input type="text" id="quick-desc" class="quick-enquiry-input" placeholder="e.g. 40ft road, corner plot..." />
-          </div>
-
-          <div class="quick-enquiry-field">
-            <button type="submit" id="quick-submit-btn" class="btn btn-gold quick-enquiry-btn">
-              <span>SUBMIT ENQUIRY</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-          </div>
-        </form>
       </div>
     </section>
 
     <!-- SVG DEFINITIONS FOR 3D SANDAL & GOLDEN RIBBONS -->
-    <svg style="display:none;" aria-hidden="true">
+    <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
       <defs>
+        <!-- Sandal Wave Motion Background Gradients -->
+        <linearGradient id="sandalWaveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#E5C384" stop-opacity="0.35"/>
+          <stop offset="50%" stop-color="#C6A15B" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="#D4AF37" stop-opacity="0.30"/>
+        </linearGradient>
+
+        <linearGradient id="sandalWaveGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#F3E5C8" stop-opacity="0.40"/>
+          <stop offset="60%" stop-color="#D8B974" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#C6A15B" stop-opacity="0.32"/>
+        </linearGradient>
+
+        <linearGradient id="sandalWaveGrad3" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#C6A15B" stop-opacity="0.25"/>
+          <stop offset="50%" stop-color="#A88339" stop-opacity="0.18"/>
+          <stop offset="100%" stop-color="#E5C384" stop-opacity="0.30"/>
+        </linearGradient>
+
+        <linearGradient id="sandalWaveGrad4" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FFFDF7" stop-opacity="0.45"/>
+          <stop offset="50%" stop-color="#F5E6BE" stop-opacity="0.30"/>
+          <stop offset="100%" stop-color="#D8B974" stop-opacity="0.35"/>
+        </linearGradient>
+
         <linearGradient id="sandalRibbonGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="#FFFDF8" stop-opacity="0.95"/>
           <stop offset="35%" stop-color="#F5EBD7" stop-opacity="0.85"/>
@@ -263,24 +349,6 @@
         <div class="smokey-sandal-wisp"></div>
       </div>
 
-      <!-- PURE CSS & SVG 3D SANDAL RIBBON ANIMATED BACKGROUND BEHIND CARDS -->
-      <div class="sandal-3d-ribbon-overlay" aria-hidden="true">
-        <div class="ribbon-3d-wrapper ribbon-layer-1">
-          <svg class="ribbon-svg" viewBox="0 0 1440 600" preserveAspectRatio="none">
-            <path class="ribbon-body" fill="url(#sandalRibbonGrad1)" d="M-100,500 C300,100 800,550 1540,50 L1540,220 C800,720 300,270 -100,670 Z"/>
-            <path class="ribbon-gold-edge" stroke="url(#goldEdgeGlow)" stroke-width="7" fill="none" d="M-100,500 C300,100 800,550 1540,50"/>
-          </svg>
-        </div>
-
-        <div class="ribbon-3d-wrapper ribbon-layer-2">
-          <svg class="ribbon-svg" viewBox="0 0 1440 600" preserveAspectRatio="none">
-            <path class="ribbon-body" fill="url(#sandalRibbonGrad2)" d="M-100,50 C400,450 900,50 1540,400 L1540,520 C900,170 400,570 -100,170 Z"/>
-            <path class="ribbon-gold-edge" stroke="url(#goldEdgeGlow)" stroke-width="6" fill="none" d="M-100,50 C400,450 900,50 1540,400"/>
-          </svg>
-        </div>
-
-        <div class="sandal-gloss-beam"></div>
-      </div>
 
       <div class="container" style="position: relative; z-index: 2;">
         <div style="text-align: center; max-width: 780px; margin: 0 auto 20px;">
@@ -435,162 +503,155 @@
           </p>
         </div>
 
-        <div class="project-scroll-shell" aria-label="Upcoming project cards carousel">
-          <div class="project-scroll-track">
-            <!-- ARTICLE 1 -->
-            <article class="project-card">
+        <div class="upcoming-3d-wrapper" aria-label="3D Flat Orbit Upcoming Projects Carousel">
+          <div class="upcoming-3d-inner">
+            <!-- CARD 1 -->
+            <article class="project-card-3d" data-index="0" style="--color-card: 198, 161, 91;" onclick="handle3DCardClick(0)">
               <div class="project-card-image-wrap">
                 <img src="Images/Upcoming_Green_Valley.jpg" alt="VELS Green Valley upcoming project in Pollachi" />
                 <span class="project-badge">Ready to Launch</span>
+                <div class="card-3d-radial-glow"></div>
               </div>
               <div class="project-card-body">
-                <div class="project-card-meta">
-                  <span class="project-city">Pollachi</span>
-                  <span class="project-tag">Farm Plots</span>
+                <div>
+                  <div class="project-card-meta">
+                    <span class="project-city">Pollachi</span>
+                    <span class="meta-sep">•</span>
+                    <span class="project-tag">Farm Plots</span>
+                  </div>
+                  <h3>VELS Green Valley</h3>
+                  <div class="card-mini-stats">
+                    <span>5.9 ACRES</span>
+                    <span class="stat-bullet">•</span>
+                    <span>40 FT ROADS</span>
+                  </div>
                 </div>
-                <h3>VELS Green Valley</h3>
-                <p>101 premium gated agro-residency units with drip irrigation, solar avenue lights, and lush coconut grove vistas.</p>
-                <div class="project-card-stats">
-                  <span><strong>5.9</strong> Acres</span>
-                  <span><strong>40</strong> ft Roads</span>
-                </div>
+                <button type="button" class="btn-more-details">MORE DETAILS →</button>
               </div>
             </article>
 
-            <!-- ARTICLE 2 -->
-            <article class="project-card">
+            <!-- CARD 2 -->
+            <article class="project-card-3d" data-index="1" style="--color-card: 40, 51, 34;" onclick="handle3DCardClick(1)">
               <div class="project-card-image-wrap">
                 <img src="Images/Upcoming_Heritage_Hills.jpg" alt="VELS Heritage Hills upcoming project in Coimbatore" />
                 <span class="project-badge">Ready to Launch</span>
+                <div class="card-3d-radial-glow"></div>
               </div>
               <div class="project-card-body">
-                <div class="project-card-meta">
-                  <span class="project-city">Coimbatore</span>
-                  <span class="project-tag">Residential</span>
+                <div>
+                  <div class="project-card-meta">
+                    <span class="project-city">Coimbatore</span>
+                    <span class="meta-sep">•</span>
+                    <span class="project-tag">Residential</span>
+                  </div>
+                  <h3>VELS Heritage Hills</h3>
+                  <div class="card-mini-stats">
+                    <span>8.3 ACRES</span>
+                    <span class="stat-bullet">•</span>
+                    <span>60 FT ENTRY</span>
+                  </div>
                 </div>
-                <h3>VELS Heritage Hills</h3>
-                <p>High-growth residential pocket near IT corridor with DTCP approval, underground utilities, and grand arch entrance.</p>
-                <div class="project-card-stats">
-                  <span><strong>8.3</strong> Acres</span>
-                  <span><strong>60</strong> ft Entry</span>
-                </div>
+                <button type="button" class="btn-more-details">MORE DETAILS →</button>
               </div>
             </article>
 
-            <!-- ARTICLE 3 -->
-            <article class="project-card">
+            <!-- CARD 3 -->
+            <article class="project-card-3d" data-index="2" style="--color-card: 169, 130, 58;" onclick="handle3DCardClick(2)">
               <div class="project-card-image-wrap">
                 <img src="Images/Upcoming_Emerald_Palms.jpg" alt="VELS Emerald Palms upcoming project in Kinathukadavu" />
                 <span class="project-badge">Phase 1 Booking</span>
+                <div class="card-3d-radial-glow"></div>
               </div>
               <div class="project-card-body">
-                <div class="project-card-meta">
-                  <span class="project-city">Kinathukadavu</span>
-                  <span class="project-tag">Eco Vistas</span>
+                <div>
+                  <div class="project-card-meta">
+                    <span class="project-city">Kinathukadavu</span>
+                    <span class="meta-sep">•</span>
+                    <span class="project-tag">Eco Vistas</span>
+                  </div>
+                  <h3>VELS Emerald Palms</h3>
+                  <div class="card-mini-stats">
+                    <span>12.5 ACRES</span>
+                    <span class="stat-bullet">•</span>
+                    <span>33 FT ROADS</span>
+                  </div>
                 </div>
-                <h3>VELS Emerald Palms</h3>
-                <p>Scenic eco-friendly plantation community featuring perimeter fencing, rainwater harvesting, and Western Ghats views.</p>
-                <div class="project-card-stats">
-                  <span><strong>12.5</strong> Acres</span>
-                  <span><strong>33</strong> ft Roads</span>
-                </div>
+                <button type="button" class="btn-more-details">MORE DETAILS →</button>
               </div>
             </article>
 
-            <!-- ARTICLE 4 -->
-            <article class="project-card">
+            <!-- CARD 4 -->
+            <article class="project-card-3d" data-index="3" style="--color-card: 60, 78, 50;" onclick="handle3DCardClick(3)">
               <div class="project-card-image-wrap">
                 <img src="Images/Upcoming_Royal_Enclave.jpg" alt="VELS Royal Enclave upcoming project in Kovaipudur" />
                 <span class="project-badge">Pre-Launch</span>
+                <div class="card-3d-radial-glow"></div>
               </div>
               <div class="project-card-body">
-                <div class="project-card-meta">
-                  <span class="project-city">Kovaipudur</span>
-                  <span class="project-tag">Villa Township</span>
+                <div>
+                  <div class="project-card-meta">
+                    <span class="project-city">Kovaipudur</span>
+                    <span class="meta-sep">•</span>
+                    <span class="project-tag">Villa Township</span>
+                  </div>
+                  <h3>VELS Royal Enclave</h3>
+                  <div class="card-mini-stats">
+                    <span>15.0 ACRES</span>
+                    <span class="stat-bullet">•</span>
+                    <span>50 FT ROAD</span>
+                  </div>
                 </div>
-                <h3>VELS Royal Enclave</h3>
-                <p>Exclusive hillside villa plot layout offering panoramic valley views, central clubhouse park, and 24/7 security.</p>
-                <div class="project-card-stats">
-                  <span><strong>15.0</strong> Acres</span>
-                  <span><strong>50</strong> ft Main Road</span>
-                </div>
+                <button type="button" class="btn-more-details">MORE DETAILS →</button>
               </div>
             </article>
 
-            <!-- DUPLICATE LOOP FOR INFINITE SCROLL -->
-            <article class="project-card">
+            <!-- CARD 5 -->
+            <article class="project-card-3d" data-index="4" style="--color-card: 216, 175, 95;" onclick="handle3DCardClick(4)">
               <div class="project-card-image-wrap">
-                <img src="Images/Upcoming_Green_Valley.jpg" alt="VELS Green Valley upcoming project in Pollachi" />
-                <span class="project-badge">Ready to Launch</span>
+                <img src="Images/Upcoming_Green_Valley.jpg" alt="VELS Sunrise Avenue upcoming project in Saravanampatti" />
+                <span class="project-badge">Upcoming</span>
+                <div class="card-3d-radial-glow"></div>
               </div>
               <div class="project-card-body">
-                <div class="project-card-meta">
-                  <span class="project-city">Pollachi</span>
-                  <span class="project-tag">Farm Plots</span>
+                <div>
+                  <div class="project-card-meta">
+                    <span class="project-city">Saravanampatti</span>
+                    <span class="meta-sep">•</span>
+                    <span class="project-tag">Gated Layout</span>
+                  </div>
+                  <h3>VELS Sunrise Avenue</h3>
+                  <div class="card-mini-stats">
+                    <span>6.8 ACRES</span>
+                    <span class="stat-bullet">•</span>
+                    <span>40 FT ROADS</span>
+                  </div>
                 </div>
-                <h3>VELS Green Valley</h3>
-                <p>101 premium gated agro-residency units with drip irrigation, solar avenue lights, and lush coconut grove vistas.</p>
-                <div class="project-card-stats">
-                  <span><strong>5.9</strong> Acres</span>
-                  <span><strong>40</strong> ft Roads</span>
-                </div>
+                <button type="button" class="btn-more-details">MORE DETAILS →</button>
               </div>
             </article>
 
-            <article class="project-card">
+            <!-- CARD 6 -->
+            <article class="project-card-3d" data-index="5" style="--color-card: 85, 105, 75;" onclick="handle3DCardClick(5)">
               <div class="project-card-image-wrap">
-                <img src="Images/Upcoming_Heritage_Hills.jpg" alt="VELS Heritage Hills upcoming project in Coimbatore" />
-                <span class="project-badge">Ready to Launch</span>
+                <img src="Images/Upcoming_Heritage_Hills.jpg" alt="VELS Signature Villas upcoming project in Kovaipudur" />
+                <span class="project-badge">VIP Allocation</span>
+                <div class="card-3d-radial-glow"></div>
               </div>
               <div class="project-card-body">
-                <div class="project-card-meta">
-                  <span class="project-city">Coimbatore</span>
-                  <span class="project-tag">Residential</span>
+                <div>
+                  <div class="project-card-meta">
+                    <span class="project-city">Kovaipudur</span>
+                    <span class="meta-sep">•</span>
+                    <span class="project-tag">Luxury Villas</span>
+                  </div>
+                  <h3>VELS Signature Villas</h3>
+                  <div class="card-mini-stats">
+                    <span>10.2 ACRES</span>
+                    <span class="stat-bullet">•</span>
+                    <span>50 FT BOULEVARD</span>
+                  </div>
                 </div>
-                <h3>VELS Heritage Hills</h3>
-                <p>High-growth residential pocket near IT corridor with DTCP approval, underground utilities, and grand arch entrance.</p>
-                <div class="project-card-stats">
-                  <span><strong>8.3</strong> Acres</span>
-                  <span><strong>60</strong> ft Entry</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="project-card">
-              <div class="project-card-image-wrap">
-                <img src="Images/Upcoming_Emerald_Palms.jpg" alt="VELS Emerald Palms upcoming project in Kinathukadavu" />
-                <span class="project-badge">Phase 1 Booking</span>
-              </div>
-              <div class="project-card-body">
-                <div class="project-card-meta">
-                  <span class="project-city">Kinathukadavu</span>
-                  <span class="project-tag">Eco Vistas</span>
-                </div>
-                <h3>VELS Emerald Palms</h3>
-                <p>Scenic eco-friendly plantation community featuring perimeter fencing, rainwater harvesting, and Western Ghats views.</p>
-                <div class="project-card-stats">
-                  <span><strong>12.5</strong> Acres</span>
-                  <span><strong>33</strong> ft Roads</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="project-card">
-              <div class="project-card-image-wrap">
-                <img src="Images/Upcoming_Royal_Enclave.jpg" alt="VELS Royal Enclave upcoming project in Kovaipudur" />
-                <span class="project-badge">Pre-Launch</span>
-              </div>
-              <div class="project-card-body">
-                <div class="project-card-meta">
-                  <span class="project-city">Kovaipudur</span>
-                  <span class="project-tag">Villa Township</span>
-                </div>
-                <h3>VELS Royal Enclave</h3>
-                <p>Exclusive hillside villa plot layout offering panoramic valley views, central clubhouse park, and 24/7 security.</p>
-                <div class="project-card-stats">
-                  <span><strong>15.0</strong> Acres</span>
-                  <span><strong>50</strong> ft Main Road</span>
-                </div>
+                <button type="button" class="btn-more-details">MORE DETAILS →</button>
               </div>
             </article>
           </div>
@@ -798,23 +859,20 @@
 
     <!-- WHY CHOOSE VELS GROUP SECTION -->
     <section class="py-section why-choose-vels-section sandal-pale-section" id="why-choose-section">
-      <!-- PURE CSS & SVG 3D SANDAL RIBBON ANIMATED BACKGROUND BEHIND CARDS -->
-      <div class="sandal-3d-ribbon-overlay" aria-hidden="true">
-        <div class="ribbon-3d-wrapper ribbon-layer-1">
-          <svg class="ribbon-svg" viewBox="0 0 1440 600" preserveAspectRatio="none">
-            <path class="ribbon-body" fill="url(#sandalRibbonGrad1)" d="M-100,500 C300,100 800,550 1540,50 L1540,220 C800,720 300,270 -100,670 Z"/>
-            <path class="ribbon-gold-edge" stroke="url(#goldEdgeGlow)" stroke-width="7" fill="none" d="M-100,500 C300,100 800,550 1540,50"/>
-          </svg>
-        </div>
-
-        <div class="ribbon-3d-wrapper ribbon-layer-2">
-          <svg class="ribbon-svg" viewBox="0 0 1440 600" preserveAspectRatio="none">
-            <path class="ribbon-body" fill="url(#sandalRibbonGrad2)" d="M-100,50 C400,450 900,50 1540,400 L1540,520 C900,170 400,570 -100,170 Z"/>
-            <path class="ribbon-gold-edge" stroke="url(#goldEdgeGlow)" stroke-width="6" fill="none" d="M-100,50 C400,450 900,50 1540,400"/>
-          </svg>
-        </div>
-
-        <div class="sandal-gloss-beam"></div>
+      <!-- MULTI-LAYERED ANIMATED SANDAL WAVE MOTION BACKGROUND -->
+      <div class="sandal-waves-container" aria-hidden="true">
+        <svg class="sandal-wave-svg wave-layer-1" viewBox="0 0 1440 320" preserveAspectRatio="none">
+          <path fill="url(#sandalWaveGrad1)" d="M0,192L48,197.3C96,203,192,213,288,192C384,171,480,117,576,112C672,107,768,149,864,165.3C960,181,1056,171,1152,149.3C1248,128,1344,96,1392,80L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+        <svg class="sandal-wave-svg wave-layer-2" viewBox="0 0 1440 320" preserveAspectRatio="none">
+          <path fill="url(#sandalWaveGrad2)" d="M0,128L48,149.3C96,171,192,213,288,224C384,235,480,213,576,170.7C672,128,768,64,864,69.3C960,75,1056,149,1152,176C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+        <svg class="sandal-wave-svg wave-layer-3" viewBox="0 0 1440 320" preserveAspectRatio="none">
+          <path fill="url(#sandalWaveGrad3)" d="M0,256L48,229.3C96,203,192,149,288,154.7C384,160,480,224,576,224C672,224,768,160,864,138.7C960,117,1056,139,1152,160C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+        <svg class="sandal-wave-svg wave-layer-4" viewBox="0 0 1440 320" preserveAspectRatio="none">
+          <path fill="url(#sandalWaveGrad4)" d="M0,64L48,96C96,128,192,192,288,208C384,224,480,192,576,149.3C672,107,768,53,864,64C960,75,1056,149,1152,176C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
       </div>
 
       <div class="container" style="position: relative; z-index: 2;">
@@ -831,9 +889,27 @@
             <div class="why-choose-features">
               <div class="why-choose-item">
                 <div class="why-choose-icon-box">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                    <path d="m9 12 2 2 4-4"/>
+                  <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="goldBase1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#FFF2A8"/>
+                        <stop offset="30%" stop-color="#D4AF37"/>
+                        <stop offset="70%" stop-color="#AA771C"/>
+                        <stop offset="100%" stop-color="#6B4B0C"/>
+                      </linearGradient>
+                      <linearGradient id="goldBevel1" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#543A07"/>
+                        <stop offset="50%" stop-color="#C5A059"/>
+                        <stop offset="100%" stop-color="#FFEAA7"/>
+                      </linearGradient>
+                      <filter id="shadow1" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#000" flood-opacity="0.5"/>
+                      </filter>
+                    </defs>
+                    <path d="M24 4L38 9V20C38 30.5 32 38.5 24 43C16 38.5 10 30.5 10 20V9L24 4Z" fill="url(#goldBase1)" filter="url(#shadow1)"/>
+                    <path d="M24 7.5L35.5 11.8V20.5C35.5 28.8 30.3 35.3 24 39.2C17.7 35.3 12.5 28.8 12.5 20.5V11.8L24 7.5Z" fill="url(#goldBevel1)"/>
+                    <path d="M24 9.5L34 13.2V20.5C34 27.5 29.5 33.2 24 36.8C18.5 33.2 14 27.5 14 20.5V13.2L24 9.5Z" fill="#1E2818"/>
+                    <path d="M21 27.2L16.3 22.5L18.4 20.4L21 23L29.6 14.4L31.7 16.5L21 27.2Z" fill="url(#goldBase1)"/>
                   </svg>
                 </div>
                 <div>
@@ -844,9 +920,28 @@
 
               <div class="why-choose-item">
                 <div class="why-choose-icon-box">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="goldBase2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#FFF5B8"/>
+                        <stop offset="35%" stop-color="#E5C158"/>
+                        <stop offset="75%" stop-color="#9E761E"/>
+                        <stop offset="100%" stop-color="#59400B"/>
+                      </linearGradient>
+                      <linearGradient id="shackleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#FFFFFF"/>
+                        <stop offset="40%" stop-color="#D4AF37"/>
+                        <stop offset="100%" stop-color="#735210"/>
+                      </linearGradient>
+                      <filter id="shadow2" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#000" flood-opacity="0.5"/>
+                      </filter>
+                    </defs>
+                    <path d="M16 20V13C16 8.58 19.58 5 24 5C28.42 5 32 8.58 32 13V20" stroke="url(#shackleGrad)" stroke-width="4.5" stroke-linecap="round"/>
+                    <rect x="11" y="19" width="26" height="23" rx="4" fill="url(#goldBase2)" filter="url(#shadow2)"/>
+                    <rect x="13" y="21" width="22" height="19" rx="3" fill="none" stroke="#FFF2A8" stroke-width="0.8" opacity="0.6"/>
+                    <circle cx="24" cy="28" r="3" fill="#1A2315"/>
+                    <path d="M22.5 28.5L25.5 28.5L26.5 35L21.5 35Z" fill="#1A2315"/>
                   </svg>
                 </div>
                 <div>
@@ -857,12 +952,28 @@
 
               <div class="why-choose-item">
                 <div class="why-choose-icon-box">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 3H3v18h18V3z"/>
-                    <path d="M9 3v18"/>
-                    <path d="M15 3v18"/>
-                    <path d="M3 9h18"/>
-                    <path d="M3 15h18"/>
+                  <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="goldBase3" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#FFF3B3"/>
+                        <stop offset="40%" stop-color="#D8B246"/>
+                        <stop offset="80%" stop-color="#997018"/>
+                        <stop offset="100%" stop-color="#543A07"/>
+                      </linearGradient>
+                      <filter id="shadow3" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#000" flood-opacity="0.5"/>
+                      </filter>
+                    </defs>
+                    <rect x="8" y="8" width="32" height="32" rx="4" fill="#1E2818" stroke="url(#goldBase3)" stroke-width="2.5" filter="url(#shadow3)"/>
+                    <line x1="8" y1="20" x2="40" y2="20" stroke="url(#goldBase3)" stroke-width="1" stroke-dasharray="2 2" opacity="0.6"/>
+                    <line x1="8" y1="30" x2="40" y2="30" stroke="url(#goldBase3)" stroke-width="1" stroke-dasharray="2 2" opacity="0.6"/>
+                    <line x1="20" y1="8" x2="20" y2="40" stroke="url(#goldBase3)" stroke-width="1" stroke-dasharray="2 2" opacity="0.6"/>
+                    <line x1="30" y1="8" x2="30" y2="40" stroke="url(#goldBase3)" stroke-width="1" stroke-dasharray="2 2" opacity="0.6"/>
+                    <rect x="19" y="19" width="13" height="13" fill="url(#goldBase3)" opacity="0.85" rx="1"/>
+                    <circle cx="12" cy="12" r="2.5" fill="#FFEAA7"/>
+                    <circle cx="36" cy="12" r="2.5" fill="#FFEAA7"/>
+                    <circle cx="12" cy="36" r="2.5" fill="#FFEAA7"/>
+                    <circle cx="36" cy="36" r="2.5" fill="#FFEAA7"/>
                   </svg>
                 </div>
                 <div>
@@ -873,9 +984,27 @@
 
               <div class="why-choose-item">
                 <div class="why-choose-icon-box">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
-                    <circle cx="12" cy="10" r="3"/>
+                  <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="goldBase4" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#FFEAA7"/>
+                        <stop offset="35%" stop-color="#D4AF37"/>
+                        <stop offset="75%" stop-color="#8C6314"/>
+                        <stop offset="100%" stop-color="#4D3505"/>
+                      </linearGradient>
+                      <radialGradient id="goldGlow" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#FFF5B8"/>
+                        <stop offset="100%" stop-color="#D4AF37"/>
+                      </radialGradient>
+                      <filter id="shadow4" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="0" dy="2.5" stdDeviation="1.5" flood-color="#000" flood-opacity="0.5"/>
+                      </filter>
+                    </defs>
+                    <ellipse cx="24" cy="42" rx="10" ry="3" fill="#000" opacity="0.35"/>
+                    <circle cx="24" cy="21" r="17" fill="none" stroke="url(#goldBase4)" stroke-width="1.8" stroke-dasharray="4 2"/>
+                    <path d="M24 4C14.6 4 7 11.6 7 21C7 31.5 24 43 24 43C24 43 41 31.5 41 21C41 11.6 33.4 4 24 4Z" fill="url(#goldBase4)" filter="url(#shadow4)"/>
+                    <circle cx="24" cy="19" r="8.5" fill="#1C2616"/>
+                    <circle cx="24" cy="19" r="4.5" fill="url(#goldGlow)"/>
                   </svg>
                 </div>
                 <div>
@@ -886,12 +1015,25 @@
 
               <div class="why-choose-item">
                 <div class="why-choose-icon-box">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 19L9 5"/>
-                    <path d="M20 19L15 5"/>
-                    <path d="M12 6V8"/>
-                    <path d="M12 12V14"/>
-                    <path d="M12 18V20"/>
+                  <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="goldBase5" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#FFF7C2"/>
+                        <stop offset="35%" stop-color="#DBB448"/>
+                        <stop offset="75%" stop-color="#966E19"/>
+                        <stop offset="100%" stop-color="#543A07"/>
+                      </linearGradient>
+                      <filter id="shadow5" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#000" flood-opacity="0.5"/>
+                      </filter>
+                    </defs>
+                    <circle cx="24" cy="24" r="19" fill="#1A2315" stroke="url(#goldBase5)" stroke-width="2.5" filter="url(#shadow5)"/>
+                    <path d="M12 37L19 11H29L36 37H12Z" fill="#2A3623" stroke="url(#goldBase5)" stroke-width="1.2"/>
+                    <line x1="24" y1="13" x2="24" y2="18" stroke="url(#goldBase5)" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="24" y1="22" x2="24" y2="28" stroke="url(#goldBase5)" stroke-width="2.2" stroke-linecap="round"/>
+                    <line x1="24" y1="32" x2="24" y2="37" stroke="url(#goldBase5)" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M10 37L18 11" stroke="url(#goldBase5)" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M38 37L30 11" stroke="url(#goldBase5)" stroke-width="2.5" stroke-linecap="round"/>
                   </svg>
                 </div>
                 <div>
@@ -917,24 +1059,6 @@
 
     <!-- REAL CUSTOMER REVIEWS & TESTIMONIALS SECTION -->
     <section class="py-section reviews-section-wrapper sandal-pale-section" id="customer-reviews-section">
-      <!-- PURE CSS & SVG 3D SANDAL RIBBON ANIMATED BACKGROUND BEHIND CARDS -->
-      <div class="sandal-3d-ribbon-overlay" aria-hidden="true">
-        <div class="ribbon-3d-wrapper ribbon-layer-1">
-          <svg class="ribbon-svg" viewBox="0 0 1440 600" preserveAspectRatio="none">
-            <path class="ribbon-body" fill="url(#sandalRibbonGrad1)" d="M-100,500 C300,100 800,550 1540,50 L1540,220 C800,720 300,270 -100,670 Z"/>
-            <path class="ribbon-gold-edge" stroke="url(#goldEdgeGlow)" stroke-width="7" fill="none" d="M-100,500 C300,100 800,550 1540,50"/>
-          </svg>
-        </div>
-
-        <div class="ribbon-3d-wrapper ribbon-layer-2">
-          <svg class="ribbon-svg" viewBox="0 0 1440 600" preserveAspectRatio="none">
-            <path class="ribbon-body" fill="url(#sandalRibbonGrad2)" d="M-100,50 C400,450 900,50 1540,400 L1540,520 C900,170 400,570 -100,170 Z"/>
-            <path class="ribbon-gold-edge" stroke="url(#goldEdgeGlow)" stroke-width="6" fill="none" d="M-100,50 C400,450 900,50 1540,400"/>
-          </svg>
-        </div>
-
-        <div class="sandal-gloss-beam"></div>
-      </div>
 
       <div class="container" style="position: relative; z-index: 2;">
         <div class="reviews-header">
@@ -1412,6 +1536,63 @@
       </svg>
       <span class="floating-tooltip">Chat on WhatsApp</span>
     </a>
+  </div>
+
+  <!-- UPCOMING PROJECT DETAILS MODAL -->
+  <div id="upcoming-project-modal" class="upcoming-modal-overlay" style="display: none;" onclick="closeUpcomingProjectModalOnBg(event)">
+    <div class="upcoming-modal-card">
+      <button type="button" class="upcoming-modal-close" onclick="closeUpcomingProjectModal()">&times;</button>
+      
+      <div class="upcoming-modal-hero">
+        <img id="upcoming-modal-img" src="" alt="Project Image" />
+        <span id="upcoming-modal-badge" class="upcoming-modal-badge"></span>
+      </div>
+
+      <div class="upcoming-modal-content">
+        <div class="upcoming-modal-meta">
+          <span id="upcoming-modal-city" class="architectural-tag"></span>
+          <span id="upcoming-modal-tag" class="project-tag"></span>
+        </div>
+
+        <h2 id="upcoming-modal-title"></h2>
+        <p id="upcoming-modal-desc" class="upcoming-modal-desc"></p>
+
+        <div class="upcoming-specs-grid">
+          <div class="upcoming-spec-item">
+            <span class="spec-label">TOTAL LAND AREA</span>
+            <strong id="upcoming-modal-area"></strong>
+          </div>
+          <div class="upcoming-spec-item">
+            <span class="spec-label">ROAD INFRASTRUCTURE</span>
+            <strong id="upcoming-modal-road"></strong>
+          </div>
+          <div class="upcoming-spec-item">
+            <span class="spec-label">APPROVAL &amp; STATUS</span>
+            <strong id="upcoming-modal-approval">DTCP &amp; RERA Approved</strong>
+          </div>
+          <div class="upcoming-spec-item">
+            <span class="spec-label">LOCATION CORRIDOR</span>
+            <strong id="upcoming-modal-location">Prime Highway Location</strong>
+          </div>
+        </div>
+
+        <div class="upcoming-features-box">
+          <h4>PROJECT HIGHLIGHTS &amp; AMENITIES</h4>
+          <ul id="upcoming-modal-features">
+            <!-- Rendered by JS -->
+          </ul>
+        </div>
+
+        <div class="upcoming-modal-actions">
+          <button type="button" id="upcoming-modal-enquire-btn" class="btn btn-gold" onclick="enquireUpcomingProject()">
+            ENQUIRE &amp; BOOK SITE VISIT →
+          </button>
+          <button type="button" class="btn btn-outline-gold" onclick="closeUpcomingProjectModal()">
+            CLOSE
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="app.js"></script>

@@ -125,239 +125,311 @@
       </div>
     </section>
 
-    <section class="py-section bg-cream">
+    <section class="py-section bg-cream" style="padding-top: 30px;">
       <div class="container">
-        <!-- AI LEAD SCORING ENGINE & BUYER PRIORITY DASHBOARD -->
-        <div style="background: var(--bg-cream); border: 1.8px solid var(--gold-primary); border-radius: var(--radius-md); padding: 32px; box-shadow: 0 12px 35px rgba(57, 69, 47, 0.12), 0 0 20px rgba(198, 161, 91, 0.18); margin-bottom: 40px; position: relative; overflow: hidden;">
-          
-          <!-- TOP METALLIC GOLD ACCENT STRIP -->
-          <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #A9823A, #C6A15B, #E5D2A6, #C6A15B, #A9823A);"></div>
 
-          <div style="display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid rgba(198, 161, 91, 0.3);">
-            <div style="max-width: 760px;">
-              <div class="architectural-tag" style="margin-bottom: 8px; color: var(--gold-antique); font-weight: 700;">AI ASSISTANT LEAD SCORING ENGINE</div>
-              <h3 style="font-family: var(--font-heading); font-size: clamp(1.6rem, 3vw, 2.3rem); color: var(--olive-deep); font-weight: 800; letter-spacing: 0.5px; margin-bottom: 8px;">
-                AI Lead Intelligence & Action Priority
-              </h3>
-              <p style="font-size: 0.96rem; color: var(--text-secondary); line-height: 1.65; font-weight: 500;">
-                Automated 0–100 AI Lead Scoring model evaluates budget, timeline, purpose, plot interest, and activity signals to recommend high-priority buyers to call first.
-              </p>
+        <div class="admin-dashboard-layout">
+          <!-- TOP HORIZONTAL BUTTON MENU BAR -->
+          <div class="admin-horizontal-menu">
+            <div class="horizontal-menu-header">
+              <span class="architectural-tag" style="font-size: 0.62rem;">ADMIN NAVIGATION</span>
+              <h4 style="margin-top: 4px;">DASHBOARD PANELS</h4>
             </div>
 
-            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 4px;">
-              <button class="btn btn-gold" onclick="scrollToDirectCustomerTable()" style="font-size: 0.76rem; padding: 10px 18px; font-weight: 800; border-radius: 4px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(198, 161, 91, 0.3);">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                CUSTOMER DIRECTORY &amp; 3-STAGE TRACKER ↓
+            <nav class="horizontal-menu-nav">
+              <!-- BUTTON 1: AI LEAD INTELLIGENCE -->
+              <button type="button" class="admin-nav-tab-btn active" id="tab-btn-ai-leads" onclick="switchAdminTab('ai-leads')">
+                <div class="tab-btn-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                </div>
+                <div class="tab-btn-text">
+                  <span class="tab-btn-title">AI Lead Intelligence &amp; Action Priority</span>
+                  <span class="tab-btn-sub">Scoring &amp; Priority Dashboard</span>
+                </div>
               </button>
-              <a href="/api/admin/enquiries/download" class="btn btn-outline-gold" style="font-size: 0.76rem; padding: 10px 20px; font-weight: 800; border-radius: 4px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                DOWNLOAD DATA (CSV)
-              </a>
-              <button class="btn btn-outline-gold" onclick="toggleStaffManagerModal()" style="font-size: 0.76rem; padding: 10px 20px; font-weight: 800; border-radius: 4px; display: inline-flex; align-items: center; gap: 6px;">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                MANAGE STAFF ROSTER (5 STAFF)
+
+              <!-- BUTTON 2: PLOT MANAGEMENT -->
+              <button type="button" class="admin-nav-tab-btn" id="tab-btn-plot-management" onclick="switchAdminTab('plot-management')">
+                <div class="tab-btn-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="3" y1="9" x2="21" y2="9"/>
+                    <line x1="9" y1="21" x2="9" y2="9"/>
+                  </svg>
+                </div>
+                <div class="tab-btn-text">
+                  <span class="tab-btn-title">Plot Management Table</span>
+                  <span class="tab-btn-sub">Real-Time Inventory Control</span>
+                </div>
               </button>
-              <button class="btn btn-outline-gold" onclick="resetSampleEnquiries()" style="font-size: 0.76rem; padding: 10px 20px; font-weight: 800; border-radius: 4px;">
-                RESET SAMPLE DATA
+
+              <!-- BUTTON 3: CUSTOMER DETAILS & TRACKER -->
+              <button type="button" class="admin-nav-tab-btn" id="tab-btn-customer-tracker" onclick="switchAdminTab('customer-tracker')">
+                <div class="tab-btn-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                </div>
+                <div class="tab-btn-text">
+                  <span class="tab-btn-title">Customer Details &amp; 3-Stage Tracker</span>
+                  <span class="tab-btn-sub">Centralized Client Registry</span>
+                </div>
               </button>
-            </div>
+            </nav>
           </div>
 
-          <!-- Lead Category Summary Counters (Animated Elder-Friendly & Luxury Gold Theme) -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 20px; margin-bottom: 32px;">
-            
-            <!-- HOT LEADS CARD -->
-            <div class="lead-summary-card lead-card-hot">
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C53030" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
-                  <span class="card-label">HOT LEADS (80-100)</span>
+          <!-- FULL WIDTH CONTENT PANELS AREA -->
+          <div class="admin-content-panels">
+
+            <!-- PANEL 1: AI LEAD INTELLIGENCE -->
+            <div class="admin-panel-content active" id="panel-ai-leads">
+              <div style="background: var(--bg-cream); border: 1.8px solid var(--gold-primary); border-radius: var(--radius-md); padding: 28px; box-shadow: 0 12px 35px rgba(57, 69, 47, 0.12), 0 0 20px rgba(198, 161, 91, 0.18); position: relative; overflow: hidden;">
+                
+                <!-- TOP METALLIC GOLD ACCENT STRIP -->
+                <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #A9823A, #C6A15B, #E5D2A6, #C6A15B, #A9823A);"></div>
+
+                <div style="display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid rgba(198, 161, 91, 0.3);">
+                  <div style="max-width: 760px;">
+                    <div class="architectural-tag" style="margin-bottom: 8px; color: var(--gold-antique); font-weight: 700;">AI ASSISTANT LEAD SCORING ENGINE</div>
+                    <h3 style="font-family: var(--font-heading); font-size: clamp(1.4rem, 2.5vw, 2.0rem); color: var(--olive-deep); font-weight: 800; letter-spacing: 0.5px; margin-bottom: 8px;">
+                      AI Lead Intelligence &amp; Action Priority
+                    </h3>
+                    <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; font-weight: 500;">
+                      Automated 0–100 AI Lead Scoring model evaluates budget, timeline, purpose, plot interest, and activity signals to recommend high-priority buyers to call first.
+                    </p>
+                  </div>
+
+                  <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 4px;">
+                    <button class="btn btn-gold" onclick="scrollToDirectCustomerTable()" style="font-size: 0.74rem; padding: 9px 16px; font-weight: 800; border-radius: 4px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(198, 161, 91, 0.3);">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                      CUSTOMER DIRECTORY &amp; TRACKER →
+                    </button>
+                    <a href="/api/admin/enquiries/download" class="btn btn-outline-gold" style="font-size: 0.74rem; padding: 9px 16px; font-weight: 800; border-radius: 4px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                      CSV EXPORT
+                    </a>
+                    <button class="btn btn-outline-gold" onclick="toggleStaffManagerModal()" style="font-size: 0.74rem; padding: 9px 16px; font-weight: 800; border-radius: 4px; display: inline-flex; align-items: center; gap: 6px;">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                      MANAGE STAFF (5)
+                    </button>
+                    <button class="btn btn-outline-gold" onclick="resetSampleEnquiries()" style="font-size: 0.74rem; padding: 9px 16px; font-weight: 800; border-radius: 4px;">
+                      RESET DATA
+                    </button>
+                  </div>
                 </div>
-                <span id="badge-hot-new" class="new-badge-pill" style="display:none;">(0 NEW)</span>
+
+                <!-- Lead Category Summary Counters -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; margin-bottom: 28px;">
+                  
+                  <!-- HOT LEADS CARD -->
+                  <div class="lead-summary-card lead-card-hot">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C53030" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                        <span class="card-label">HOT LEADS (80-100)</span>
+                      </div>
+                      <span id="badge-hot-new" class="new-badge-pill" style="display:none;">(0 NEW)</span>
+                    </div>
+                    <h4 id="count-hot-leads">0</h4>
+                    <span class="card-desc" style="font-size: 0.82rem; font-weight: 700; color: #9B2C2C;">Call Immediately — Ready Buyer</span>
+                  </div>
+
+                  <!-- WARM LEADS CARD -->
+                  <div class="lead-summary-card lead-card-warm">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9823A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                        <span class="card-label">WARM LEADS (50-79)</span>
+                      </div>
+                      <span id="badge-warm-new" class="new-badge-pill" style="display:none;">(0 NEW)</span>
+                    </div>
+                    <h4 id="count-warm-leads">0</h4>
+                    <span class="card-desc" style="font-size: 0.82rem; font-weight: 700; color: #8C6B28;">Follow Up Within 24 Hours</span>
+                  </div>
+
+                  <!-- COLD LEADS CARD -->
+                  <div class="lead-summary-card lead-card-cold">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2C4A6F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></svg>
+                        <span class="card-label">COLD LEADS (&lt;50)</span>
+                      </div>
+                      <span id="badge-cold-new" class="new-badge-pill" style="display:none;">(0 NEW)</span>
+                    </div>
+                    <h4 id="count-cold-leads">0</h4>
+                    <span class="card-desc" style="font-size: 0.82rem; font-weight: 700; color: #2B4360;">Future Pipeline — Nurture</span>
+                  </div>
+
+                  <!-- TOP LEAD SCORE CARD -->
+                  <div class="lead-summary-card lead-card-top" style="background: linear-gradient(145deg, #1A2416 0%, #283322 100%); border: 1.8px solid #C6A15B;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E5D2A6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                        <span class="card-label" style="color: #E5D2A6 !important;">TOP LEAD SCORE</span>
+                      </div>
+                      <div class="card-status-dot dot-top" style="background: #C6A15B; box-shadow: 0 0 10px #C6A15B;"></div>
+                    </div>
+                    <h4 id="count-top-score" style="color: #FFFDF7 !important; text-shadow: 0 2px 10px rgba(198, 161, 91, 0.4);">98/100</h4>
+                    <span class="card-desc" style="font-size: 0.82rem; font-weight: 700; color: #E5D2A6 !important;">#1 Highest Buying Intent</span>
+                  </div>
+
+                </div>
+
+                <!-- Lead Category Filter Chips -->
+                <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                  <button class="filter-chip chip-available active" id="enquiry-chip-all" onclick="filterEnquiriesTable('ALL')">ALL SCORED LEADS <span id="chip-badge-all" class="chip-new-badge" style="display:none;">(0 NEW)</span></button>
+                  <button class="filter-chip chip-sold" id="enquiry-chip-hot" onclick="filterEnquiriesTable('HOT')">HOT LEADS (80-100) <span id="chip-badge-hot" class="chip-new-badge" style="display:none;">(0 NEW)</span></button>
+                  <button class="filter-chip chip-prebooked" id="enquiry-chip-warm" onclick="filterEnquiriesTable('WARM')">WARM LEADS (50-79) <span id="chip-badge-warm" class="chip-new-badge" style="display:none;">(0 NEW)</span></button>
+                  <button class="filter-chip chip-available" id="enquiry-chip-cold" onclick="filterEnquiriesTable('COLD')">COLD LEADS (&lt;50) <span id="chip-badge-cold" class="chip-new-badge" style="display:none;">(0 NEW)</span></button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 12%; text-align: center;">AI LEAD SCORE</th>
+                        <th style="width: 16%;">CLIENT NAME &amp; CONTACT</th>
+                        <th style="width: 15%;">REQUIREMENTS &amp; BUDGET</th>
+                        <th style="width: 14%;">TIMELINE &amp; TARGET PLOT</th>
+                        <th style="width: 17%;">ASSIGNED AGENT / STAFF</th>
+                        <th style="width: 16%;">AI RECOMMENDATION</th>
+                        <th style="width: 10%; text-align: center;">PRIORITY ACTION</th>
+                      </tr>
+                    </thead>
+                    <tbody id="admin-enquiry-table-body">
+                      <!-- Dynamically Populated -->
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              <h4 id="count-hot-leads">0</h4>
-              <span class="card-desc" style="font-size: 0.85rem; font-weight: 700; color: #9B2C2C;">Call Immediately — Ready Buyer</span>
             </div>
 
-            <!-- WARM LEADS CARD -->
-            <div class="lead-summary-card lead-card-warm">
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A9823A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                  <span class="card-label">WARM LEADS (50-79)</span>
+            <!-- PANEL 2: PLOT MANAGEMENT TABLE -->
+            <div class="admin-panel-content" id="panel-plot-management">
+              <div id="admin-inventory-editor" style="background: var(--bg-ivory); border: 1.5px solid var(--gold-border); border-radius: var(--radius-md); padding: 28px; box-shadow: var(--shadow-soft);">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px;">
+                  <div>
+                    <span class="architectural-tag">LIVE LAYOUT INVENTORY CONTROL</span>
+                    <h3 style="font-size: 1.4rem; color: var(--olive-deep); margin-top: 4px;">Plot Management Table</h3>
+                    <p style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 4px;">Changes update client-side localStorage state and live SVG layout map instantly.</p>
+                  </div>
+                  <a href="plots.html" class="btn btn-outline-gold" style="font-size: 0.75rem; padding: 8px 16px;">PREVIEW PLOTS MAP</a>
                 </div>
-                <span id="badge-warm-new" class="new-badge-pill" style="display:none;">(0 NEW)</span>
+
+                <!-- Controls: Real-time Plot Search Bar & Status Filter -->
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; background: rgba(212, 175, 55, 0.05); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--gold-border);">
+                  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; flex: 1;">
+                    <div style="position: relative; min-width: 240px; flex: 1; max-width: 380px;">
+                      <input type="text" id="admin-plot-search" placeholder="Search plot number (e.g. 104)..." oninput="handleAdminPlotSearch(this.value)" style="width: 100%; padding: 10px 14px 10px 38px; border-radius: var(--radius-md); border: 1px solid var(--gold-border); background: var(--bg-cream); font-family: var(--font-body); font-size: 0.9rem; color: var(--text-dark); outline: none;">
+                      <svg style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; fill: var(--text-secondary);" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    </div>
+                    <select id="admin-plot-status-filter" onchange="filterAdminPlotStatus(this.value)" style="padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--gold-border); background: var(--bg-cream); font-family: var(--font-body); font-size: 0.88rem; color: var(--olive-deep); font-weight: 600; cursor: pointer;">
+                      <option value="ALL">All Statuses</option>
+                      <option value="AVAILABLE">AVAILABLE</option>
+                      <option value="PRE-BOOKED">PRE-BOOKED</option>
+                      <option value="SOLD">SOLD</option>
+                    </select>
+                  </div>
+                  <div id="admin-plot-count-badge" style="font-size: 0.82rem; font-weight: 700; background: var(--gold-accent); color: var(--text-dark); padding: 4px 12px; border-radius: 12px;">
+                    25 / page
+                  </div>
+                </div>
+
+                <div style="overflow-x: auto;">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 12%; text-align: center;">PLOT NO</th>
+                        <th style="width: 16%;">SIZE</th>
+                        <th style="width: 16%;">FACING</th>
+                        <th style="width: 20%;">INVESTMENT PRICE</th>
+                        <th style="width: 18%; text-align: center;">STATUS BADGE</th>
+                        <th style="width: 18%; text-align: center;">CHANGE STATUS</th>
+                      </tr>
+                    </thead>
+                    <tbody id="admin-plot-table-body">
+                      <!-- Dynamically Populated -->
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Pagination Bar with Arrow Format -->
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--gold-border);">
+                  <div id="admin-plot-pagination-info" style="font-size: 0.88rem; color: var(--text-secondary); font-weight: 600;">
+                    Showing 1 – 25 of 228 plots
+                  </div>
+                  <div id="admin-plot-pagination-controls" style="display: flex; align-items: center; gap: 6px;">
+                    <!-- Pagination arrow buttons rendered via JS -->
+                  </div>
+                </div>
               </div>
-              <h4 id="count-warm-leads">0</h4>
-              <span class="card-desc" style="font-size: 0.85rem; font-weight: 700; color: #8C6B28;">Follow Up Within 24 Hours</span>
             </div>
 
-            <!-- COLD LEADS CARD -->
-            <div class="lead-summary-card lead-card-cold">
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2C4A6F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></svg>
-                  <span class="card-label">COLD LEADS (&lt;50)</span>
+            <!-- PANEL 3: CUSTOMER DETAILS & TRACKER TABLE -->
+            <div class="admin-panel-content" id="panel-customer-tracker">
+              <div id="direct-customer-registry-section" style="background: var(--bg-ivory); border: 1.5px solid var(--gold-border); border-radius: var(--radius-md); padding: 28px; box-shadow: var(--shadow-soft);">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1.5px solid var(--gold-border);">
+                  <div>
+                    <span class="architectural-tag">CENTRALIZED CLIENT REGISTRY</span>
+                    <h3 style="font-size: 1.4rem; color: var(--olive-deep); margin-top: 4px;">Customer Details &amp; 3-Stage Conversion Tracker</h3>
+                    <p style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 4px;">
+                      Track all web enquiries &amp; manual walk-in clients with 3 editable conversion stages and staff assignment.
+                    </p>
+                  </div>
+                  <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-gold" onclick="toggleAddCustomerModal()" style="font-size: 0.78rem; padding: 10px 18px; font-weight: 800; border-radius: 4px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(198, 161, 91, 0.3);">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                      + ADD NEW CUSTOMER RECORD
+                    </button>
+                  </div>
                 </div>
-                <span id="badge-cold-new" class="new-badge-pill" style="display:none;">(0 NEW)</span>
+
+                <!-- STAGE FILTER CHIPS & SEARCH BAR -->
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 20px; background: rgba(198, 161, 91, 0.08); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--gold-border);">
+                  <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                    <button class="public-table-chip active" data-cust-filter="ALL" onclick="filterCustomerRegistryTable('ALL')">ALL CUSTOMERS <span id="cust-count-all">(0)</span></button>
+                    <button class="public-table-chip" data-cust-filter="INQUIRY" onclick="filterCustomerRegistryTable('INQUIRY')">INQUIRY <span id="cust-count-inquiry">(0)</span></button>
+                    <button class="public-table-chip" data-cust-filter="TOKEN_PAID" onclick="filterCustomerRegistryTable('TOKEN_PAID')">TOKEN PAID <span id="cust-count-token">(0)</span></button>
+                    <button class="public-table-chip" data-cust-filter="BOUGHT" onclick="filterCustomerRegistryTable('BOUGHT')">BOUGHT <span id="cust-count-bought">(0)</span></button>
+                    <button class="public-table-chip" data-cust-filter="REJECTED" onclick="filterCustomerRegistryTable('REJECTED')">REJECTED <span id="cust-count-rejected">(0)</span></button>
+                  </div>
+                  <div style="position: relative; min-width: 220px; max-width: 340px; flex: 1;">
+                    <input type="text" id="cust-registry-search" placeholder="Search by name, phone, or plot..." oninput="handleCustomerRegistrySearch(this.value)" style="width: 100%; padding: 8px 12px 8px 34px; border-radius: var(--radius-sm); border: 1px solid var(--gold-border); background: var(--bg-cream); font-size: 0.88rem; color: var(--olive-deep);" />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 10px; top: 10px; opacity: 0.5;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  </div>
+                </div>
+
+                <!-- DYNAMIC CUSTOMER REGISTRY TABLE -->
+                <div style="overflow-x: auto; border-radius: var(--radius-sm); border: 1.5px solid var(--gold-border);">
+                  <table class="admin-table interactive-plots-table" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                      <tr style="background-color: var(--olive-deep); color: #FFFDF7;">
+                        <th style="width: 13%; padding: 14px 12px; text-align: left; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 1px;">DATE &amp; ID</th>
+                        <th style="width: 20%; padding: 14px 12px; text-align: left; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 1px;">CUSTOMER DETAILS</th>
+                        <th style="width: 20%; padding: 14px 12px; text-align: left; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 1px;">REQUIREMENT &amp; LOCATION</th>
+                        <th style="width: 18%; padding: 14px 12px; text-align: left; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 1px;">ASSIGNED STAFF</th>
+                        <th style="width: 15%; padding: 14px 12px; text-align: left; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 1px;">CONVERSION STAGE</th>
+                        <th style="width: 7%; padding: 14px 8px; text-align: center; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 1px;">SOURCE</th>
+                        <th style="width: 7%; padding: 14px 8px; text-align: center; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 1px;">ACTION</th>
+                      </tr>
+                    </thead>
+                    <tbody id="admin-customer-registry-tbody">
+                      <!-- Rendered dynamically by JS -->
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              <h4 id="count-cold-leads">0</h4>
-              <span class="card-desc" style="font-size: 0.85rem; font-weight: 700; color: #2B4360;">Future Pipeline — Nurture</span>
             </div>
 
-            <!-- TOP LEAD SCORE CARD -->
-            <div class="lead-summary-card lead-card-top" style="background: linear-gradient(145deg, #1A2416 0%, #283322 100%); border: 1.8px solid #C6A15B;">
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E5D2A6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-                  <span class="card-label" style="color: #E5D2A6 !important;">TOP LEAD SCORE</span>
-                </div>
-                <div class="card-status-dot dot-top" style="background: #C6A15B; box-shadow: 0 0 10px #C6A15B;"></div>
-              </div>
-              <h4 id="count-top-score" style="color: #FFFDF7 !important; text-shadow: 0 2px 10px rgba(198, 161, 91, 0.4);">98/100</h4>
-              <span class="card-desc" style="font-size: 0.85rem; font-weight: 700; color: #E5D2A6 !important;">#1 Highest Buying Intent</span>
-            </div>
-
-          </div>
-
-          <!-- Lead Category Filter Chips -->
-          <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
-            <button class="filter-chip chip-available active" id="enquiry-chip-all" onclick="filterEnquiriesTable('ALL')">ALL SCORED LEADS <span id="chip-badge-all" class="chip-new-badge" style="display:none;">(0 NEW)</span></button>
-            <button class="filter-chip chip-sold" id="enquiry-chip-hot" onclick="filterEnquiriesTable('HOT')">HOT LEADS (80-100) <span id="chip-badge-hot" class="chip-new-badge" style="display:none;">(0 NEW)</span></button>
-            <button class="filter-chip chip-prebooked" id="enquiry-chip-warm" onclick="filterEnquiriesTable('WARM')">WARM LEADS (50-79) <span id="chip-badge-warm" class="chip-new-badge" style="display:none;">(0 NEW)</span></button>
-            <button class="filter-chip chip-available" id="enquiry-chip-cold" onclick="filterEnquiriesTable('COLD')">COLD LEADS (&lt;50) <span id="chip-badge-cold" class="chip-new-badge" style="display:none;">(0 NEW)</span></button>
-          </div>
-
-          <div style="overflow-x: auto;">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th style="width: 12%; text-align: center;">AI LEAD SCORE</th>
-                  <th style="width: 16%;">CLIENT NAME &amp; CONTACT</th>
-                  <th style="width: 15%;">REQUIREMENTS &amp; BUDGET</th>
-                  <th style="width: 14%;">TIMELINE &amp; TARGET PLOT</th>
-                  <th style="width: 17%;">ASSIGNED AGENT / STAFF</th>
-                  <th style="width: 16%;">AI RECOMMENDATION</th>
-                  <th style="width: 10%; text-align: center;">PRIORITY ACTION</th>
-                </tr>
-              </thead>
-              <tbody id="admin-enquiry-table-body">
-                <!-- Dynamically Populated -->
-              </tbody>
-            </table>
           </div>
         </div>
 
-        <div id="admin-inventory-editor" style="background: var(--bg-ivory); border: 1px solid var(--gold-border); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-soft);">
-          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px;">
-            <div>
-              <h3 style="font-size: 1.4rem; color: var(--olive-deep);">Plot Management Table</h3>
-              <p style="font-size: 0.88rem; color: var(--text-secondary);">Changes update client-side localStorage state and live SVG layout map instantly.</p>
-            </div>
-            <a href="plots.html" class="btn btn-outline-gold" style="font-size: 0.75rem; padding: 8px 16px;">PREVIEW PLOTS MAP</a>
-          </div>
-
-          <!-- Controls: Real-time Plot Search Bar & Status Filter -->
-          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; background: rgba(212, 175, 55, 0.05); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--gold-border);">
-            <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; flex: 1;">
-              <div style="position: relative; min-width: 240px; flex: 1; max-width: 380px;">
-                <input type="text" id="admin-plot-search" placeholder="Search plot number (e.g. 104)..." oninput="handleAdminPlotSearch(this.value)" style="width: 100%; padding: 10px 14px 10px 38px; border-radius: var(--radius-md); border: 1px solid var(--gold-border); background: var(--bg-cream); font-family: var(--font-body); font-size: 0.9rem; color: var(--text-dark); outline: none;">
-                <svg style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; fill: var(--text-secondary);" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-              </div>
-              <select id="admin-plot-status-filter" onchange="filterAdminPlotStatus(this.value)" style="padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--gold-border); background: var(--bg-cream); font-family: var(--font-body); font-size: 0.88rem; color: var(--olive-deep); font-weight: 600; cursor: pointer;">
-                <option value="ALL">All Statuses</option>
-                <option value="AVAILABLE">AVAILABLE</option>
-                <option value="PRE-BOOKED">PRE-BOOKED</option>
-                <option value="SOLD">SOLD</option>
-              </select>
-            </div>
-            <div id="admin-plot-count-badge" style="font-size: 0.82rem; font-weight: 700; color: var(--olive-deep); background: var(--gold-accent); color: var(--text-dark); padding: 4px 12px; border-radius: 12px;">
-              25 / page
-            </div>
-          </div>
-
-          <div style="overflow-x: auto;">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th style="width: 12%; text-align: center;">PLOT NO</th>
-                  <th style="width: 16%;">SIZE</th>
-                  <th style="width: 16%;">FACING</th>
-                  <th style="width: 20%;">INVESTMENT PRICE</th>
-                  <th style="width: 18%; text-align: center;">STATUS BADGE</th>
-                  <th style="width: 18%; text-align: center;">CHANGE STATUS</th>
-                </tr>
-              </thead>
-              <tbody id="admin-plot-table-body">
-                <!-- Dynamically Populated -->
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Pagination Bar with Arrow Format -->
-          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--gold-border);">
-            <div id="admin-plot-pagination-info" style="font-size: 0.88rem; color: var(--text-secondary); font-weight: 600;">
-              Showing 1 – 25 of 228 plots
-            </div>
-            <div id="admin-plot-pagination-controls" style="display: flex; align-items: center; gap: 6px;">
-              <!-- Pagination arrow buttons rendered via JS -->
-            </div>
-          </div>
-        </div>
-
-        <!-- OFFICIAL CUSTOMER DIRECTORY & 3-STAGE TRACKER TABLE SECTION -->
-        <div id="direct-customer-registry-section" style="background: var(--bg-ivory); border: 1.5px solid var(--gold-border); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-soft); margin-top: 35px;">
-          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1.5px solid var(--gold-border);">
-            <div>
-              <span class="architectural-tag">CENTRALIZED CLIENT REGISTRY</span>
-              <h3 style="font-size: 1.4rem; color: var(--olive-deep); margin-top: 4px;">Customer Details &amp; 3-Stage Conversion Tracker</h3>
-              <p style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 4px;">
-                Track all web enquiries &amp; manual walk-in clients with 3 editable conversion stages and staff assignment.
-              </p>
-            </div>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <button class="btn btn-gold" onclick="toggleAddCustomerModal()" style="font-size: 0.78rem; padding: 10px 18px; font-weight: 800; border-radius: 4px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(198, 161, 91, 0.3);">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                + ADD NEW CUSTOMER RECORD
-              </button>
-            </div>
-          </div>
-
-          <!-- STAGE FILTER CHIPS & SEARCH BAR -->
-          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 20px; background: rgba(198, 161, 91, 0.08); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--gold-border);">
-            <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-              <button class="public-table-chip active" data-cust-filter="ALL" onclick="filterCustomerRegistryTable('ALL')">ALL CUSTOMERS <span id="cust-count-all">(0)</span></button>
-              <button class="public-table-chip" data-cust-filter="INQUIRY" onclick="filterCustomerRegistryTable('INQUIRY')">INQUIRY <span id="cust-count-inquiry">(0)</span></button>
-              <button class="public-table-chip" data-cust-filter="TOKEN_PAID" onclick="filterCustomerRegistryTable('TOKEN_PAID')">TOKEN PAID <span id="cust-count-token">(0)</span></button>
-              <button class="public-table-chip" data-cust-filter="BOUGHT" onclick="filterCustomerRegistryTable('BOUGHT')">BOUGHT <span id="cust-count-bought">(0)</span></button>
-              <button class="public-table-chip" data-cust-filter="REJECTED" onclick="filterCustomerRegistryTable('REJECTED')">REJECTED <span id="cust-count-rejected">(0)</span></button>
-            </div>
-            <div style="position: relative; min-width: 220px; max-width: 340px; flex: 1;">
-              <input type="text" id="cust-registry-search" placeholder="Search by name, phone, or plot..." oninput="handleCustomerRegistrySearch(this.value)" style="width: 100%; padding: 8px 12px 8px 34px; border-radius: var(--radius-sm); border: 1px solid var(--gold-border); background: var(--bg-cream); font-size: 0.88rem; color: var(--olive-deep);" />
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 10px; top: 10px; opacity: 0.5;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            </div>
-          </div>
-
-          <!-- DYNAMIC CUSTOMER REGISTRY TABLE -->
-          <div style="overflow-x: auto; border-radius: var(--radius-sm); border: 1.5px solid var(--gold-border);">
-            <table class="admin-table interactive-plots-table" style="width: 100%; border-collapse: collapse;">
-              <thead>
-                <tr style="background-color: var(--olive-deep); color: #FFFDF7;">
-                  <th style="width: 13%; padding: 14px 12px; text-align: left; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 1px;">DATE &amp; ID</th>
-                  <th style="width: 20%; padding: 14px 12px; text-align: left; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 1px;">CUSTOMER DETAILS</th>
-                  <th style="width: 20%; padding: 14px 12px; text-align: left; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 1px;">REQUIREMENT &amp; LOCATION</th>
-                  <th style="width: 18%; padding: 14px 12px; text-align: left; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 1px;">ASSIGNED STAFF</th>
-                  <th style="width: 15%; padding: 14px 12px; text-align: left; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 1px;">CONVERSION STAGE</th>
-                  <th style="width: 7%; padding: 14px 8px; text-align: center; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 1px;">SOURCE</th>
-                  <th style="width: 7%; padding: 14px 8px; text-align: center; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 1px;">ACTION</th>
-                </tr>
-              </thead>
-              <tbody id="admin-customer-registry-tbody">
-                <!-- Rendered dynamically by JS -->
-              </tbody>
-            </table>
-          </div>
-        </div>
       </div>
     </section>
   </main>
