@@ -21,11 +21,11 @@
   --gold-border: rgba(198, 161, 91, 0.4);
 
   /* Deep Olives (Replaces black for all dark text, backgrounds & buttons) */
-  --olive-deep: #39452F;
-  --olive-forest: #283322;
-  --olive-medium: #4C5C3F;
-  --olive-light: #627453;
-  --olive-translucent: rgba(57, 69, 47, 0.92);
+  --olive-deep: #1E2719;
+  --olive-forest: #162013;
+  --olive-medium: #2B3824;
+  --olive-light: #445638;
+  --olive-translucent: rgba(30, 39, 25, 0.94);
 
   /* Earth Tones & Accents */
   --terracotta: #A8664B;
@@ -1248,7 +1248,11 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 .reviews-main-title,
 #why-choose-section h2,
 #customer-reviews-section h2,
-.reviews-header h2 {
+.reviews-header h2,
+#locations-section h2,
+.regional-locations h2,
+.regional-locations-section h2,
+.location-header h2 {
   margin-top: 10px;
   font-family: var(--font-heading) !important;
   font-size: clamp(2rem, 3vw, 2.8rem);
@@ -1260,10 +1264,12 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 
 .section-heading-sub,
+.section-heading p,
 .construction-showcase-section .section-heading-sub,
 .upcoming-showcase-section .section-heading-sub,
 .reviews-sub-desc,
-#why-choose-section p {
+#why-choose-section p,
+#locations-section p {
   color: #263321 !important;
   font-size: 0.88rem;
   line-height: 1.45;
