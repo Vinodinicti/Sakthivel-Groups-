@@ -35,9 +35,9 @@
   --sage-light: #C4CBB1;
 
   /* Typography Colors */
-  --text-primary: #39452F;
-  --text-secondary: #4C5C3F;
-  --text-gold: #A9823A;
+  --text-primary: #1E2719;
+  --text-secondary: #263321;
+  --text-gold: #8C6623;
   --text-ivory: #F7F1E3;
   --text-cream: #FFFDF7;
 
@@ -87,7 +87,8 @@ body {
   overflow-x: hidden;
   line-height: 1.65;
   letter-spacing: -0.011em;
-  font-weight: 400;
+  font-weight: 500;
+  color: var(--text-primary);
   position: relative;
   min-height: 100vh;
   display: flex;
@@ -99,6 +100,16 @@ p {
   line-height: 1.65;
   letter-spacing: -0.011em;
   color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Small fonts, captions, subtexts, and metadata labels - Crisp Dark Contrast */
+small, .small-text, .caption-text, .section-heading-sub,
+.location-card-desc, .project-card-body p, .why-choose-item-desc, 
+.value-card-text, .workflow-desc, .gallery-card-body p,
+.upcoming-project-card p, .upcoming-modal-desc {
+  color: #1E2719;
+  font-weight: 500;
 }
 
 main {
@@ -8882,7 +8893,8 @@ html, body {
 
   .location-card-desc {
     font-size: 0.82rem !important;
-    color: #4A5568 !important;
+    color: #1E2719 !important;
+    font-weight: 500 !important;
   }
 
   /* FIX FOR MOBILE PROJECT SHOWCASE CARDS (UPCOMING & CONSTRUCTION SECTIONS) */
@@ -8924,7 +8936,8 @@ html, body {
 
   .project-card-body p {
     font-size: 0.8rem !important;
-    color: #4A5568 !important;
+    color: #1E2719 !important;
+    font-weight: 500 !important;
     line-height: 1.4 !important;
     margin-bottom: 8px !important;
     display: block !important;
