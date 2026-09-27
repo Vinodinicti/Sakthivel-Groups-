@@ -21,11 +21,11 @@
   --gold-border: rgba(198, 161, 91, 0.4);
 
   /* Deep Olives (Replaces black for all dark text, backgrounds & buttons) */
-  --olive-deep: #1E2719;
-  --olive-forest: #162013;
-  --olive-medium: #2B3824;
-  --olive-light: #445638;
-  --olive-translucent: rgba(30, 39, 25, 0.94);
+  --olive-deep: #1F361C;
+  --olive-forest: #1A2F17;
+  --olive-medium: #2B4426;
+  --olive-light: #44613B;
+  --olive-translucent: rgba(31, 54, 28, 0.94);
 
   /* Earth Tones & Accents */
   --terracotta: #A8664B;
@@ -35,8 +35,8 @@
   --sage-light: #C4CBB1;
 
   /* Typography Colors */
-  --text-primary: #1E2719;
-  --text-secondary: #263321;
+  --text-primary: #1F361C;
+  --text-secondary: #223C1E;
   --text-gold: #8C6623;
   --text-ivory: #F7F1E3;
   --text-cream: #FFFDF7;
@@ -1257,7 +1257,7 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   font-family: var(--font-heading) !important;
   font-size: clamp(2rem, 3vw, 2.8rem);
   line-height: 1.2;
-  color: #1E2719 !important;
+  color: #1F361C !important;
   font-weight: 800 !important;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -1270,11 +1270,11 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 .reviews-sub-desc,
 #why-choose-section p,
 #locations-section p {
-  color: #263321 !important;
-  font-size: 0.88rem;
-  line-height: 1.45;
+  color: #223C1E !important;
+  font-size: 0.92rem;
+  line-height: 1.5;
   margin-top: 6px;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 }
 
 /* ==========================================================================
@@ -1325,13 +1325,14 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 
 .construction-showcase-section .section-heading h2 {
-  color: #1A2416 !important;
+  color: #1F361C !important;
   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.7) !important;
 }
 
 .construction-showcase-section .section-heading-sub {
-  color: #4A5568 !important;
+  color: #223C1E !important;
   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.7) !important;
+  font-weight: 600 !important;
 }
 
 .construction-showcase-section .architectural-tag {
@@ -1402,13 +1403,14 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 
 .upcoming-showcase-section .section-heading h2 {
-  color: #1A2416 !important;
+  color: #1F361C !important;
   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.7) !important;
 }
 
 .upcoming-showcase-section .section-heading-sub {
-  color: #4A5568 !important;
+  color: #223C1E !important;
   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.7) !important;
+  font-weight: 600 !important;
 }
 
 .upcoming-showcase-section .architectural-tag {
