@@ -7172,29 +7172,25 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
   }
 
   /* GALLERY PAGE MOBILE RESPONSIVE SETUP */
-  .gallery-hero-box {
+  .gallery-hero-compact {
+    padding: 58px 14px 24px !important;
     text-align: center !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    margin: 0 auto !important;
   }
 
-  .gallery-hero-box .architectural-tag {
+  .gallery-hero-compact .architectural-tag {
     margin: 0 auto 10px auto !important;
     text-align: center !important;
     display: inline-block !important;
   }
 
-  .gallery-compact-headline {
+  .gallery-hero-compact .hero-headline {
     text-align: center !important;
+    font-size: clamp(1.4rem, 6vw, 1.9rem) !important;
     margin: 6px auto 14px auto !important;
     width: 100% !important;
   }
 
-  .gallery-hero-box div[style*="display: flex; flex-wrap: wrap;"] {
+  .gallery-hero-compact div[style*="display: flex; flex-wrap: wrap;"] {
     justify-content: center !important;
     width: 100% !important;
   }
@@ -7219,31 +7215,36 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
   }
 
   .filter-btn {
-    padding: 8px 12px !important;
-    font-size: 0.72rem !important;
+    padding: 8px 10px !important;
+    font-size: 0.70rem !important;
     flex: 1 1 calc(50% - 10px) !important;
-    min-width: 125px !important;
+    min-width: 120px !important;
     text-align: center !important;
     justify-content: center !important;
     box-sizing: border-box !important;
   }
 
   .gallery-grid {
-    grid-template-columns: 1fr !important;
-    gap: 16px !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
     width: 100% !important;
   }
 
   .gallery-item {
     width: 100% !important;
     box-sizing: border-box !important;
-    border-radius: 12px !important;
+    border-radius: 10px !important;
     overflow: hidden !important;
   }
 
+  .gallery-vertical-label {
+    display: none !important;
+  }
+
   .gallery-item-img-wrap {
-    height: 190px !important;
-    min-height: 190px !important;
+    height: 115px !important;
+    min-height: 115px !important;
     width: 100% !important;
     overflow: hidden !important;
     position: relative !important;
@@ -7257,13 +7258,34 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     display: block !important;
   }
 
+  .gallery-classifying-bar {
+    padding: 4px 6px !important;
+    gap: 4px !important;
+  }
+
+  .gallery-classifying-badge,
+  .gallery-status-badge {
+    font-size: 0.50rem !important;
+    padding: 2px 5px !important;
+    letter-spacing: 0.4px !important;
+  }
+
   .gallery-card-body {
-    padding: 14px 12px !important;
+    padding: 10px 8px !important;
+  }
+
+  .gallery-card-body h4 {
+    font-size: 0.82rem !important;
+    margin-top: 2px !important;
+    line-height: 1.25 !important;
   }
 
   .gallery-card-specs-footer {
-    font-size: 0.78rem !important;
-    margin-top: 10px !important;
+    font-size: 0.68rem !important;
+    margin-top: 6px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
   }
 
   /* Interactive Gallery Project Modal Mobile Setup */
@@ -7271,13 +7293,13 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     width: 92% !important;
     max-width: 480px !important;
     max-height: 85vh !important;
-    padding: 18px 14px !important;
+    padding: 16px 12px !important;
     overflow-y: auto !important;
     border-radius: 14px !important;
   }
 
   .project-modal-img-wrap {
-    height: 180px !important;
+    height: 160px !important;
     border-radius: 10px !important;
   }
 
@@ -7471,6 +7493,11 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
   }
 
   /* CONTACT PAGE MOBILE RESPONSIVE SETUP */
+  .contact-hero-section {
+    padding: 58px 14px 24px !important;
+    text-align: center !important;
+  }
+
   .contact-hero-content {
     text-align: center !important;
     display: flex !important;
@@ -7487,8 +7514,10 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     display: inline-block !important;
   }
 
-  .contact-hero-content .page-title {
+  .contact-hero-content .page-title,
+  .contact-hero-section .hero-headline {
     text-align: center !important;
+    font-size: clamp(1.4rem, 6vw, 1.9rem) !important;
     margin: 6px auto 14px auto !important;
     width: 100% !important;
   }
@@ -7516,15 +7545,20 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
   }
 
   .contact-info-box {
-    padding: 20px 14px !important;
+    padding: 18px 14px !important;
     border-radius: 12px !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
 
   .office-card {
-    margin-bottom: 20px !important;
-    padding-bottom: 16px !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 14px !important;
+  }
+
+  .office-city {
+    font-size: 1.1rem !important;
+    margin-bottom: 4px !important;
   }
 
   .btn-whatsapp {
@@ -7546,6 +7580,35 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
   }
 
   /* ADMIN PAGE MOBILE RESPONSIVE SETUP */
+  .admin-hero-section {
+    padding: 58px 14px 20px !important;
+    text-align: center !important;
+  }
+
+  .admin-login-card {
+    width: 92% !important;
+    max-width: 400px !important;
+    padding: 20px 16px !important;
+    border-radius: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  .horizontal-menu-nav {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .admin-nav-tab-btn {
+    width: 100% !important;
+    padding: 10px 12px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+  }
+
   div[style*="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))"] {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 10px !important;
@@ -7557,9 +7620,7 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     gap: 10px !important;
   }
 
-  /* ==========================================================================
-     ULTRA-LUXURY UN-CONGESTED MOBILE ADMIN DASHBOARD & TABLE LAYOUT
-     ========================================================================== */
+  /* ULTRA-LUXURY UN-CONGESTED MOBILE ADMIN DASHBOARD & TABLE LAYOUT */
   .admin-table-container,
   div[style*="overflow-x: auto"] {
     width: 100% !important;
