@@ -2127,10 +2127,21 @@ function initGalleryModal() {
   const galleryItems = document.querySelectorAll('.gallery-item');
   const modal = document.getElementById('project-modal');
   const closeBtn = document.getElementById('close-project-modal');
-  if (!galleryItems.length || !modal) return;
+  // Set first gallery item as active on mobile by default
+  if (window.innerWidth <= 768 && galleryItems.length > 0) {
+    galleryItems[0].classList.add('active');
+  }
 
   galleryItems.forEach(item => {
-    item.addEventListener('click', () => {
+    item.addEventListener('click', (e) => {
+      // On mobile view (<= 768px), first tap expands accordion item if not active
+      if (window.innerWidth <= 768 && !item.classList.contains('active')) {
+        galleryItems.forEach(g => g.classList.remove('active'));
+        item.classList.add('active');
+        item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        return;
+      }
+
       const projId = item.getAttribute('data-project-id');
       const proj = galleryProjects[projId];
       if (!proj) return;
