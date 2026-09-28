@@ -6870,7 +6870,36 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     font-size: 0.80rem !important;
   }
 
-  /* FIND YOUR PLOT PAGE HERO CENTER ALIGNMENT & MOBILE LAYOUT */
+  /* FIND YOUR PLOT PAGE HERO & MOBILE TEXT CONTENT SETUP */
+  .plots-hero-section {
+    min-height: 52vh !important;
+    padding: 72px 14px 24px !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    position: relative !important;
+  }
+
+  .plots-full-image {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-size: cover !important;
+    background-position: center !important;
+    filter: brightness(1.1) contrast(1.05) !important;
+  }
+
+  .plots-hero-overlay {
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(180deg, rgba(20, 26, 17, 0.75) 0%, rgba(20, 26, 17, 0.55) 50%, rgba(20, 26, 17, 0.88) 100%) !important;
+    z-index: 2 !important;
+  }
+
   .plots-hero-content {
     text-align: center !important;
     display: flex !important;
@@ -6879,29 +6908,39 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     justify-content: center !important;
     width: 100% !important;
     margin: 0 auto !important;
+    position: relative !important;
+    z-index: 3 !important;
   }
 
   .plots-hero-content .architectural-tag {
-    margin: 0 auto 12px auto !important;
+    margin: 0 auto 10px auto !important;
     text-align: center !important;
     display: inline-block !important;
+    color: #E5D2A6 !important;
+    background: rgba(20, 26, 17, 0.6) !important;
+    border-color: rgba(229, 210, 166, 0.4) !important;
   }
 
   .plots-hero-content .page-title {
     text-align: center !important;
-    margin: 6px auto 12px auto !important;
+    font-size: clamp(1.8rem, 6vw, 2.6rem) !important;
+    line-height: 1.15 !important;
+    margin: 4px auto 10px auto !important;
     width: 100% !important;
   }
 
   .plots-hero-content p {
     text-align: center !important;
+    font-size: 0.88rem !important;
+    line-height: 1.5 !important;
     margin: 0 auto !important;
+    max-width: 100% !important;
   }
 
-  /* Availability Filter Bar Mobile Setup */
+  /* Availability Filter Bar (2x2 Matrix on Mobile) */
   .availability-bar {
-    display: flex !important;
-    flex-wrap: wrap !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
     gap: 8px !important;
     justify-content: center !important;
     margin-bottom: 20px !important;
@@ -6912,10 +6951,9 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
   }
 
   .filter-chip {
-    padding: 8px 12px !important;
-    font-size: 0.72rem !important;
-    flex: 1 1 calc(50% - 10px) !important;
-    min-width: 125px !important;
+    padding: 8px 10px !important;
+    font-size: 0.70rem !important;
+    width: 100% !important;
     text-align: center !important;
     justify-content: center !important;
     box-sizing: border-box !important;
@@ -6923,7 +6961,7 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
 
   /* Masterplan Card & Toolbar Mobile Setup */
   .masterplan-card {
-    padding: 16px 12px !important;
+    padding: 14px 10px !important;
     border-radius: 12px !important;
     width: 100% !important;
     box-sizing: border-box !important;
@@ -6934,18 +6972,19 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     flex-direction: column !important;
     align-items: center !important;
     text-align: center !important;
-    gap: 10px !important;
-    padding-bottom: 12px !important;
-    margin-bottom: 12px !important;
+    gap: 8px !important;
+    padding-bottom: 10px !important;
+    margin-bottom: 10px !important;
   }
 
   .masterplan-toolbar .architectural-tag {
     text-align: center !important;
-    margin: 0 auto 6px auto !important;
+    margin: 0 auto 4px auto !important;
+    font-size: 0.62rem !important;
   }
 
   .masterplan-svg-container {
-    padding: 8px !important;
+    padding: 6px !important;
     border-radius: 8px !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch !important;
@@ -6956,76 +6995,153 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
 
   /* Plot Legend Banner Mobile Setup */
   .plot-legend-banner {
-    padding: 16px 12px !important;
+    padding: 14px 10px !important;
     border-radius: 12px !important;
-    margin-top: 20px !important;
+    margin-top: 18px !important;
   }
 
   .legend-title {
     justify-content: center !important;
-    font-size: 0.75rem !important;
-    margin-bottom: 12px !important;
+    font-size: 0.72rem !important;
+    margin-bottom: 10px !important;
     text-align: center !important;
+    letter-spacing: 0.8px !important;
   }
 
   .legend-items {
     grid-template-columns: 1fr !important;
-    gap: 10px !important;
+    gap: 8px !important;
   }
 
   .legend-item {
-    padding: 10px 12px !important;
-    gap: 10px !important;
+    padding: 8px 10px !important;
+    gap: 8px !important;
   }
 
-  /* Specification Breakdown Table Mobile Setup */
+  .legend-item strong {
+    font-size: 0.76rem !important;
+  }
+
+  .legend-item p {
+    font-size: 0.70rem !important;
+    line-height: 1.35 !important;
+  }
+
+  /* PLOTS DIRECTORY CARD, SEARCH & TABLE MOBILE SETUP */
   .layout-summary-table-card {
-    padding: 14px 8px !important;
+    padding: 14px 10px !important;
     border-radius: 12px !important;
-    margin-top: 20px !important;
+    margin-top: 24px !important;
     width: 100% !important;
     box-sizing: border-box !important;
     overflow: hidden !important;
   }
 
-  .summary-table-title {
-    font-size: 1.05rem !important;
+  .plots-table-header-bar {
+    flex-direction: column !important;
+    align-items: center !important;
     text-align: center !important;
-    margin-bottom: 12px !important;
+    gap: 12px !important;
+    margin-bottom: 14px !important;
+    padding-bottom: 12px !important;
   }
 
+  .summary-table-title {
+    font-size: 1.0rem !important;
+    text-align: center !important;
+    margin-top: 4px !important;
+  }
+
+  /* Category Filter Chips 2x2 Grid on Mobile */
+  .public-table-filter-chips {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 6px !important;
+    width: 100% !important;
+  }
+
+  .public-table-chip {
+    padding: 7px 8px !important;
+    font-size: 0.70rem !important;
+    width: 100% !important;
+    text-align: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Search & Showing Count Stacked on Mobile */
+  .public-table-search-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .public-table-search-bar div[style*="position: relative"] {
+    min-width: 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  #public-plot-search {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    font-size: 0.82rem !important;
+    padding: 8px 10px 8px 32px !important;
+  }
+
+  #public-plot-showing-count {
+    text-align: center !important;
+    font-size: 0.76rem !important;
+  }
+
+  /* Responsive Directory Table with Touch Scrolling */
   .table-responsive {
     width: 100% !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-x pan-y !important;
     display: block !important;
     margin: 0 !important;
     padding: 0 !important;
+    border-radius: 8px !important;
   }
 
   .layout-spec-table {
     width: 100% !important;
-    min-width: 520px !important;
+    min-width: 640px !important;
     border-collapse: collapse !important;
     margin: 0 !important;
   }
 
-  .layout-spec-table th,
-  .layout-spec-table td {
+  .layout-spec-table th {
     padding: 8px 6px !important;
-    font-size: 0.75rem !important;
+    font-size: 0.70rem !important;
+    letter-spacing: 0.5px !important;
     white-space: nowrap !important;
   }
 
-  /* Plot Drawer / Inspector Modal Mobile Sheet Setup */
+  .layout-spec-table td {
+    padding: 8px 6px !important;
+    font-size: 0.74rem !important;
+    white-space: nowrap !important;
+  }
+
+  .layout-spec-table td .btn {
+    padding: 5px 8px !important;
+    font-size: 0.65rem !important;
+    letter-spacing: 0.3px !important;
+  }
+
+  /* Plot Drawer / Inspector Modal Mobile Bottom Sheet */
   .plot-drawer {
     width: 100% !important;
     max-width: 100% !important;
-    border-top-left-radius: 16px !important;
-    border-top-right-radius: 16px !important;
+    border-top-left-radius: 18px !important;
+    border-top-right-radius: 18px !important;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    padding: 20px 16px 28px !important;
+    padding: 18px 16px 26px !important;
     box-sizing: border-box !important;
     border-left: none !important;
     border-top: 3px solid var(--gold-primary) !important;
@@ -7034,17 +7150,25 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
   }
 
   .plot-drawer-title {
-    font-size: 1.2rem !important;
+    font-size: 1.1rem !important;
   }
 
   .plot-spec-grid {
-    grid-template-columns: 1fr 1fr !important;
-    gap: 10px !important;
-    margin-bottom: 18px !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+    margin-bottom: 16px !important;
   }
 
   .plot-spec-item {
-    padding: 10px 12px !important;
+    padding: 8px 10px !important;
+  }
+
+  .plot-spec-label {
+    font-size: 0.60rem !important;
+  }
+
+  .plot-spec-val {
+    font-size: 0.80rem !important;
   }
 
   /* GALLERY PAGE MOBILE RESPONSIVE SETUP */
