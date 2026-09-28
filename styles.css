@@ -7236,6 +7236,22 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     box-sizing: border-box !important;
     border-radius: 10px !important;
     overflow: hidden !important;
+    border: 1px solid var(--gold-border) !important;
+    background: #1B1711 !important;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.4s ease, 
+                box-shadow 0.4s ease !important;
+    cursor: pointer !important;
+    position: relative !important;
+  }
+
+  .gallery-item:hover,
+  .gallery-item:active,
+  .gallery-item:focus {
+    transform: translateY(-4px) scale(1.02) !important;
+    border-color: var(--gold-primary) !important;
+    box-shadow: 0 12px 30px rgba(198, 161, 91, 0.38), 0 0 20px rgba(198, 161, 91, 0.28) !important;
+    z-index: 5 !important;
   }
 
   .gallery-vertical-label {
@@ -7256,6 +7272,25 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     object-fit: cover !important;
     object-position: center !important;
     display: block !important;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease, opacity 0.5s ease !important;
+    filter: brightness(0.94) contrast(1.02) !important;
+  }
+
+  .gallery-item:hover .gallery-item-img-wrap img,
+  .gallery-item:active .gallery-item-img-wrap img {
+    transform: scale(1.09) !important;
+    filter: brightness(1.05) contrast(1.02) !important;
+    opacity: 1 !important;
+  }
+
+  .gallery-diagram-overlay {
+    opacity: 0 !important;
+    transition: opacity 0.4s ease !important;
+  }
+
+  .gallery-item:hover .gallery-diagram-overlay,
+  .gallery-item:active .gallery-diagram-overlay {
+    opacity: 1 !important;
   }
 
   .gallery-classifying-bar {
@@ -7278,6 +7313,12 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     font-size: 0.82rem !important;
     margin-top: 2px !important;
     line-height: 1.25 !important;
+    transition: color 0.3s ease !important;
+  }
+
+  .gallery-item:hover .gallery-card-body h4,
+  .gallery-item:active .gallery-card-body h4 {
+    color: var(--gold-antique) !important;
   }
 
   .gallery-card-specs-footer {
@@ -7286,6 +7327,16 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     display: flex !important;
     flex-direction: column !important;
     gap: 2px !important;
+  }
+
+  .gallery-card-specs-footer span:last-child {
+    transition: transform 0.3s ease, color 0.3s ease !important;
+  }
+
+  .gallery-item:hover .gallery-card-specs-footer span:last-child,
+  .gallery-item:active .gallery-card-specs-footer span:last-child {
+    transform: translateX(4px) !important;
+    color: var(--gold-primary) !important;
   }
 
   /* Interactive Gallery Project Modal Mobile Setup */
