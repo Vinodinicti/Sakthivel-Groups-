@@ -6405,11 +6405,15 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     display: block !important;
   }
 
-  /* Mobile Home Page Hero Section Setup (Same as Desktop View: Edge-to-Edge Canvas + Dark Blend Overlay) */
+  /* ==========================================================================
+     MOBILE VIEW RESPONSIVE OVERRIDES (SCREENS <= 768px)
+     ========================================================================== */
+
+  /* 1. HOME PAGE HERO SECTION: Clear Visible Background Image + Soft Blend Overlay */
   .hero-100vh-section {
-    min-height: 85vh !important;
+    min-height: 80vh !important;
     height: auto !important;
-    padding: 78px 16px 32px !important;
+    padding: 76px 16px 28px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -6442,14 +6446,15 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     height: 100% !important;
     background-size: cover !important;
     background-position: center !important;
-    filter: brightness(0.92) contrast(1.05) !important;
+    filter: brightness(1.15) contrast(1.08) !important; /* Crystal-clear, bright background image */
   }
 
+  /* Soft, semi-transparent blend overlay so hero background image is vibrant & clear */
   .hero-100vh-section .hero-text-blend-overlay {
     display: block !important;
     position: absolute !important;
     inset: 0 !important;
-    background: linear-gradient(180deg, rgba(20, 26, 17, 0.88) 0%, rgba(20, 26, 17, 0.72) 50%, rgba(20, 26, 17, 0.95) 100%) !important;
+    background: linear-gradient(180deg, rgba(20, 26, 17, 0.65) 0%, rgba(20, 26, 17, 0.45) 50%, rgba(20, 26, 17, 0.85) 100%) !important;
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: none !important;
@@ -6471,29 +6476,32 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
   }
 
   .hero-fit-content .hero-headline {
-    font-size: clamp(2.2rem, 7.2vw, 3.2rem) !important;
+    font-size: clamp(2.0rem, 7vw, 3.0rem) !important;
     line-height: 1.12 !important;
-    margin-bottom: 12px !important;
+    margin-bottom: 10px !important;
     color: #FFFDF7 !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8) !important;
   }
 
   .hero-fit-content .hero-headline span {
     color: #E5D2A6 !important;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7) !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9) !important;
   }
 
   .hero-fit-content .hero-subtext {
-    font-size: 0.92rem !important;
-    line-height: 1.5 !important;
-    margin-bottom: 18px !important;
+    font-size: 0.88rem !important;
+    line-height: 1.48 !important;
+    margin-bottom: 16px !important;
     color: #F7F1E3 !important;
     opacity: 0.95 !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8) !important;
   }
 
   .hero-fit-content .architectural-tag {
     color: #E5D2A6 !important;
     border-color: rgba(229, 210, 166, 0.4) !important;
-    background: rgba(198, 161, 91, 0.12) !important;
+    background: rgba(20, 26, 17, 0.6) !important;
+    backdrop-filter: blur(4px) !important;
   }
 
   .hero-fit-content .gold-hero-badge {
@@ -6504,446 +6512,323 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
   }
 
+  /* Compact Hero Stats Banner on Mobile */
   .hero-stats-banner {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
-    gap: 8px !important;
-    margin-top: 24px !important;
-    padding-top: 16px !important;
+    gap: 6px !important;
+    margin-top: 18px !important;
+    padding-top: 12px !important;
     border-top: 1px solid rgba(198, 161, 91, 0.3) !important;
   }
 
   .hero-stats-banner .stat-card {
-    padding: 8px 6px !important;
+    padding: 6px 4px !important;
     text-align: center !important;
+    background: rgba(20, 26, 17, 0.4) !important;
+    border: 1px solid rgba(198, 161, 91, 0.25) !important;
+    border-radius: 6px !important;
   }
 
   .hero-stats-banner .stat-number {
-    font-size: 1.3rem !important;
+    font-size: 1.15rem !important;
+    line-height: 1 !important;
   }
 
   .hero-stats-banner .stat-label {
-    font-size: 0.58rem !important;
-    letter-spacing: 0.5px !important;
+    font-size: 0.54rem !important;
+    letter-spacing: 0.4px !important;
+    margin-top: 2px !important;
   }
 
-  /* Other Inner Page Heroes on Mobile */
-  .plots-hero-section,
-  .gallery-hero-compact,
-  .founder-hero-section,
-  .contact-hero-section,
-  .page-hero {
-    min-height: auto !important;
-    height: auto !important;
-    padding: 68px 14px 28px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    position: relative !important;
-    background: linear-gradient(180deg, #141A11 0%, #1A2416 100%) !important;
+  /* Slow Down Marquee Ticker on Mobile ("scrolling details too fast and large") */
+  .project-marquee-banner {
+    padding: 8px 0 !important;
   }
 
-  .plots-full-image,
-  .gallery-hero-bg-img,
-  .founder-hero-image,
-  .contact-hero-bg-img,
-  .admin-hero-bg-img {
-    position: relative !important;
-    top: 0 !important;
+  .marquee-track {
+    animation-duration: 42s !important; /* Gentle, elegant marquee glide */
+  }
+
+  .marquee-item {
+    font-size: 0.74rem !important;
+    letter-spacing: 0.8px !important;
+  }
+
+  /* 2. QUICK PLOT & VILLA ENQUIRY SECTION: Clean Full-Width Stacked Form */
+  .quick-enquiry-grid-card {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    padding: 20px 16px !important;
+    border-radius: 14px !important;
+  }
+
+  .quick-enquiry-image-col {
     width: 100% !important;
-    height: 230px !important;
-    min-height: 230px !important;
-    max-height: 250px !important;
+    min-height: 180px !important;
+    height: 180px !important;
     order: 1 !important;
-    border-radius: 12px !important;
-    overflow: hidden !important;
-    margin-bottom: 20px !important;
-    border: 1.5px solid var(--gold-border) !important;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4) !important;
   }
 
-  .plots-hero-overlay,
-  .contact-hero-overlay,
-  .gallery-hero-overlay,
-  .gallery-hero-fade,
-  .admin-hero-overlay {
-    display: none !important;
-  }
-
-  .plots-hero-section .container,
-  .gallery-hero-compact .container,
-  .founder-hero-section .container,
-  .contact-hero-section .container,
-  .admin-hero-section .container,
-  .page-hero .container {
-    position: relative !important;
-    z-index: 3 !important;
-    order: 2 !important;
+  .quick-enquiry-img-wrapper {
+    min-height: 180px !important;
+    height: 180px !important;
     width: 100% !important;
-    padding: 0 !important;
+    border-radius: 12px !important;
   }
 
-  .founder-hero-content,
-  .contact-hero-content {
-    max-width: 100% !important;
-  }
-
-  /* ==========================================================================
-     2x2 MOBILE CARD GRID & MINIMAL CARD DETAILS FORMAT (FOR ALL MOBILE CARDS)
-     ========================================================================== */
-
-  /* 1. Regional Location Masterplan Cards (2x2 Grid) */
-  .location-cards-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
-  }
-
-  .location-card {
-    padding: 10px 8px !important;
-    border-radius: 10px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    background: #ffffff !important;
-  }
-
-  .location-card-img-wrap {
-    height: 105px !important;
-    min-height: 105px !important;
-    max-height: 110px !important;
-    border-radius: 6px !important;
-    overflow: hidden !important;
-    margin-bottom: 6px !important;
-  }
-
-  .location-card-img-wrap img {
+  .quick-enquiry-showcase-img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
   }
 
-  .location-card-tag {
-    font-size: 0.52rem !important;
-    padding: 2px 5px !important;
-    top: 6px !important;
-    left: 6px !important;
-  }
-
-  .location-approval-badge {
-    font-size: 0.52rem !important;
-    padding: 2px 5px !important;
-    top: 6px !important;
-    right: 6px !important;
-  }
-
-  .location-card-body {
-    padding: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    flex-grow: 1 !important;
-  }
-
-  .location-card-title {
-    font-size: 0.84rem !important;
-    font-weight: 700 !important;
-    line-height: 1.25 !important;
-    margin: 3px 0 !important;
-    color: var(--olive-deep) !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2 !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
-  }
-
-  .location-card-desc {
-    display: none !important; /* Minimal details: hide long paragraphs */
-  }
-
-  .location-card-specs-row {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 3px !important;
-    padding-top: 6px !important;
-    margin-top: 6px !important;
-    border-top: 1px dashed rgba(198, 161, 91, 0.25) !important;
-  }
-
-  .location-spec-lbl {
-    font-size: 0.56rem !important;
-    letter-spacing: 0.5px !important;
-  }
-
-  .location-spec-val {
-    font-size: 0.72rem !important;
-  }
-
-  .location-card-btn {
-    padding: 6px 6px !important;
-    font-size: 0.65rem !important;
-    letter-spacing: 0.3px !important;
-    width: 100% !important;
-    text-align: center !important;
-    margin-top: 6px !important;
-    border-radius: 4px !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-  }
-
-  /* 2. Upcoming Projects Cards (2x2 Grid) */
-  .upcoming-3d-wrapper {
-    perspective: none !important;
-    height: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  .upcoming-3d-inner {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
-    transform: none !important;
-    position: relative !important;
-    height: auto !important;
-    width: 100% !important;
-  }
-
-  .project-card-3d {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    transform: none !important;
-    width: 100% !important;
-    border-radius: 10px !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    margin: 0 !important;
-    background: #ffffff !important;
-    border: 1px solid var(--gold-border) !important;
-  }
-
-  .project-card-3d .project-card-image-wrap {
-    height: 105px !important;
-    min-height: 105px !important;
-    border-radius: 8px 8px 0 0 !important;
-  }
-
-  .project-card-3d .project-card-body {
-    padding: 10px 8px !important;
-  }
-
-  .project-card-3d h3 {
-    font-size: 0.84rem !important;
-    line-height: 1.25 !important;
-    margin: 3px 0 !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2 !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
-  }
-
-  .project-card-meta {
+  .enquiry-floating-badge {
+    padding: 4px 8px !important;
     font-size: 0.58rem !important;
-    gap: 4px !important;
-    margin-bottom: 2px !important;
   }
 
-  .card-mini-stats {
-    font-size: 0.62rem !important;
-    gap: 3px !important;
+  .badge-top-left {
+    top: 10px !important;
+    left: 10px !important;
   }
 
-  .btn-more-details {
-    padding: 6px 6px !important;
-    font-size: 0.65rem !important;
-    width: 100% !important;
-    margin-top: 6px !important;
-    border-radius: 4px !important;
-  }
-
-  /* 3. Construction Details Cards (2x2 Grid) */
-  .construction-showcase-section .project-scroll-shell {
-    overflow: visible !important;
-    padding: 0 !important;
-  }
-
-  .construction-showcase-section .project-scroll-shell::before,
-  .construction-showcase-section .project-scroll-shell::after {
+  .badge-bottom-right {
     display: none !important;
   }
 
-  .project-scroll-track-compact {
-    animation: none !important;
+  .quick-enquiry-img-caption {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 10px 12px !important;
+    background: linear-gradient(180deg, transparent 0%, rgba(20, 26, 17, 0.94) 100%) !important;
+  }
+
+  .quick-enquiry-img-caption h4 {
+    font-size: 0.92rem !important;
+    color: var(--gold-light) !important;
+    margin: 2px 0 !important;
+  }
+
+  .quick-enquiry-img-caption p {
+    font-size: 0.72rem !important;
+    color: var(--bg-ivory) !important;
+  }
+
+  .quick-enquiry-form-col {
+    width: 100% !important;
+    order: 2 !important;
+  }
+
+  .quick-enquiry-header h2 {
+    font-size: 1.45rem !important;
+    margin: 4px 0 8px !important;
+  }
+
+  .quick-enquiry-header p {
+    font-size: 0.82rem !important;
+    line-height: 1.45 !important;
+    margin-bottom: 16px !important;
+  }
+
+  .quick-enquiry-form-row {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .quick-enquiry-field {
     width: 100% !important;
-    transform: none !important;
+    margin-bottom: 10px !important;
   }
 
-  .project-scroll-track-compact .project-card-compact:nth-child(n+5) {
-    display: none !important;
-  }
-
-  .project-card-compact {
+  .quick-enquiry-input {
     width: 100% !important;
-    min-width: 0 !important;
-    border-radius: 10px !important;
+    padding: 12px 14px !important;
+    font-size: 0.88rem !important;
+    box-sizing: border-box !important;
+    border-radius: 6px !important;
   }
 
-  .project-card-compact .project-card-image-wrap {
-    height: 105px !important;
-    min-height: 105px !important;
-  }
-
-  .project-card-compact .project-card-body {
-    padding: 10px 8px !important;
-  }
-
-  .project-card-compact p {
-    display: none !important; /* Minimal details: hide paragraph */
-  }
-
-  .project-card-compact h3 {
-    font-size: 0.84rem !important;
-    line-height: 1.25 !important;
-    margin: 3px 0 !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2 !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
-  }
-
-  .project-card-stats {
-    font-size: 0.64rem !important;
-    padding-top: 6px !important;
+  .animated-submit-btn {
+    width: 100% !important;
+    height: 48px !important;
+    font-size: 0.85rem !important;
+    box-sizing: border-box !important;
     margin-top: 4px !important;
   }
 
-  /* 4. Why Choose Vels Section (2x2 Grid) */
-  .why-choose-features {
+  /* 3. RESTORE DESKTOP ANIMATIONS ON MOBILE WITH COMPACT CARD SIZES */
+
+  /* Location Masterplan Cards */
+  .location-cards-grid {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+    gap: 12px !important;
   }
 
-  .why-choose-item {
-    padding: 10px 8px !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 6px !important;
-    border-radius: 10px !important;
+  @media (max-width: 520px) {
+    .location-cards-grid {
+      grid-template-columns: 1fr !important;
+    }
   }
 
-  .why-choose-item-desc {
-    display: none !important; /* Minimal details: hide long description */
+  .location-card {
+    padding: 12px 10px !important;
+    border-radius: 12px !important;
   }
 
-  .why-choose-item-title {
-    font-size: 0.74rem !important;
+  .location-card-img-wrap {
+    height: 130px !important;
+    min-height: 130px !important;
+    border-radius: 8px !important;
+  }
+
+  .location-card-title {
+    font-size: 0.95rem !important;
+    margin: 4px 0 !important;
+  }
+
+  .location-card-desc {
+    font-size: 0.78rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 8px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  /* Upcoming Projects 3D Orbit Carousel (Preserve 3D Animation, Compact Size) */
+  .upcoming-3d-wrapper {
+    perspective: 1000px !important;
+    height: 380px !important;
+    margin: 10px 0 !important;
+  }
+
+  .project-card-3d {
+    width: 250px !important;
+    height: 340px !important;
+  }
+
+  .project-card-3d .project-card-image-wrap {
+    height: 150px !important;
+  }
+
+  .project-card-3d .project-card-body {
+    padding: 12px 10px !important;
+  }
+
+  .project-card-3d h3 {
+    font-size: 0.92rem !important;
     line-height: 1.25 !important;
-    margin: 0 !important;
+    margin: 4px 0 !important;
   }
 
-  .why-choose-icon-wrap {
-    width: 24px !important;
-    height: 24px !important;
-    min-width: 24px !important;
+  .card-mini-stats {
+    font-size: 0.66rem !important;
   }
 
-  .why-choose-icon-wrap svg {
-    width: 20px !important;
-    height: 20px !important;
+  /* Construction Details Infinite Sliding Marquee (Preserve Slide Animation, Compact Size) */
+  .construction-showcase-section .project-scroll-shell {
+    overflow: hidden !important;
+    padding: 8px 0 !important;
   }
 
-  /* 5. Customer Reviews Section (2x2 Grid) */
+  .project-scroll-track-compact {
+    display: flex !important;
+    animation: constructionSlideReverse 32s linear infinite !important;
+    width: max-content !important;
+    gap: 16px !important;
+  }
+
+  .project-scroll-track-compact .project-card-compact:nth-child(n+5) {
+    display: block !important;
+  }
+
+  .project-card-compact {
+    width: 260px !important;
+    min-width: 250px !important;
+  }
+
+  .project-card-compact .project-card-image-wrap {
+    height: 150px !important;
+  }
+
+  .project-card-compact .project-card-body {
+    padding: 12px 10px !important;
+  }
+
+  .project-card-compact p {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    font-size: 0.78rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .project-card-compact h3 {
+    font-size: 0.92rem !important;
+    margin: 4px 0 !important;
+  }
+
+  /* Verified Customer Reviews Slider (Preserve Slider Animation, 1 Card Per Slide on Mobile) */
   .reviews-slider-viewport {
-    overflow: visible !important;
+    overflow: hidden !important;
   }
 
   .reviews-slider-track {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+    display: flex !important;
     transform: none !important;
+    transition: transform 0.38s cubic-bezier(0.25, 1, 0.5, 1) !important;
     width: 100% !important;
   }
 
   .reviews-slider-track .review-card-item:nth-child(n+5) {
-    display: none !important;
+    display: block !important;
   }
 
   .review-card-item {
-    flex: none !important;
+    flex: 0 0 100% !important;
     max-width: 100% !important;
     width: 100% !important;
-    padding: 0 !important;
+    padding: 0 6px !important;
+    box-sizing: border-box !important;
   }
 
   .review-card {
-    padding: 12px 10px !important;
-    min-height: 160px !important;
-    border-radius: 10px !important;
+    padding: 18px 16px !important;
+    min-height: 180px !important;
+    border-radius: 12px !important;
   }
 
   .review-text {
-    font-size: 0.76rem !important;
-    line-height: 1.35 !important;
-    margin-bottom: 8px !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 3 !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
+    font-size: 0.88rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 12px !important;
+    display: block !important;
   }
 
   .review-user-icon {
-    width: 28px !important;
-    height: 28px !important;
-  }
-
-  .review-user-icon svg {
-    width: 16px !important;
-    height: 16px !important;
+    width: 34px !important;
+    height: 34px !important;
   }
 
   .star-rating-pill {
-    padding: 3px 8px !important;
-    gap: 4px !important;
+    padding: 4px 10px !important;
+    gap: 6px !important;
   }
 
   .stars-gold-wrap {
-    font-size: 0.88rem !important;
+    font-size: 1.15rem !important;
   }
 
   .rating-num {
-    font-size: 0.70rem !important;
-  }
-
-  .review-author-row {
-    padding-top: 8px !important;
-    gap: 8px !important;
-  }
-
-  .review-avatar {
-    width: 26px !important;
-    height: 26px !important;
-  }
-
-  .review-avatar svg {
-    width: 14px !important;
-    height: 14px !important;
-  }
-
-  .author-name {
-    font-size: 0.76rem !important;
-  }
-
-  .author-role {
-    font-size: 0.64rem !important;
+    font-size: 0.80rem !important;
   }
 
   /* FIND YOUR PLOT PAGE HERO CENTER ALIGNMENT & MOBILE LAYOUT */
