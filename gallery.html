@@ -54,8 +54,7 @@
       <a href="plots.html" class="overlay-link"><span class="overlay-num">02.</span> FIND YOUR PLOT</a>
       <a href="about.html" class="overlay-link"><span class="overlay-num">03.</span> ABOUT US</a>
       <a href="gallery.html" class="overlay-link"><span class="overlay-num">04.</span> GALLERY</a>
-      <a href="founder.html" class="overlay-link"><span class="overlay-num">05.</span> FOUNDERS</a>
-      <a href="contact.html" class="overlay-link"><span class="overlay-num">06.</span> CONTACT</a>
+      <a href="contact.html" class="overlay-link"><span class="overlay-num">05.</span> CONTACT</a>
       <a href="admin.html" class="overlay-link overlay-admin-link icon-only-admin" title="Admin Portal" aria-label="Admin Portal">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/>
@@ -140,6 +139,7 @@
         <div class="gallery-grid">
           <!-- Project 1 -->
           <div class="gallery-item" data-project-id="proj-1" data-category="plotted">
+            <div class="gallery-vertical-label"><span>VELS GOLDEN VISTAS</span></div>
             <div class="gallery-item-img-wrap">
               <img src="Images/Hero_Arch.jpg" alt="VELS Golden Vistas" />
               <div class="gallery-classifying-bar">
@@ -170,6 +170,7 @@
 
           <!-- Project 2 -->
           <div class="gallery-item" data-project-id="proj-2" data-category="villas">
+            <div class="gallery-vertical-label"><span>SAKTHI PALM GROVE</span></div>
             <div class="gallery-item-img-wrap">
               <img src="Images/Hero_Villa.jpg" alt="Sakthi Palm Grove" />
               <div class="gallery-classifying-bar">
@@ -200,6 +201,7 @@
 
           <!-- Project 3 -->
           <div class="gallery-item" data-project-id="proj-3" data-category="completed">
+            <div class="gallery-vertical-label"><span>VELS GREEN ENCLAVE</span></div>
             <div class="gallery-item-img-wrap">
               <img src="Images/Vels_Legacy_Appreciation.jpg" alt="VELS Green Enclave" />
               <div class="gallery-classifying-bar">
@@ -230,6 +232,7 @@
 
           <!-- Project 4 -->
           <div class="gallery-item" data-project-id="proj-4" data-category="infra">
+            <div class="gallery-vertical-label"><span>EACHANARI HERITAGE</span></div>
             <div class="gallery-item-img-wrap">
               <img src="Images/Vels_Engineered_Roads.jpg" alt="Eachanari Heritage Layout" />
               <div class="gallery-classifying-bar">
@@ -260,6 +263,7 @@
 
           <!-- Project 5 -->
           <div class="gallery-item" data-project-id="proj-5" data-category="plotted">
+            <div class="gallery-vertical-label"><span>PEELAMEDU PARK VISTAS</span></div>
             <div class="gallery-item-img-wrap">
               <img src="Images/Plots_Hero_Bg.jpg" alt="Peelamedu Park Vistas" />
               <div class="gallery-classifying-bar">
@@ -290,6 +294,7 @@
 
           <!-- Project 6 -->
           <div class="gallery-item" data-project-id="proj-6" data-category="plotted">
+            <div class="gallery-vertical-label"><span>VELS HERITAGE GARDENS</span></div>
             <div class="gallery-item-img-wrap">
               <img src="Images/Vels_Heritage_Story.jpg" alt="VELS Heritage Gardens" />
               <div class="gallery-classifying-bar">
@@ -338,15 +343,15 @@
           <!-- Card 1: Road & Infrastructure Blueprint Motion -->
           <div class="diagrammatic-card">
             <div class="diagrammatic-canvas">
-              <div class="diagram-scan-line"></div>
               <svg width="280" height="150" viewBox="0 0 280 150" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <!-- Road Surface Layer -->
                 <rect x="20" y="45" width="240" height="26" fill="#39452F" stroke="#C6A15B" stroke-width="1.5" rx="3"/>
                 <line x1="20" y1="58" x2="260" y2="58" stroke="#E5D2A6" stroke-width="2" class="diagram-dash-lane"/>
-                <!-- Moving Vehicle Motion Marker -->
-                <circle cx="90" cy="58" r="4" fill="#C6A15B">
-                  <animate attributeName="cx" values="30;250" dur="2.5s" repeatCount="indefinite" />
-                </circle>
+                
+                <!-- Moving Vehicle Headlights Motion Marker -->
+                <g class="diagram-vehicle-group">
+                  <circle cx="0" cy="58" r="4.5" fill="#E5D2A6" stroke="#C6A15B" stroke-width="1.5" class="diagram-vehicle-headlight"/>
+                </g>
                 
                 <!-- Kerbstone Layers -->
                 <rect x="20" y="71" width="240" height="14" fill="#283322" stroke="#99793B" stroke-width="1"/>
@@ -354,7 +359,7 @@
                 
                 <!-- Underground Water Runoff Pipe -->
                 <rect x="90" y="108" width="100" height="18" rx="9" fill="#283322" stroke="#C6A15B" stroke-width="1.5"/>
-                <line x1="95" y1="117" x2="185" y2="117" stroke="#627453" stroke-width="2" class="diagram-water-flow"/>
+                <line x1="95" y1="117" x2="185" y2="117" stroke="#E5D2A6" stroke-width="2" class="diagram-water-flow"/>
                 
                 <!-- Dimension Callouts -->
                 <line x1="20" y1="28" x2="260" y2="28" stroke="#C6A15B" stroke-width="1" stroke-dasharray="2 2"/>
@@ -374,24 +379,21 @@
           <!-- Card 2: Town Planning Blueprint Motion -->
           <div class="diagrammatic-card">
             <div class="diagrammatic-canvas">
-              <div class="diagram-scan-line"></div>
               <svg width="280" height="150" viewBox="0 0 280 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Blueprint Plot Grid -->
+                <!-- Blueprint Plot Grid (Auto CAD Drawing Effect) -->
                 <rect x="20" y="20" width="115" height="50" rx="3" fill="rgba(198,161,91,0.06)" stroke="#C6A15B" stroke-width="1.5" class="diagram-cad-path"/>
                 <rect x="145" y="20" width="115" height="50" rx="3" fill="rgba(198,161,91,0.06)" stroke="#C6A15B" stroke-width="1.5" class="diagram-cad-path"/>
                 <rect x="20" y="80" width="115" height="50" rx="3" fill="rgba(198,161,91,0.06)" stroke="#C6A15B" stroke-width="1.5" class="diagram-cad-path"/>
                 
-                <!-- Scanning Crosshair Compass -->
-                <g transform="translate(202, 105)">
-                  <circle cx="0" cy="0" r="22" stroke="#E5D2A6" stroke-width="1" stroke-dasharray="4 4">
-                    <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="8s" repeatCount="indefinite" />
-                  </circle>
+                <!-- Rotating Surveyor Reticle Compass -->
+                <g class="diagram-surveyor-compass" transform="translate(202, 105)">
+                  <circle cx="0" cy="0" r="22" stroke="#E5D2A6" stroke-width="1" stroke-dasharray="4 4" class="diagram-compass-rotate"/>
                   <circle cx="0" cy="0" r="3" fill="#C6A15B"/>
                   <line x1="-28" y1="0" x2="28" y2="0" stroke="#C6A15B" stroke-width="1"/>
                   <line x1="0" y1="-28" x2="0" y2="28" stroke="#C6A15B" stroke-width="1"/>
                 </g>
 
-                <!-- DTCP Approval Badge Stamp -->
+                <!-- DTCP Approval Badge Stamp Seal -->
                 <g class="diagram-stamp-anim" transform="translate(80, 45)">
                   <rect x="-45" y="-14" width="90" height="28" rx="4" fill="#283322" stroke="#C6A15B" stroke-width="1.5"/>
                   <text x="0" y="3" text-anchor="middle" fill="#E5D2A6" font-family="Space Mono" font-size="9" font-weight="700">✓ DTCP PASSED</text>
@@ -410,27 +412,25 @@
           <!-- Card 3: Entrance Arch Elevation Motion -->
           <div class="diagrammatic-card">
             <div class="diagrammatic-canvas">
-              <div class="diagram-scan-line"></div>
               <svg width="280" height="150" viewBox="0 0 280 150" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <!-- Entrance Arch Pillars -->
                 <rect x="40" y="40" width="26" height="90" fill="#283322" stroke="#C6A15B" stroke-width="1.5"/>
                 <rect x="214" y="40" width="26" height="90" fill="#283322" stroke="#C6A15B" stroke-width="1.5"/>
                 
                 <!-- Top Arch Pediment Beam -->
-                <rect x="30" y="24" width="220" height="20" rx="3" fill="#39452F" stroke="#E5D2A6" stroke-width="1.5"/>
+                <rect x="30" y="24" width="220" height="20" rx="3" fill="#39452F" stroke="#E5D2A6" stroke-width="1.5" class="diagram-arch-beam"/>
                 <text x="140" y="38" text-anchor="middle" fill="#FFFDF7" font-family="Cinzel" font-size="9" font-weight="700" letter-spacing="1">VELS GRAND ENTRANCE</text>
 
-                <!-- Automated Barrier Gate Beam -->
-                <line x1="66" y1="85" x2="214" y2="85" stroke="#C6A15B" stroke-width="3" stroke-dasharray="10 5">
-                  <animate attributeName="stroke" values="#C6A15B;#E5D2A6;#C6A15B" dur="2s" repeatCount="indefinite"/>
-                </line>
+                <!-- Automated Barrier Gate Arm (Lifting Barrier Motion) -->
+                <g class="diagram-gate-arm" style="transform-origin: 66px 85px;">
+                  <line x1="66" y1="85" x2="214" y2="85" stroke="#C6A15B" stroke-width="3" stroke-dasharray="12 6"/>
+                </g>
 
-                <!-- 24/7 Security Kiosk Signal Waves -->
-                <circle cx="140" cy="105" r="2" fill="none" stroke="#C6A15B" stroke-width="1.5">
-                  <animate attributeName="r" values="2;22" dur="2s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" values="1;0" dur="2s" repeatCount="indefinite"/>
-                </circle>
-                <rect x="125" y="95" width="30" height="35" fill="#283322" stroke="#99793B" stroke-width="1"/>
+                <!-- 24/7 Security Kiosk Radar Signal Waves -->
+                <g transform="translate(140, 112)">
+                  <circle cx="0" cy="0" r="4" fill="none" stroke="#E5D2A6" stroke-width="1.5" class="diagram-radar-wave"/>
+                  <rect x="-15" y="-12" width="30" height="30" fill="#283322" stroke="#99793B" stroke-width="1"/>
+                </g>
               </svg>
             </div>
             <div class="diagrammatic-card-body">
@@ -541,7 +541,6 @@
             <li><a href="plots.html" class="footer-link">Find Plots</a></li>
             <li><a href="about.html" class="footer-link">About Us</a></li>
             <li><a href="gallery.html" class="footer-link">Gallery</a></li>
-            <li><a href="founder.html" class="footer-link">Founders</a></li>
             <li><a href="contact.html" class="footer-link">Contact</a></li>
           </ul>
         </div>

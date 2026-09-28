@@ -23,85 +23,8 @@ if (!fs.existsSync(dataDir)) {
 
 const dbPath = path.join(dataDir, 'enquiries.json');
 
-// Pre-seeded sample leads
-const initialLeads = [
-  {
-    id: 'ENQ-1001',
-    customerName: 'Rajan Sundaram',
-    phone: '+91 98422 10542',
-    email: 'rajan.sundaram@gmail.com',
-    project: 'VELS Golden Vistas Pollachi',
-    plotNumber: 'Plot P-115 (40 FT Boulevard)',
-    budget: '₹ 25.00 - 30.00 Lakhs',
-    timeline: 'Immediate (Within 7 Days)',
-    paymentMode: 'Pre-Approved Bank Loan',
-    siteVisitRequested: true,
-    message: 'Need site visit cab pick-up tomorrow afternoon with family. Want to finalize 40ft corner plot.',
-    aiPriority: 'HOT',
-    aiScore: 98,
-    aiSummary: 'URGENT BUYER: Pre-approved bank loan, requested site visit tomorrow for corner plot P-115.',
-    recommendedAction: 'Call within 15 mins — Confirm site visit cab pick-up and reserve Plot P-115.',
-    status: 'NEW',
-    createdAt: new Date(Date.now() - 1000 * 60 * 25).toISOString()
-  },
-  {
-    id: 'ENQ-1002',
-    customerName: 'Kavitha Mahalingam',
-    phone: '+91 94431 88920',
-    email: 'kavitha.m@yahoo.com',
-    project: 'VELS Heritage Coimbatore Airport',
-    plotNumber: 'Plot C-142 (30 FT Avenue)',
-    budget: '₹ 28.00 - 35.00 Lakhs',
-    timeline: 'Within 30 Days',
-    paymentMode: 'Self-Funded / Cash',
-    siteVisitRequested: true,
-    message: 'Looking for DTCP approved villa plot near Hope College main road. Interested in site inspection this Saturday.',
-    aiPriority: 'HOT',
-    aiScore: 88,
-    aiSummary: 'HIGH INTENT: Self-funded cash buyer requesting Saturday site visit near Airport Corridor.',
-    recommendedAction: 'Call today to arrange Saturday site inspection and share DTCP approval documents.',
-    status: 'CONTACTED',
-    createdAt: new Date(Date.now() - 1000 * 60 * 120).toISOString()
-  },
-  {
-    id: 'ENQ-1003',
-    customerName: 'Prakash Ramasamy',
-    phone: '+91 99945 33019',
-    email: 'prakash.ram@outlook.com',
-    project: 'VELS ECR Bay Vistas Chennai',
-    plotNumber: 'General Layout Enquiry',
-    budget: '₹ 40.00 - 50.00 Lakhs',
-    timeline: 'Within 60 Days',
-    paymentMode: 'Applying for Bank Loan',
-    siteVisitRequested: false,
-    message: 'Please send ECR layout masterplan PDF and current square foot rates.',
-    aiPriority: 'WARM',
-    aiScore: 68,
-    aiSummary: 'WARM LEAD: High budget ECR inquiry. Requested PDF masterplan & square foot rate chart.',
-    recommendedAction: 'Send WhatsApp PDF brochure + Follow up within 24 hours regarding bank loan options.',
-    status: 'NEW',
-    createdAt: new Date(Date.now() - 1000 * 60 * 360).toISOString()
-  },
-  {
-    id: 'ENQ-1004',
-    customerName: 'Suresh Kumar',
-    phone: '+91 97890 12345',
-    email: 'suresh.k@gmail.com',
-    project: 'VELS Temple City Madurai',
-    plotNumber: 'Plot M-108',
-    budget: 'Under ₹ 20.00 Lakhs',
-    timeline: 'Planning in 6+ Months',
-    paymentMode: 'Undecided',
-    siteVisitRequested: false,
-    message: 'Just checking future layout options near AIIMS corridor.',
-    aiPriority: 'COLD',
-    aiScore: 35,
-    aiSummary: 'COLD LEAD: Long-term timeline (>6 months) with low budget threshold.',
-    recommendedAction: 'Add to monthly email newsletter drip campaign for upcoming layout launches.',
-    status: 'NEW',
-    createdAt: new Date(Date.now() - 1000 * 60 * 1440).toISOString()
-  }
-];
+// Pre-seeded sample leads — Empty so only real form enquiries appear
+const initialLeads = [];
 
 // Mongoose Schema Definition
 const enquirySchema = new mongoose.Schema({
@@ -121,6 +44,10 @@ const enquirySchema = new mongoose.Schema({
   aiSummary: String,
   recommendedAction: String,
   status: { type: String, default: 'NEW' },
+  voiceCallStatus: { type: String, default: 'NOT_CALLED' }, // NOT_CALLED | CALLING | COMPLETED | FAILED
+  siteVisitDateTime: String,
+  customerConfirmedPlot: String,
+  callTranscript: String,
   createdAt: { type: String }
 });
 
@@ -136,15 +63,8 @@ if (mongoURI && !mongoURI.includes('<db_password>') && !mongoURI.includes('<pass
       isMongoConnected = true;
       console.log(' Successfully connected to MongoDB Atlas!');
       
-      // Seed database if empty
-      const count = await Enquiry.countDocuments();
-      if (count === 0) {
-        await Enquiry.insertMany(initialLeads);
-        console.log(' MongoDB seeded with initial enquiries.');
-      } else {
-        // Sync any local JSON leads that were created while offline into MongoDB
-        await syncLocalLeadsToMongo();
-      }
+      // Clean old sample leads from MongoDB if present
+      await Enquiry.deleteMany({ id: { $in: ['ENQ-1001', 'ENQ-1002', 'ENQ-1003', 'ENQ-1004'] } });
     })
     .catch(err => {
       console.error(' MongoDB Atlas Connection Error:', err.message);
@@ -158,14 +78,15 @@ if (mongoURI && !mongoURI.includes('<db_password>') && !mongoURI.includes('<pass
 // Local JSON File Database Helpers
 function readLocalDB() {
   if (!fs.existsSync(dbPath)) {
-    fs.writeFileSync(dbPath, JSON.stringify(initialLeads, null, 2));
-    return initialLeads;
+    fs.writeFileSync(dbPath, JSON.stringify([], null, 2));
+    return [];
   }
   try {
     const data = fs.readFileSync(dbPath, 'utf8');
-    return JSON.parse(data);
+    const parsed = JSON.parse(data) || [];
+    return parsed.filter(l => !['ENQ-1001', 'ENQ-1002', 'ENQ-1003', 'ENQ-1004'].includes(l.id));
   } catch (err) {
-    return initialLeads;
+    return [];
   }
 }
 
@@ -227,9 +148,12 @@ async function saveLeadRecord(record) {
     try {
       const docToSave = { ...record };
       delete docToSave._id;
-      const newDoc = new Enquiry(docToSave);
-      await newDoc.save();
-      console.log(`[MONGO SAVE SUCCESS] Saved lead to MongoDB Atlas: ${record.customerName} (${record.id})`);
+      await Enquiry.findOneAndUpdate(
+        { id: record.id },
+        { $set: docToSave },
+        { upsert: true, returnDocument: 'after' }
+      );
+      console.log(`[MONGO SAVE SUCCESS] Upserted lead to MongoDB Atlas: ${record.customerName} (${record.id})`);
     } catch (e) {
       console.error('[MONGO SAVE ERROR]', e.message);
     }
@@ -351,13 +275,143 @@ function evaluateLeadWithAI(lead) {
   };
 }
 
+// Outbound Tamil Voice AI Agent Dispatcher — Calls Customer Directly
+async function triggerTamilVoiceAlertToCustomer(lead) {
+  const apiKey = process.env.SNAPSERVE_API_KEY;
+  const agentId = process.env.SNAPSERVE_AGENT_ID;
+  const rawPhone = lead.phone || process.env.ADMIN_PHONE_NUMBER;
+
+  if (!apiKey || apiKey.includes('your_snapserve_api_key') || !agentId || !rawPhone || rawPhone === 'Not Provided') {
+    console.log(`[VOICE AI SKIPPED] SnapServe API Key or Customer Phone Number missing for ${lead.customerName}`);
+    return;
+  }
+
+  // Format phone number to E.164 (+91XXXXXXXXXX)
+  let formattedPhone = (rawPhone || '').trim();
+  const digitsOnly = formattedPhone.replace(/[^0-9]/g, '');
+  if (digitsOnly.length === 10) {
+    formattedPhone = `+91${digitsOnly}`;
+  } else if (digitsOnly.length === 12 && digitsOnly.startsWith('91')) {
+    formattedPhone = `+${digitsOnly}`;
+  } else if (!formattedPhone.startsWith('+')) {
+    formattedPhone = `+${digitsOnly}`;
+  }
+
+  const numericAgentId = !isNaN(Number(agentId)) ? Number(agentId) : agentId;
+
+  try {
+    console.log(`[VOICE AI DISPATCHING] Triggering Tamil AI Voice Call to CUSTOMER: ${formattedPhone} (${lead.customerName}) via Agent ID: ${numericAgentId}`);
+    
+    // Pass optimized, concise variables for low-latency Customer Call Script
+    const firstName = (lead.customerName || "Customer").trim().split(' ')[0];
+    const requestPayload = {
+      agentId: numericAgentId,
+      toNumber: formattedPhone,
+      variables: {
+        customer_name: firstName,
+        project_name: lead.project || "VELS Layout",
+        plot_number: lead.plotNumber || "General Enquiry",
+        enquiry_id: lead.id
+      }
+    };
+
+    console.log('[VOICE AI REQUEST PAYLOAD]', JSON.stringify(requestPayload));
+
+    const response = await fetch('https://app.snapserve.ai/api/calls/outbound', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestPayload)
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      console.log(`[VOICE AI SUCCESS] Customer Call initiated! Call ID: ${data.id || data.callId || 'Initiated'}`);
+      await updateLeadVoiceStatusRecord(lead.id, 'CALLING', null);
+    } else {
+      console.error(`[VOICE AI ERROR] SnapServe API returned status ${response.status}:`, JSON.stringify(data));
+    }
+  } catch (err) {
+    console.error('[VOICE AI EXCEPTION] Failed to place outbound customer call:', err.message);
+  }
+}
+
+// Helper to update Voice Call status and answers in DB automatically
+async function updateLeadVoiceStatusRecord(id, voiceStatus, callData) {
+  const localLeads = readLocalDB();
+  const cleanId = (id || '').toString().trim();
+  const cleanPhone = cleanId.replace(/[^0-9]/g, '').slice(-10);
+
+  let matchFound = false;
+
+  localLeads.forEach(l => {
+    const lId = (l.id || '').toString().trim();
+    const lPhone = (l.phone || '').replace(/[^0-9]/g, '').slice(-10);
+
+    if (lId === cleanId || (cleanPhone && cleanPhone.length >= 7 && lPhone === cleanPhone)) {
+      l.voiceCallStatus = voiceStatus;
+      if (callData) {
+        l.callTranscript = callData.transcript || l.callTranscript;
+        l.siteVisitDateTime = callData.siteVisitDateTime || l.siteVisitDateTime;
+        l.customerConfirmedPlot = callData.customerConfirmedPlot || l.customerConfirmedPlot;
+        if (l.status !== 'READ' && l.status !== 'CONTACTED') {
+          l.status = 'NEW';
+          l.isNew = true;
+        }
+      }
+      matchFound = true;
+    }
+  });
+
+  if (matchFound) {
+    writeLocalDB(localLeads);
+    console.log(`[DB AUTO-UPDATE] Updated voice call status & site visit details for Lead ID/Phone: ${cleanId}`);
+  }
+
+  if (isMongoConnected) {
+    try {
+      const updateDoc = { voiceCallStatus: voiceStatus };
+      if (callData) {
+        if (callData.transcript) updateDoc.callTranscript = callData.transcript;
+        if (callData.siteVisitDateTime) updateDoc.siteVisitDateTime = callData.siteVisitDateTime;
+        if (callData.customerConfirmedPlot) updateDoc.customerConfirmedPlot = callData.customerConfirmedPlot;
+      }
+
+      // Update strictly by ID if cleanId matches ENQ-format, or update the most recent matching record by phone
+      if (cleanId.startsWith('ENQ-')) {
+        await Enquiry.updateOne({ id: cleanId }, { $set: updateDoc });
+      } else if (cleanPhone) {
+        await Enquiry.updateOne(
+          { phone: new RegExp(cleanPhone + '$') },
+          { $set: updateDoc },
+          { sort: { createdAt: -1 } }
+        );
+      }
+      console.log(`[MONGO AUTO-UPDATE] Updated MongoDB Atlas for Lead: ${cleanId}`);
+    } catch (e) {
+      console.error('MongoDB update voice status error:', e.message);
+    }
+  }
+}
+
+async function generateUniqueEnquiryId() {
+  const leads = await fetchAllLeads();
+  let maxNum = 1000;
+  leads.forEach(l => {
+    const num = parseInt((l.id || '').replace(/[^0-9]/g, ''), 10);
+    if (!isNaN(num) && num > maxNum) maxNum = num;
+  });
+  return `ENQ-${maxNum + 1}`;
+}
+
 // REST API Endpoints
 
 app.post('/api/enquiries', async (req, res) => {
   try {
     const body = req.body || {};
-    const leads = await fetchAllLeads();
-    const newId = `ENQ-${1000 + leads.length + 1}`;
+    const newId = await generateUniqueEnquiryId();
 
     const leadData = {
       id: newId,
@@ -372,6 +426,11 @@ app.post('/api/enquiries', async (req, res) => {
       siteVisitRequested: body.siteVisitRequested === true || body.siteVisit === 'yes' || true,
       message: body.message || body.description || 'Interested in layout plots.',
       status: 'NEW',
+      isNew: true,
+      voiceCallStatus: 'NOT_CALLED',
+      siteVisitDateTime: '',
+      customerConfirmedPlot: '',
+      callTranscript: '',
       createdAt: new Date().toISOString()
     };
 
@@ -386,14 +445,173 @@ app.post('/api/enquiries', async (req, res) => {
 
     console.log(`[AI AGENT] New Enquiry Evaluated: ${completeRecord.customerName} -> ${completeRecord.aiPriority} (${completeRecord.aiScore}/100)`);
 
+    // Dispatch Outbound Tamil Voice AI Agent to Customer
+    triggerTamilVoiceAlertToCustomer(completeRecord);
+
     res.status(201).json({
       success: true,
-      message: 'Enquiry received and AI Lead Evaluation complete.',
+      message: 'Enquiry received. AI Customer Voice Verification call triggered!',
       lead: completeRecord
     });
   } catch (err) {
     console.error('Error processing enquiry:', err);
     res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+});
+
+// Helper to extract the actual spoken site visit date & time from call payload or transcript/memory
+function extractSpokenTimeFromCall(data) {
+  if (data.dispositionResult?.site_visit_time) return data.dispositionResult.site_visit_time;
+  if (data.variables?.site_visit_time) return data.variables.site_visit_time;
+  if (data.site_visit_time) return data.site_visit_time;
+  if (data.siteVisitDateTime) return data.siteVisitDateTime;
+
+  const fullText = (data.callerMemory || data.transcript || data.callSummary || '').toString();
+
+  // Match month date & time patterns e.g. "October 1st at 01:30 pm", "Oct 1st at 1:30 PM"
+  const monthDateMatch = fullText.match(/(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|oct|nov|dec)\s+\d+(st|nd|rd|th)?\s*(at\s*\d{1,2}(:\d{2})?\s*(am|pm)?)?/i);
+  if (monthDateMatch && monthDateMatch[0]) {
+    return monthDateMatch[0].trim();
+  }
+
+  // Match English day/time patterns e.g. "today at 12 PM", "Tomorrow at 3:30 PM"
+  const match = fullText.match(/(tomorrow|today|monday|tuesday|wednesday|thursday|friday|saturday|sunday)?\s*(at\s*)?(\d{1,2}(:\d{2})?\s*(am|pm)?)/i);
+  if (match && match[0] && match[0].trim().length > 3) {
+    return match[0].trim();
+  }
+
+  if (fullText.includes('நாளைக்கு') || fullText.includes('tomorrow')) {
+    return 'Tomorrow (Spoken on Call)';
+  }
+
+  return 'Confirmed on Call';
+}
+
+// Background Auto-Poller: Syncs completed calls directly from SnapServe API to MongoDB Atlas
+async function syncSnapServeCallsWithMongo() {
+  const apiKey = process.env.SNAPSERVE_API_KEY;
+  const agentId = process.env.SNAPSERVE_AGENT_ID;
+  if (!apiKey || !agentId || apiKey.includes('your_snapserve_api_key')) return;
+
+  try {
+    const res = await fetch(`https://app.snapserve.ai/api/calls?agentId=${agentId}`, {
+      headers: { 'Authorization': `Bearer ${apiKey}` }
+    });
+    if (!res.ok) return;
+
+    const data = await res.json();
+    const calls = Array.isArray(data) ? data : (data.calls || data.data || []);
+
+    for (const call of calls) {
+      if (call.status === 'completed' || call.status === 'ended') {
+        const rawPhone = call.toNumber || call.caller || call.phone;
+        const memory = call.callerMemory || call.callSummary || call.transcript || '';
+        const siteVisitTime = extractSpokenTimeFromCall({ callerMemory: memory, transcript: memory, callSummary: memory });
+        const callTimeMs = call.startedAt || call.createdAt ? new Date(call.startedAt || call.createdAt).getTime() : 0;
+        
+        let targetPlot = 'Coimbatore Plot';
+        let enquiryIdFromMeta = null;
+        try {
+          if (call.metadata) {
+            const meta = typeof call.metadata === 'string' ? JSON.parse(call.metadata) : call.metadata;
+            targetPlot = meta.callVariables?.plot_number || targetPlot;
+            enquiryIdFromMeta = meta.callVariables?.enquiry_id || meta.enquiry_id || null;
+          }
+        } catch (e) {}
+
+        const targetIdentifier = enquiryIdFromMeta || rawPhone;
+
+        if (targetIdentifier) {
+          // Verify that lead exists and call occurred after lead creation (if matching by phone)
+          if (!enquiryIdFromMeta && rawPhone) {
+            const leads = await fetchAllLeads();
+            const cleanP = rawPhone.replace(/[^0-9]/g, '').slice(-10);
+            const matchingLead = leads.find(l => (l.phone || '').replace(/[^0-9]/g, '').slice(-10) === cleanP);
+            if (matchingLead && matchingLead.createdAt) {
+              const leadCreatedMs = new Date(matchingLead.createdAt).getTime();
+              if (callTimeMs > 0 && callTimeMs < leadCreatedMs - 60000) {
+                // Call occurred before lead creation — skip attaching old call memory!
+                continue;
+              }
+            }
+          }
+
+          await updateLeadVoiceStatusRecord(targetIdentifier, 'COMPLETED', {
+            transcript: memory,
+            siteVisitDateTime: siteVisitTime,
+            customerConfirmedPlot: targetPlot
+          });
+        }
+      }
+    }
+  } catch (err) {
+    // Silent fail if network unreachable
+  }
+}
+
+// Start background SnapServe Call Sync interval (Runs every 8 seconds)
+setInterval(syncSnapServeCallsWithMongo, 8000);
+syncSnapServeCallsWithMongo();
+
+// Webhook endpoint called when SnapServe / n8n completes the AI Customer Voice Call
+app.post('/api/webhooks/customer-call-completed', async (req, res) => {
+  try {
+    const payload = req.body || {};
+    const data = payload.data || payload;
+
+    const enquiryId = data.variables?.enquiry_id || data.enquiry_id;
+    const phone = data.toNumber || data.caller || data.phone;
+    const transcript = data.callerMemory || data.transcript || data.callSummary || 'Call completed in Tamil.';
+    const siteVisitDateTime = extractSpokenTimeFromCall(data);
+    const customerConfirmedPlot = data.dispositionResult?.plot_number || data.variables?.plot_number || data.plotNumber || 'Coimbatore Plot';
+
+    console.log(`[CUSTOMER VOICE CALL COMPLETED] Enquiry: ${enquiryId || phone}`);
+    console.log(`Extracted Spoken Site Visit Time: "${siteVisitDateTime}"`);
+    console.log(`Caller Memory: "${transcript}"`);
+
+    const targetId = enquiryId || phone;
+    if (targetId) {
+      await updateLeadVoiceStatusRecord(targetId, 'COMPLETED', {
+        transcript,
+        siteVisitDateTime,
+        customerConfirmedPlot
+      });
+    }
+
+    res.json({ success: true, message: 'Customer Voice Call details updated in VELS Database.' });
+  } catch (err) {
+    console.error('Error processing customer voice webhook:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Admin Route to Simulate/Trigger Customer AI Voice Call for testing
+app.post('/api/admin/simulate-customer-call/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { siteVisitDateTime, customerConfirmedPlot, sampleTranscript } = req.body || {};
+
+    const mockTranscript = sampleTranscript || 
+      `AI: வணக்கம்! VELS Groups-ல இருந்து பேசுறோம். நீங்க plot enquiry submit பண்ணிருந்தீங்க. Site visit வர விருப்பமா?
+Customer: ஆமாங்க, நாளைக்கு மதியம் 3 மணிக்கு வரலாம்னு இருக்கேன். Corner Plot P-115 details வேணும்.
+AI: சரிங்க, நாளைக்கு மதியம் 3 மணிக்கு site visit confirm பண்ணியாச்சு. நன்றி!`;
+
+    await updateLeadVoiceStatusRecord(id, 'COMPLETED', {
+      transcript: mockTranscript,
+      siteVisitDateTime: siteVisitDateTime || 'Tomorrow at 3:00 PM',
+      customerConfirmedPlot: customerConfirmedPlot || 'Plot P-115 (40 FT Boulevard)'
+    });
+
+    console.log(`[SIMULATED CUSTOMER CALL] Updated Enquiry ${id} with Voice Call Completion details.`);
+
+    res.json({
+      success: true,
+      message: `Simulated Customer AI Call completed for Enquiry ${id}. VELS Database & Admin Dashboard updated!`,
+      siteVisitDateTime: siteVisitDateTime || 'Tomorrow at 3:00 PM',
+      customerConfirmedPlot: customerConfirmedPlot || 'Plot P-115 (40 FT Boulevard)'
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 
@@ -433,6 +651,29 @@ app.put('/api/admin/enquiries/:id', async (req, res) => {
     res.json({ success: true, message: 'Status updated' });
   } catch (err) {
     res.status(500).json({ success: false, error: 'Failed to update lead' });
+  }
+});
+
+app.delete('/api/admin/enquiries/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const cleanId = (id || '').toString().trim();
+
+    // 1. Delete strictly single lead by ID from local JSON database
+    const localLeads = readLocalDB();
+    const filteredLocal = localLeads.filter(l => (l.id || '').toString().trim() !== cleanId);
+    writeLocalDB(filteredLocal);
+
+    // 2. Delete strictly single lead by ID from MongoDB Atlas
+    if (isMongoConnected) {
+      const deleteResult = await Enquiry.deleteOne({ id: cleanId });
+      console.log(`[MONGO DELETE SUCCESS] Deleted single lead ${cleanId} from MongoDB Atlas. Count deleted: ${deleteResult.deletedCount}`);
+    }
+
+    res.json({ success: true, message: `Lead ${cleanId} deleted successfully.` });
+  } catch (err) {
+    console.error('Error deleting lead:', err);
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 

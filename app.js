@@ -97,7 +97,14 @@ let selectedPlotId = null;
 let currentFilter = 'all';
 
 // --- INITIALIZATION ---
-document.addEventListener('DOMContentLoaded', () => {
+function triggerHeroAnimations() {
+  document.body.classList.remove('hero-ready');
+  void document.body.offsetWidth;
+  document.body.classList.add('hero-ready');
+}
+
+// --- INITIALIZATION ---
+function initApp() {
   loadSavedPlotState();
   initNavOverlay();
   highlightActiveMenuLink();
@@ -107,6 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById('loading-screen')) {
     initLoadingSequence();
+  } else {
+    triggerHeroAnimations();
   }
 
   if (document.getElementById('hero-slide-1')) {
@@ -126,6 +135,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initDefaultEnquiries();
   if (document.getElementById('admin-enquiry-table-body')) {
     renderAdminEnquiries();
+    // Auto-refresh admin portal every 5 seconds for live voice call & new enquiry updates
+    if (!window.adminPollInterval) {
+      window.adminPollInterval = setInterval(() => {
+        renderAdminEnquiries();
+      }, 5000);
+    }
   }
   if (document.getElementById('admin-customer-registry-tbody')) {
     renderCustomerDirectoryTable();
@@ -143,6 +158,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('admin-main-dashboard')) {
     checkAdminAuth();
   }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
+
+window.addEventListener('load', () => {
+  initHeroStatCounters();
 });
 
 // --- EXECUTIVE ADMIN AUTHENTICATION GATEWAY ---
@@ -347,6 +372,7 @@ function initLoadingSequence() {
   if (!loadingScreen) return;
 
   loadingScreen.classList.remove('fade-out');
+  loadingScreen.style.display = '';
   if (fill) fill.style.width = '0%';
   if (statusText) statusText.textContent = 'INITIALIZING MASTER PLAN...';
 
@@ -365,7 +391,9 @@ function initLoadingSequence() {
         loadingScreen.classList.add('fade-out');
         setTimeout(() => {
           loadingScreen.style.display = 'none';
-        }, 800);
+          triggerHeroAnimations();
+          initHeroStatCounters(true);
+        }, 300);
       }, 250);
     }
   }, 30);
@@ -1116,18 +1144,16 @@ const SAMPLE_ENQUIRIES = [
 ];
 
 function initDefaultEnquiries() {
-  const existing = localStorage.getItem('vels_enquiries');
-  if (!existing) {
-    localStorage.setItem('vels_enquiries', JSON.stringify(SAMPLE_ENQUIRIES));
-  }
+  // Empty init - only real form-filled enquiries will be stored
 }
 
 function getStoredEnquiries() {
-  initDefaultEnquiries();
   try {
     const list = JSON.parse(localStorage.getItem('vels_enquiries')) || [];
-    // Ensure all items have computed AI scores
-    return list.map(enq => {
+    const sampleIds = ['ENQ-1001', 'ENQ-1002', 'ENQ-1003', 'ENQ-1004', 'ENQ-001', 'ENQ-002', 'ENQ-003', 'ENQ-004', 'ENQ-005'];
+    const cleanList = list.filter(enq => !sampleIds.includes(enq.id));
+    
+    return cleanList.map(enq => {
       if (!enq.score) {
         const ai = calculateAILeadScore(enq);
         enq.score = ai.score;
@@ -1137,7 +1163,7 @@ function getStoredEnquiries() {
       return enq;
     });
   } catch (e) {
-    return SAMPLE_ENQUIRIES;
+    return [];
   }
 }
 
@@ -1575,8 +1601,9 @@ async function renderAdminEnquiries(filterCat = activeEnquiryFilter) {
     if (data.success && Array.isArray(data.leads)) {
       const backendLeads = data.leads.map(lead => {
         const leadId = (lead.id || '').toString().trim();
-        const savedStatus = readMap[leadId] || lead.status || 'NEW';
-        const isNewFlag = savedStatus === 'NEW';
+        const isRead = readMap[leadId] === 'READ' || readMap[leadId] === 'CONTACTED' || lead.status === 'READ' || lead.status === 'CONTACTED';
+        const savedStatus = isRead ? (readMap[leadId] || lead.status) : 'NEW';
+        const isNewFlag = !isRead;
         return {
           id: lead.id,
           name: lead.customerName || lead.name || 'Anonymous',
@@ -1601,8 +1628,12 @@ async function renderAdminEnquiries(filterCat = activeEnquiryFilter) {
           recommendedAction: lead.recommendedAction || lead.recommendation || '',
           status: savedStatus,
           isNew: isNewFlag,
+          voiceCallStatus: lead.voiceCallStatus || 'NOT_CALLED',
+          siteVisitDateTime: lead.siteVisitDateTime || '',
+          customerConfirmedPlot: lead.customerConfirmedPlot || '',
+          callTranscript: lead.callTranscript || '',
           assignedStaff: lead.assignedStaff || staffMap[leadId] || 'Unassigned',
-          date: lead.createdAt ? new Date(lead.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Today'
+          date: lead.createdAt ? `${new Date(lead.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}, ${new Date(lead.createdAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })}` : 'Today'
         };
       });
 
@@ -1631,8 +1662,18 @@ async function renderAdminEnquiries(filterCat = activeEnquiryFilter) {
     enquiries = getStoredEnquiries();
   }
 
-  // SORT DESCENDING BY AI SCORE (HIGHEST PRIORITY CALL FIRST!)
-  enquiries.sort((a, b) => (b.score || b.aiScore || 0) - (a.score || a.aiScore || 0));
+  // SORT ALL ENQUIRIES STRICTLY BY MOST RECENT DATE & TIME (LATEST FIRST)
+  enquiries.sort((a, b) => {
+    const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+    if (timeA !== timeB && !isNaN(timeA) && !isNaN(timeB)) {
+      return timeB - timeA; // Most recent timestamp first!
+    }
+    // Fallback comparison by numeric ID (e.g. ENQ-1005 > ENQ-1004)
+    const numA = parseInt((a.id || '').replace(/[^0-9]/g, ''), 10) || 0;
+    const numB = parseInt((b.id || '').replace(/[^0-9]/g, ''), 10) || 0;
+    return numB - numA;
+  });
 
   let hotCount = 0;
   let warmCount = 0;
@@ -1934,6 +1975,18 @@ function formatPointwiseRecommendation(rawText) {
         <td style="padding: 16px 12px; vertical-align: top;">
           <div class="ai-recommendation-box">
             ${formatPointwiseRecommendation(recommendationText)}
+            
+            ${(enq.voiceCallStatus === 'COMPLETED' || enq.siteVisitDateTime) ? `
+              <div style="margin-top: 8px; padding: 6px 10px; background: rgba(10, 92, 54, 0.08); border: 1px solid rgba(10, 92, 54, 0.3); border-radius: 4px; font-size: 0.78rem; font-weight: 700; color: #0A5C36; display: flex; align-items: center; gap: 6px;">
+                📅 <span>Confirmed Site Visit: ${enq.siteVisitDateTime || 'Tomorrow at 3:30 PM'}</span>
+              </div>
+            ` : `
+              <div style="margin-top: 6px; display: flex; align-items: center; gap: 6px;">
+                <button onclick="triggerCustomerCallSimulation('${enq.id}')" class="btn btn-sm" style="padding: 2px 7px; background: rgba(10, 92, 54, 0.1); color: #0A5C36; border: 1px solid rgba(10, 92, 54, 0.35); border-radius: 3px; font-size: 0.62rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+                  📞 SIMULATE AI CALL
+                </button>
+              </div>
+            `}
           </div>
         </td>
 
@@ -1949,16 +2002,21 @@ function formatPointwiseRecommendation(rawText) {
               </span>
             `}
             
-            <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 2px;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 2px;">
               <!-- CALL ICON BUTTON -->
-              <a href="tel:${enq.phone}" onclick="markEnquiryAsRead('${enq.id}', 'CONTACTED')" class="admin-icon-btn btn-call-icon" title="Call Client (${enq.phone})" aria-label="Call Client" style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #1E2719 0%, #0D2818 100%); border: 1.5px solid var(--gold-primary); color: #FFFDF8; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.25);">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#C6A15B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <a href="tel:${enq.phone}" onclick="markEnquiryAsRead('${enq.id}', 'CONTACTED')" class="admin-icon-btn btn-call-icon" title="Call Client (${enq.phone})" aria-label="Call Client" style="width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #1E2719 0%, #0D2818 100%); border: 1.5px solid var(--gold-primary); color: #FFFDF8; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.25);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C6A15B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
               </a>
 
               <!-- WHATSAPP ICON BUTTON -->
-              <a href="https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}?text=${waText}" onclick="markEnquiryAsRead('${enq.id}', 'CONTACTED')" target="_blank" rel="noopener" class="admin-icon-btn btn-wa-icon" title="Chat on WhatsApp (+91 ${cleanPhone})" aria-label="Chat on WhatsApp" style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); border: 1.5px solid #25D366; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(37, 211, 102, 0.35);">
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 0C5.385 0 0 5.386 0 12.031c0 2.124.553 4.197 1.604 6.02L0 24l6.155-1.614A11.968 11.968 0 0 0 12.03 24c6.645 0 12.03-5.385 12.03-12.031C24.06 5.386 18.675 0 12.031 0zm.012 22.012c-1.808 0-3.585-.486-5.143-1.408l-.369-.219-3.817 1.001 1.019-3.721-.241-.383A9.99 9.99 0 0 1 2.012 12.03c0-5.524 4.496-10.02 10.031-10.02 5.524 0 10.02 4.496 10.02 10.02 0 5.536-4.496 10.012-10.02 10.012zm5.503-7.519c-.302-.152-1.785-.881-2.062-.981-.277-.101-.479-.152-.68.152-.202.302-.782.981-.959 1.183-.176.201-.353.226-.655.075-1.745-.875-2.894-1.559-4.04-3.535-.302-.52.302-.482.864-1.608.101-.201.05-.378-.025-.529-.075-.152-.68-1.636-.932-2.24-.244-.588-.493-.508-.68-.518-.176-.009-.378-.009-.58-.009-.201 0-.528.075-.804.378-.277.302-1.057 1.032-1.057 2.518 0 1.486 1.082 2.92 1.233 3.122.151.201 2.128 3.25 5.156 4.558 2.164.935 2.809.845 3.791.7.636-.094 1.785-.73 2.037-1.435.252-.705.252-1.309.176-1.435-.076-.125-.278-.201-.58-.352z"/></svg>
+              <a href="https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}?text=${waText}" onclick="markEnquiryAsRead('${enq.id}', 'CONTACTED')" target="_blank" rel="noopener" class="admin-icon-btn btn-wa-icon" title="Chat on WhatsApp (+91 ${cleanPhone})" aria-label="Chat on WhatsApp" style="width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); border: 1.5px solid #25D366; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(37, 211, 102, 0.35);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 0C5.385 0 0 5.386 0 12.031c0 2.124.553 4.197 1.604 6.02L0 24l6.155-1.614A11.968 11.968 0 0 0 12.03 24c6.645 0 12.03-5.385 12.03-12.031C24.06 5.386 18.675 0 12.031 0zm.012 22.012c-1.808 0-3.585-.486-5.143-1.408l-.369-.219-3.817 1.001 1.019-3.721-.241-.383A9.99 9.99 0 0 1 2.012 12.03c0-5.524 4.496-10.02 10.031-10.02 5.524 0 10.02 4.496 10.02 10.02 0 5.536-4.496 10.012-10.02 10.012zm5.503-7.519c-.302-.152-1.785-.881-2.062-.981-.277-.101-.479-.152-.68.152-.202.302-.782.981-.959 1.183-.176.201-.353.226-.655.075-1.745-.875-2.894-1.559-4.04-3.535-.302-.52.302-.482.864-1.608.101-.201.05-.378-.025-.529-.075-.152-.68-1.636-.932-2.24-.244-.588-.493-.508-.68-.518-.176-.009-.378-.009-.58-.009-.201 0-.528.075-.804.378-.277.302-1.057 1.032-1.057 2.518 0 1.486 1.082 2.92 1.233 3.122.151.201 2.128 3.25 5.156 4.558 2.164.935 2.809.845 3.791.7.636-.094 1.785-.73 2.037-1.435.252-.705.252-1.309.176-1.435-.076-.125-.278-.201-.58-.352z"/></svg>
               </a>
+
+              <!-- DUSTBIN DELETE ICON BUTTON -->
+              <button onclick="deleteEnquiryRecord('${enq.id}')" class="admin-icon-btn btn-delete-icon" title="Delete Lead ${enq.id}" aria-label="Delete Lead" style="width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #D9534F 0%, #B52B27 100%); border: 1.5px solid #D9534F; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 6px rgba(217, 83, 79, 0.3);">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+              </button>
             </div>
           </div>
         </td>
@@ -2960,42 +3018,97 @@ function initTextured3DBackground() {
 }
 
 // --- HERO STAT CARDS ANIMATED COUNTER ENGINE ---
-function initHeroStatCounters() {
-  const statCards = document.querySelectorAll('.hero-stats-banner .stat-card');
+function initHeroStatCounters(force = false) {
+  const statCards = document.querySelectorAll('.hero-stats-banner .stat-card, .stat-card');
   if (!statCards.length) return;
 
-  statCards.forEach((card, idx) => {
+  const loadingScreen = document.getElementById('loading-screen');
+  // Defer animation if loading screen is still active and not fading out yet
+  if (!force && loadingScreen && loadingScreen.style.display !== 'none' && !loadingScreen.classList.contains('fade-out')) {
+    return;
+  }
+
+  function animateCard(card, idx) {
     const numEl = card.querySelector('.stat-number');
     if (!numEl) return;
-    const targetText = numEl.textContent.trim();
 
-    const match = targetText.match(/^(\d+)(\+?)$/);
-    if (match) {
-      const targetVal = parseInt(match[1], 10);
-      const suffix = match[2] || '';
-      numEl.textContent = `0${suffix}`;
-
-      setTimeout(() => {
-        const duration = 1400;
-        const startTime = performance.now();
-
-        function updateCounter(now) {
-          const elapsed = now - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const easeProgress = 1 - (1 - progress) * (1 - progress);
-          const currentVal = Math.floor(easeProgress * targetVal);
-          numEl.textContent = `${currentVal}${suffix}`;
-
-          if (progress < 1) {
-            requestAnimationFrame(updateCounter);
-          } else {
-            numEl.textContent = targetText;
-          }
-        }
-        requestAnimationFrame(updateCounter);
-      }, idx * 150 + 200);
+    if (force) {
+      card.removeAttribute('data-counted');
     }
-  });
+
+    if (card.getAttribute('data-counted') === 'true') return;
+
+    const rawText = (numEl.getAttribute('data-target-text') || numEl.textContent || '').trim();
+    if (!rawText) return;
+
+    if (!numEl.getAttribute('data-target-text')) {
+      numEl.setAttribute('data-target-text', rawText);
+    }
+    const targetText = numEl.getAttribute('data-target-text');
+
+    // Parse prefix, number, and suffix (handles 15+, 8+, 4, 150+, 850+, 6, 228+, 40 FT, 100%, etc.)
+    const match = targetText.match(/^([^\d]*)([\d,]+)([\s\S]*)$/);
+    if (!match) return;
+
+    card.setAttribute('data-counted', 'true');
+
+    const prefix = match[1] || '';
+    const rawNum = match[2].replace(/,/g, '');
+    const suffix = match[3] || '';
+    const targetVal = parseInt(rawNum, 10);
+
+    if (isNaN(targetVal)) return;
+
+    // Immediately set text to 0 so counting starts from 0 visually on frame 1
+    numEl.textContent = `${prefix}0${suffix}`;
+
+    const duration = 1600 + (idx * 150); // Stagger duration for natural wave finish
+    const startTime = performance.now(); // Start counting immediately on frame 1
+
+    function updateCounter(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Smooth cubic ease-out
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+      const currentVal = Math.floor(easeProgress * targetVal);
+      const formattedVal = targetVal >= 1000 ? currentVal.toLocaleString('en-US') : currentVal;
+
+      numEl.textContent = `${prefix}${formattedVal}${suffix}`;
+
+      if (progress < 1) {
+        requestAnimationFrame(updateCounter);
+      } else {
+        numEl.textContent = targetText;
+      }
+    }
+
+    requestAnimationFrame(updateCounter);
+  }
+
+  // Trigger animation immediately for all cards
+  statCards.forEach((card, idx) => animateCard(card, idx));
+
+  // Fallback observer
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const card = entry.target;
+          const idx = Array.from(statCards).indexOf(card);
+          animateCard(card, idx >= 0 ? idx : 0);
+        }
+      });
+    }, { threshold: 0.01 });
+
+    statCards.forEach(card => observer.observe(card));
+  }
+}
+
+// Auto-run initHeroStatCounters on script load
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  setTimeout(() => initHeroStatCounters(), 50);
+} else {
+  document.addEventListener('DOMContentLoaded', () => initHeroStatCounters());
 }
 
 // --- CENTRALIZED CUSTOMER DIRECTORY & 3-STAGE TRACKER ENGINE ---
@@ -3408,6 +3521,11 @@ function renderCustomerDirectoryTable() {
               <a href="https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}" target="_blank" rel="noopener" class="admin-icon-btn btn-wa-icon" title="Chat on WhatsApp (+91 ${cleanPhone})" aria-label="Chat on WhatsApp" style="width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); border: 1.5px solid #25D366; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(37, 211, 102, 0.35);">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 0C5.385 0 0 5.386 0 12.031c0 2.124.553 4.197 1.604 6.02L0 24l6.155-1.614A11.968 11.968 0 0 0 12.03 24c6.645 0 12.03-5.385 12.03-12.031C24.06 5.386 18.675 0 12.031 0zm.012 22.012c-1.808 0-3.585-.486-5.143-1.408l-.369-.219-3.817 1.001 1.019-3.721-.241-.383A9.99 9.99 0 0 1 2.012 12.03c0-5.524 4.496-10.02 10.031-10.02 5.524 0 10.02 4.496 10.02 10.02 0 5.536-4.496 10.012-10.02 10.012zm5.503-7.519c-.302-.152-1.785-.881-2.062-.981-.277-.101-.479-.152-.68.152-.202.302-.782.981-.959 1.183-.176.201-.353.226-.655.075-1.745-.875-2.894-1.559-4.04-3.535-.302-.52.302-.482.864-1.608.101-.201.05-.378-.025-.529-.075-.152-.68-1.636-.932-2.24-.244-.588-.493-.508-.68-.518-.176-.009-.378-.009-.58-.009-.201 0-.528.075-.804.378-.277.302-1.057 1.032-1.057 2.518 0 1.486 1.082 2.92 1.233 3.122.151.201 2.128 3.25 5.156 4.558 2.164.935 2.809.845 3.791.7.636-.094 1.785-.73 2.037-1.435.252-.705.252-1.309.176-1.435-.076-.125-.278-.201-.58-.352z"/></svg>
               </a>
+
+              <!-- DUSTBIN DELETE ICON BUTTON -->
+              <button onclick="deleteEnquiryRecord('${cust.id}')" class="admin-icon-btn btn-delete-icon" title="Delete Customer ${cust.id}" aria-label="Delete Customer" style="width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #D9534F 0%, #B52B27 100%); border: 1.5px solid #D9534F; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 6px rgba(217, 83, 79, 0.3);">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+              </button>
             </div>
           </div>
         </td>
@@ -3725,6 +3843,82 @@ if (document.readyState === 'loading') {
 } else {
   init3DFlatCarousel();
 }
+
+/* ==========================================================================
+   BUTTER-SMOOTH 60FPS INTERSECTION OBSERVER SCROLL REVEAL ENGINE
+   ========================================================================== */
+function initScrollRevealEngine() {
+  // Reveal all elements instantly without pop-up animations
+  document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+    el.classList.add('is-revealed');
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initScrollRevealEngine);
+} else {
+  initScrollRevealEngine();
+}
+
+// Global Customer AI Voice Call Simulation Helper for Admin Dashboard
+window.triggerCustomerCallSimulation = async function(enquiryId) {
+  try {
+    const res = await fetch(`/api/admin/simulate-customer-call/${enquiryId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        siteVisitDateTime: 'Tomorrow at 3:30 PM',
+        customerConfirmedPlot: 'Plot P-115 (40 FT Boulevard)',
+        sampleTranscript: `AI: வணக்கம்! VELS Groups-ல இருந்து பேசுறோம். நீங்க plot enquiry submit பண்ணிருந்தீங்க. Site visit வர விருப்பமா?
+Customer: ஆமாங்க, நாளைக்கு மதியம் 3:30 மணிக்கு வரலாம்னு இருக்கேன். Corner Plot P-115 details வேணும்.
+AI: சரிங்க, நாளைக்கு மதியம் 3:30 மணிக்கு site visit confirm பண்ணியாச்சு. நன்றி!`
+      })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      alert(`✅ TAMIL AI VOICE CALL COMPLETED!\n\nCustomer: Enquiry ${enquiryId}\nConfirmed Site Visit: ${data.siteVisitDateTime}\nPlot: ${data.customerConfirmedPlot}\n\nVELS Database & Admin Portal updated!`);
+      if (typeof renderAdminEnquiries === 'function') {
+        renderAdminEnquiries();
+      }
+    } else {
+      alert('Simulation error: ' + (data.error || 'Failed to execute call.'));
+    }
+  } catch (err) {
+    alert('Failed to connect to backend: ' + err.message);
+  }
+};
+
+// Global Helper to Delete Enquiry/Customer Record from Database & UI Tables
+window.deleteEnquiryRecord = async function(enquiryId) {
+  if (!enquiryId) return;
+  const confirmed = confirm(`🗑️ Delete Customer / Enquiry ${enquiryId}?\n\nThis will permanently remove the record from MongoDB Atlas database and all admin tables.`);
+  if (!confirmed) return;
+
+  try {
+    const res = await fetch(`/api/admin/enquiries/${encodeURIComponent(enquiryId)}`, {
+      method: 'DELETE'
+    });
+    const data = await res.json();
+    if (data.success) {
+      const local = getStoredEnquiries();
+      const updatedLocal = local.filter(e => e.id !== enquiryId);
+      localStorage.setItem('vels_enquiries', JSON.stringify(updatedLocal));
+
+      if (typeof renderAdminEnquiries === 'function') renderAdminEnquiries();
+      if (typeof renderCustomerDirectoryTable === 'function') renderCustomerDirectoryTable();
+    } else {
+      alert('Failed to delete record: ' + (data.error || 'Unknown error'));
+    }
+  } catch (err) {
+    alert('Failed to connect to backend server: ' + err.message);
+  }
+};
+
+
+
 
 
 

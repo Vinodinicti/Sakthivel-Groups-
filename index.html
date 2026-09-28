@@ -88,8 +88,7 @@
       <a href="plots.html" class="overlay-link"><span class="overlay-num">02.</span> FIND YOUR PLOT</a>
       <a href="about.html" class="overlay-link"><span class="overlay-num">03.</span> ABOUT US</a>
       <a href="gallery.html" class="overlay-link"><span class="overlay-num">04.</span> GALLERY</a>
-      <a href="founder.html" class="overlay-link"><span class="overlay-num">05.</span> FOUNDERS</a>
-      <a href="contact.html" class="overlay-link"><span class="overlay-num">06.</span> CONTACT</a>
+      <a href="contact.html" class="overlay-link"><span class="overlay-num">05.</span> CONTACT</a>
       <a href="admin.html" class="overlay-link overlay-admin-link icon-only-admin" title="Admin Portal" aria-label="Admin Portal">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/>
@@ -106,7 +105,7 @@
 
   <main>
     <!-- 100% VIEWPORT SCREEN FIT HERO SECTION (FULL RIGHT VILLA DISPLAY + SEAMLESS BLEND NEAR TEXT) -->
-    <section class="hero-100vh-section">
+    <section class="hero-100vh-section hero-section">
       <!-- Full Entrance Arch & Villa Background Image Slides Edge-to-Edge on the Right -->
       <div class="hero-full-image">
         <div class="hero-bg-slide hero-slide-1 active" id="hero-slide-1"></div>
@@ -161,8 +160,12 @@
             <span class="stat-label">Ongoing Layouts</span>
           </div>
           <div class="stat-card" style="animation-delay: 0.4s;">
-            <span class="stat-number">CBE & POL</span>
-            <span class="stat-label">Coimbatore & Pollachi</span>
+            <span class="stat-number">150+</span>
+            <span class="stat-label">Constructed Houses</span>
+          </div>
+          <div class="stat-card" style="animation-delay: 0.5s;">
+            <span class="stat-number">850+</span>
+            <span class="stat-label">Happy Customers</span>
           </div>
         </div>
       </div>
@@ -366,6 +369,7 @@
           
           <!-- Card 1: COIMBATORE -->
           <div class="location-card" onclick="openLocationMasterplanModal('coimbatore')">
+            <div class="location-card-blob"></div>
             <div class="location-card-img-wrap">
               <img src="Images/Coimbatore_Location.jpg" alt="Coimbatore Location Masterplan" />
               <span class="location-card-tag">AIRPORT CORRIDOR</span>
@@ -397,6 +401,7 @@
 
           <!-- Card 2: POLLACHI -->
           <div class="location-card" onclick="openLocationMasterplanModal('pollachi')">
+            <div class="location-card-blob"></div>
             <div class="location-card-img-wrap">
               <img src="Images/Pollachi_Location.jpg" alt="Pollachi Location Masterplan" />
               <span class="location-card-tag">FLAGSHIP LAYOUT</span>
@@ -428,6 +433,7 @@
 
           <!-- Card 3: MADURAI -->
           <div class="location-card" onclick="openLocationMasterplanModal('madurai')">
+            <div class="location-card-blob"></div>
             <div class="location-card-img-wrap">
               <img src="Images/Madurai_Location.jpg" alt="Madurai Location Masterplan" />
               <span class="location-card-tag">AIIMS & RING ROAD</span>
@@ -459,6 +465,7 @@
 
           <!-- Card 4: CHENNAI -->
           <div class="location-card" onclick="openLocationMasterplanModal('chennai')">
+            <div class="location-card-blob"></div>
             <div class="location-card-img-wrap">
               <img src="Images/Chennai_Location.jpg" alt="Chennai Location Masterplan" />
               <span class="location-card-tag">ECR & GST CORRIDOR</span>
@@ -888,28 +895,10 @@
 
             <div class="why-choose-features">
               <div class="why-choose-item">
-                <div class="why-choose-icon-box">
-                  <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <linearGradient id="goldBase1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#FFF2A8"/>
-                        <stop offset="30%" stop-color="#D4AF37"/>
-                        <stop offset="70%" stop-color="#AA771C"/>
-                        <stop offset="100%" stop-color="#6B4B0C"/>
-                      </linearGradient>
-                      <linearGradient id="goldBevel1" x1="0%" y1="100%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#543A07"/>
-                        <stop offset="50%" stop-color="#C5A059"/>
-                        <stop offset="100%" stop-color="#FFEAA7"/>
-                      </linearGradient>
-                      <filter id="shadow1" x="-20%" y="-20%" width="140%" height="140%">
-                        <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#000" flood-opacity="0.5"/>
-                      </filter>
-                    </defs>
-                    <path d="M24 4L38 9V20C38 30.5 32 38.5 24 43C16 38.5 10 30.5 10 20V9L24 4Z" fill="url(#goldBase1)" filter="url(#shadow1)"/>
-                    <path d="M24 7.5L35.5 11.8V20.5C35.5 28.8 30.3 35.3 24 39.2C17.7 35.3 12.5 28.8 12.5 20.5V11.8L24 7.5Z" fill="url(#goldBevel1)"/>
-                    <path d="M24 9.5L34 13.2V20.5C34 27.5 29.5 33.2 24 36.8C18.5 33.2 14 27.5 14 20.5V13.2L24 9.5Z" fill="#1E2818"/>
-                    <path d="M21 27.2L16.3 22.5L18.4 20.4L21 23L29.6 14.4L31.7 16.5L21 27.2Z" fill="url(#goldBase1)"/>
+                <div class="why-choose-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C6A15B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="m9 12 2 2 4-4"/>
                   </svg>
                 </div>
                 <div>
@@ -919,29 +908,10 @@
               </div>
 
               <div class="why-choose-item">
-                <div class="why-choose-icon-box">
-                  <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <linearGradient id="goldBase2" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#FFF5B8"/>
-                        <stop offset="35%" stop-color="#E5C158"/>
-                        <stop offset="75%" stop-color="#9E761E"/>
-                        <stop offset="100%" stop-color="#59400B"/>
-                      </linearGradient>
-                      <linearGradient id="shackleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#FFFFFF"/>
-                        <stop offset="40%" stop-color="#D4AF37"/>
-                        <stop offset="100%" stop-color="#735210"/>
-                      </linearGradient>
-                      <filter id="shadow2" x="-20%" y="-20%" width="140%" height="140%">
-                        <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#000" flood-opacity="0.5"/>
-                      </filter>
-                    </defs>
-                    <path d="M16 20V13C16 8.58 19.58 5 24 5C28.42 5 32 8.58 32 13V20" stroke="url(#shackleGrad)" stroke-width="4.5" stroke-linecap="round"/>
-                    <rect x="11" y="19" width="26" height="23" rx="4" fill="url(#goldBase2)" filter="url(#shadow2)"/>
-                    <rect x="13" y="21" width="22" height="19" rx="3" fill="none" stroke="#FFF2A8" stroke-width="0.8" opacity="0.6"/>
-                    <circle cx="24" cy="28" r="3" fill="#1A2315"/>
-                    <path d="M22.5 28.5L25.5 28.5L26.5 35L21.5 35Z" fill="#1A2315"/>
+                <div class="why-choose-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C6A15B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                   </svg>
                 </div>
                 <div>
@@ -951,29 +921,13 @@
               </div>
 
               <div class="why-choose-item">
-                <div class="why-choose-icon-box">
-                  <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <linearGradient id="goldBase3" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#FFF3B3"/>
-                        <stop offset="40%" stop-color="#D8B246"/>
-                        <stop offset="80%" stop-color="#997018"/>
-                        <stop offset="100%" stop-color="#543A07"/>
-                      </linearGradient>
-                      <filter id="shadow3" x="-20%" y="-20%" width="140%" height="140%">
-                        <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#000" flood-opacity="0.5"/>
-                      </filter>
-                    </defs>
-                    <rect x="8" y="8" width="32" height="32" rx="4" fill="#1E2818" stroke="url(#goldBase3)" stroke-width="2.5" filter="url(#shadow3)"/>
-                    <line x1="8" y1="20" x2="40" y2="20" stroke="url(#goldBase3)" stroke-width="1" stroke-dasharray="2 2" opacity="0.6"/>
-                    <line x1="8" y1="30" x2="40" y2="30" stroke="url(#goldBase3)" stroke-width="1" stroke-dasharray="2 2" opacity="0.6"/>
-                    <line x1="20" y1="8" x2="20" y2="40" stroke="url(#goldBase3)" stroke-width="1" stroke-dasharray="2 2" opacity="0.6"/>
-                    <line x1="30" y1="8" x2="30" y2="40" stroke="url(#goldBase3)" stroke-width="1" stroke-dasharray="2 2" opacity="0.6"/>
-                    <rect x="19" y="19" width="13" height="13" fill="url(#goldBase3)" opacity="0.85" rx="1"/>
-                    <circle cx="12" cy="12" r="2.5" fill="#FFEAA7"/>
-                    <circle cx="36" cy="12" r="2.5" fill="#FFEAA7"/>
-                    <circle cx="12" cy="36" r="2.5" fill="#FFEAA7"/>
-                    <circle cx="36" cy="36" r="2.5" fill="#FFEAA7"/>
+                <div class="why-choose-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C6A15B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M3 9h18"/>
+                    <path d="M3 15h18"/>
+                    <path d="M9 3v18"/>
+                    <path d="M15 3v18"/>
                   </svg>
                 </div>
                 <div>
@@ -983,28 +937,10 @@
               </div>
 
               <div class="why-choose-item">
-                <div class="why-choose-icon-box">
-                  <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <linearGradient id="goldBase4" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#FFEAA7"/>
-                        <stop offset="35%" stop-color="#D4AF37"/>
-                        <stop offset="75%" stop-color="#8C6314"/>
-                        <stop offset="100%" stop-color="#4D3505"/>
-                      </linearGradient>
-                      <radialGradient id="goldGlow" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stop-color="#FFF5B8"/>
-                        <stop offset="100%" stop-color="#D4AF37"/>
-                      </radialGradient>
-                      <filter id="shadow4" x="-20%" y="-20%" width="140%" height="140%">
-                        <feDropShadow dx="0" dy="2.5" stdDeviation="1.5" flood-color="#000" flood-opacity="0.5"/>
-                      </filter>
-                    </defs>
-                    <ellipse cx="24" cy="42" rx="10" ry="3" fill="#000" opacity="0.35"/>
-                    <circle cx="24" cy="21" r="17" fill="none" stroke="url(#goldBase4)" stroke-width="1.8" stroke-dasharray="4 2"/>
-                    <path d="M24 4C14.6 4 7 11.6 7 21C7 31.5 24 43 24 43C24 43 41 31.5 41 21C41 11.6 33.4 4 24 4Z" fill="url(#goldBase4)" filter="url(#shadow4)"/>
-                    <circle cx="24" cy="19" r="8.5" fill="#1C2616"/>
-                    <circle cx="24" cy="19" r="4.5" fill="url(#goldGlow)"/>
+                <div class="why-choose-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C6A15B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
                   </svg>
                 </div>
                 <div>
@@ -1014,26 +950,13 @@
               </div>
 
               <div class="why-choose-item">
-                <div class="why-choose-icon-box">
-                  <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <linearGradient id="goldBase5" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#FFF7C2"/>
-                        <stop offset="35%" stop-color="#DBB448"/>
-                        <stop offset="75%" stop-color="#966E19"/>
-                        <stop offset="100%" stop-color="#543A07"/>
-                      </linearGradient>
-                      <filter id="shadow5" x="-20%" y="-20%" width="140%" height="140%">
-                        <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#000" flood-opacity="0.5"/>
-                      </filter>
-                    </defs>
-                    <circle cx="24" cy="24" r="19" fill="#1A2315" stroke="url(#goldBase5)" stroke-width="2.5" filter="url(#shadow5)"/>
-                    <path d="M12 37L19 11H29L36 37H12Z" fill="#2A3623" stroke="url(#goldBase5)" stroke-width="1.2"/>
-                    <line x1="24" y1="13" x2="24" y2="18" stroke="url(#goldBase5)" stroke-width="2" stroke-linecap="round"/>
-                    <line x1="24" y1="22" x2="24" y2="28" stroke="url(#goldBase5)" stroke-width="2.2" stroke-linecap="round"/>
-                    <line x1="24" y1="32" x2="24" y2="37" stroke="url(#goldBase5)" stroke-width="2.5" stroke-linecap="round"/>
-                    <path d="M10 37L18 11" stroke="url(#goldBase5)" stroke-width="2.5" stroke-linecap="round"/>
-                    <path d="M38 37L30 11" stroke="url(#goldBase5)" stroke-width="2.5" stroke-linecap="round"/>
+                <div class="why-choose-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C6A15B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19L9 5"/>
+                    <path d="M20 19L15 5"/>
+                    <line x1="12" y1="6" x2="12" y2="8"/>
+                    <line x1="12" y1="12" x2="12" y2="14"/>
+                    <line x1="12" y1="18" x2="12" y2="20"/>
                   </svg>
                 </div>
                 <div>
@@ -1079,9 +1002,9 @@
             <div class="review-card-item">
               <div class="review-card">
                 <div class="review-card-top">
-                  <div class="quote-mark-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                  <div class="review-user-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
                   </div>
                   <div class="star-rating-pill">
@@ -1097,11 +1020,15 @@
                 </div>
                 
                 <p class="review-text">
-                  "Bought a plot in Madurai AIIMS corridor. Sakthivel Groups provided 100% genuine DTCP documents and clear titles. Very transparent and trustworthy team!"
+                  Bought a plot in Madurai AIIMS corridor. Sakthivel Groups provided 100% genuine DTCP documents and clear titles. Very transparent and trustworthy team!
                 </p>
 
                 <div class="review-author-row">
-                  <div class="review-avatar avatar-olive">PM</div>
+                  <div class="review-avatar avatar-olive">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                  </div>
                   <div class="author-details">
                     <h4 class="author-name">P. Murugesan</h4>
                     <p class="author-role">Plot Buyer — <span class="text-gold-dark">Madurai AIIMS Layout</span></p>
@@ -1114,9 +1041,9 @@
             <div class="review-card-item">
               <div class="review-card">
                 <div class="review-card-top">
-                  <div class="quote-mark-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                  <div class="review-user-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
                   </div>
                   <div class="star-rating-pill">
@@ -1132,11 +1059,15 @@
                 </div>
                 
                 <p class="review-text">
-                  "Selected a plot in VELS Heritage Peelamedu. 40ft wide tar roads, peaceful gated surrounding, and quick plot registration. Excellent service!"
+                  Selected a plot in VELS Heritage Peelamedu. 40ft wide tar roads, peaceful gated surrounding, and quick plot registration. Excellent service!
                 </p>
 
                 <div class="review-author-row">
-                  <div class="review-avatar avatar-gold">RV</div>
+                  <div class="review-avatar avatar-gold">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                  </div>
                   <div class="author-details">
                     <h4 class="author-name">R. Vignesh</h4>
                     <p class="author-role">Plot Buyer — <span class="text-gold-dark">Coimbatore Peelamedu</span></p>
@@ -1149,9 +1080,9 @@
             <div class="review-card-item">
               <div class="review-card">
                 <div class="review-card-top">
-                  <div class="quote-mark-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                  <div class="review-user-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
                   </div>
                   <div class="star-rating-pill">
@@ -1167,11 +1098,15 @@
                 </div>
                 
                 <p class="review-text">
-                  "Buying our villa plot at ECR Bay Vistas Chennai was smooth and hassle-free. Legal check was crystal clear, and registration was completed fast."
+                  Buying our villa plot at ECR Bay Vistas Chennai was smooth and hassle-free. Legal check was crystal clear, and registration was completed fast.
                 </p>
 
                 <div class="review-author-row">
-                  <div class="review-avatar avatar-terracotta">MM</div>
+                  <div class="review-avatar avatar-terracotta">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                  </div>
                   <div class="author-details">
                     <h4 class="author-name">M. Meenakshi</h4>
                     <p class="author-role">Villa Plot Buyer — <span class="text-gold-dark">Chennai ECR Coast</span></p>
@@ -1184,9 +1119,9 @@
             <div class="review-card-item">
               <div class="review-card">
                 <div class="review-card-top">
-                  <div class="quote-mark-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                  <div class="review-user-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
                   </div>
                   <div class="star-rating-pill">
@@ -1202,11 +1137,15 @@
                 </div>
                 
                 <p class="review-text">
-                  "Purchased a plot in Pollachi VELS Golden Vistas. The grand entrance arch, compound wall, and tree plantation make it a top quality layout."
+                  Purchased a plot in Pollachi VELS Golden Vistas. The grand entrance arch, compound wall, and tree plantation make it a top quality layout.
                 </p>
 
                 <div class="review-author-row">
-                  <div class="review-avatar avatar-sage">SA</div>
+                  <div class="review-avatar avatar-sage">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                  </div>
                   <div class="author-details">
                     <h4 class="author-name">S. Arunkumar</h4>
                     <p class="author-role">Gated Plot Owner — <span class="text-gold-dark">Pollachi Layout</span></p>
@@ -1219,9 +1158,9 @@
             <div class="review-card-item">
               <div class="review-card">
                 <div class="review-card-top">
-                  <div class="quote-mark-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                  <div class="review-user-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
                   </div>
                   <div class="star-rating-pill">
@@ -1237,11 +1176,15 @@
                 </div>
                 
                 <p class="review-text">
-                  "Very good guidance from Sakthivel Groups. Bank loan was arranged smoothly and plot value has already increased in short time."
+                  Very good guidance from Sakthivel Groups. Bank loan was arranged smoothly and plot value has already increased in short time.
                 </p>
 
                 <div class="review-author-row">
-                  <div class="review-avatar avatar-olive">KS</div>
+                  <div class="review-avatar avatar-olive">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                  </div>
                   <div class="author-details">
                     <h4 class="author-name">K. Selvaraj</h4>
                     <p class="author-role">Plot Buyer — <span class="text-gold-dark">Madurai Ring Road</span></p>
@@ -1254,9 +1197,9 @@
             <div class="review-card-item">
               <div class="review-card">
                 <div class="review-card-top">
-                  <div class="quote-mark-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                  <div class="review-user-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
                   </div>
                   <div class="star-rating-pill">
@@ -1272,11 +1215,15 @@
                 </div>
                 
                 <p class="review-text">
-                  "Peaceful residential gated community with solar street lights and clean water. Perfect place for building our family home."
+                  Peaceful residential gated community with solar street lights and clean water. Perfect place for building our family home.
                 </p>
 
                 <div class="review-author-row">
-                  <div class="review-avatar avatar-gold">TK</div>
+                  <div class="review-avatar avatar-gold">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                  </div>
                   <div class="author-details">
                     <h4 class="author-name">T. Kavitha</h4>
                     <p class="author-role">Residential Plot Buyer — <span class="text-gold-dark">Coimbatore</span></p>
@@ -1289,9 +1236,9 @@
             <div class="review-card-item">
               <div class="review-card">
                 <div class="review-card-top">
-                  <div class="quote-mark-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                  <div class="review-user-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
                   </div>
                   <div class="star-rating-pill">
@@ -1307,11 +1254,15 @@
                 </div>
                 
                 <p class="review-text">
-                  "Clear title deed documents and no hidden charges. Sakthivel Groups is 100% reliable for buying land in Tamil Nadu."
+                  Clear title deed documents and no hidden charges. Sakthivel Groups is 100% reliable for buying land in Tamil Nadu.
                 </p>
 
                 <div class="review-author-row">
-                  <div class="review-avatar avatar-terracotta">VR</div>
+                  <div class="review-avatar avatar-terracotta">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                  </div>
                   <div class="author-details">
                     <h4 class="author-name">V. Rajendran</h4>
                     <p class="author-role">Plot Owner — <span class="text-gold-dark">Pollachi Town</span></p>
@@ -1324,9 +1275,9 @@
             <div class="review-card-item">
               <div class="review-card">
                 <div class="review-card-top">
-                  <div class="quote-mark-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" fill="currentColor"/>
+                  <div class="review-user-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
                   </div>
                   <div class="star-rating-pill">
@@ -1342,11 +1293,15 @@
                 </div>
                 
                 <p class="review-text">
-                  "Well planned plot layout with wide 50ft roads and good drainage system. Really happy with my plot investment!"
+                  Well planned plot layout with wide 50ft roads and good drainage system. Really happy with my plot investment!
                 </p>
 
                 <div class="review-author-row">
-                  <div class="review-avatar avatar-sage">NS</div>
+                  <div class="review-avatar avatar-sage">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                  </div>
                   <div class="author-details">
                     <h4 class="author-name">N. Soundariya</h4>
                     <p class="author-role">Plot Buyer — <span class="text-gold-dark">Chennai GST Zone</span></p>
@@ -1457,7 +1412,6 @@
             <li><a href="plots.html" class="footer-link">Find Plots</a></li>
             <li><a href="about.html" class="footer-link">About Us</a></li>
             <li><a href="gallery.html" class="footer-link">Gallery</a></li>
-            <li><a href="founder.html" class="footer-link">Founders</a></li>
             <li><a href="contact.html" class="footer-link">Contact</a></li>
           </ul>
         </div>
