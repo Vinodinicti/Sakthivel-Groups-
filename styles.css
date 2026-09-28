@@ -6662,43 +6662,76 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
 
   /* 3. RESTORE DESKTOP ANIMATIONS ON MOBILE WITH COMPACT CARD SIZES */
 
-  /* Location Masterplan Cards */
+  /* Regional Location Masterplan Cards (2x2 Grid on Mobile) */
   .location-cards-grid {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 12px !important;
-  }
-
-  @media (max-width: 520px) {
-    .location-cards-grid {
-      grid-template-columns: 1fr !important;
-    }
+    gap: 10px !important;
   }
 
   .location-card {
-    padding: 12px 10px !important;
-    border-radius: 12px !important;
+    padding: 10px 8px !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    background: #ffffff !important;
   }
 
   .location-card-img-wrap {
-    height: 130px !important;
-    min-height: 130px !important;
-    border-radius: 8px !important;
+    height: 105px !important;
+    min-height: 105px !important;
+    max-height: 110px !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+    margin-bottom: 6px !important;
   }
 
   .location-card-title {
-    font-size: 0.95rem !important;
-    margin: 4px 0 !important;
-  }
-
-  .location-card-desc {
-    font-size: 0.78rem !important;
-    line-height: 1.4 !important;
-    margin-bottom: 8px !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    margin: 3px 0 !important;
+    color: var(--olive-deep) !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
+  }
+
+  .location-card-desc {
+    display: none !important; /* Minimal details on 2x2 grid */
+  }
+
+  .location-card-specs-row {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+    padding-top: 4px !important;
+    margin-top: 4px !important;
+    border-top: 1px dashed rgba(198, 161, 91, 0.25) !important;
+  }
+
+  .location-spec-lbl {
+    font-size: 0.54rem !important;
+    letter-spacing: 0.4px !important;
+  }
+
+  .location-spec-val {
+    font-size: 0.70rem !important;
+  }
+
+  .location-card-btn {
+    padding: 5px 4px !important;
+    font-size: 0.62rem !important;
+    letter-spacing: 0.2px !important;
+    width: 100% !important;
+    text-align: center !important;
+    margin-top: 4px !important;
+    border-radius: 4px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
   /* Upcoming Projects 3D Orbit Carousel (Preserve 3D Animation, Compact Size) */
@@ -6731,7 +6764,7 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     font-size: 0.66rem !important;
   }
 
-  /* Construction Details Infinite Sliding Marquee (Preserve Slide Animation, Compact Size) */
+  /* Construction Details Infinite Sliding Marquee (Preserve Slide Animation, Compact Size on Mobile) */
   .construction-showcase-section .project-scroll-shell {
     overflow: hidden !important;
     padding: 8px 0 !important;
@@ -6741,7 +6774,7 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
     display: flex !important;
     animation: constructionSlideReverse 32s linear infinite !important;
     width: max-content !important;
-    gap: 16px !important;
+    gap: 14px !important;
   }
 
   .project-scroll-track-compact .project-card-compact:nth-child(n+5) {
@@ -6749,41 +6782,47 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
   }
 
   .project-card-compact {
-    width: 260px !important;
-    min-width: 250px !important;
+    width: 210px !important;
+    min-width: 200px !important;
+    border-radius: 10px !important;
   }
 
   .project-card-compact .project-card-image-wrap {
-    height: 150px !important;
+    height: 115px !important;
+    min-height: 115px !important;
   }
 
   .project-card-compact .project-card-body {
-    padding: 12px 10px !important;
+    padding: 10px 8px !important;
   }
 
   .project-card-compact p {
+    display: none !important; /* Smaller cards on mobile alone */
+  }
+
+  .project-card-compact h3 {
+    font-size: 0.82rem !important;
+    line-height: 1.25 !important;
+    margin: 3px 0 !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
-    font-size: 0.78rem !important;
-    line-height: 1.4 !important;
-    margin-bottom: 8px !important;
   }
 
-  .project-card-compact h3 {
-    font-size: 0.92rem !important;
-    margin: 4px 0 !important;
+  .project-card-stats {
+    font-size: 0.64rem !important;
+    padding-top: 4px !important;
+    margin-top: 4px !important;
   }
 
-  /* Verified Customer Reviews Slider (Preserve Slider Animation, 1 Card Per Slide on Mobile) */
+  /* Verified Customer Reviews Slider (Preserve JS Slider Animation on Mobile - NO transform override!) */
   .reviews-slider-viewport {
     overflow: hidden !important;
   }
 
   .reviews-slider-track {
     display: flex !important;
-    transform: none !important;
     transition: transform 0.38s cubic-bezier(0.25, 1, 0.5, 1) !important;
     width: 100% !important;
   }
