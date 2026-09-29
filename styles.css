@@ -9562,6 +9562,12 @@ section:not(.hero-section):not(.hero-fit-wrapper):not(.plots-hero-section):not(.
   background: var(--gold-primary);
 }
 
+/* HIDE FLOATING CALL/WA WIDGET ON ADMIN PORTAL TO PREVENT OVERLAPPING ACTIONS TABLE */
+.admin-portal-page .floating-action-stack,
+body.admin-portal-page .floating-action-stack {
+  display: none !important;
+}
+
 /* MEDIA QUERIES FOR RESPONSIVE MOBILE VIEW */
 @media (max-width: 991px) {
   .review-card-item {
